@@ -6,10 +6,7 @@
     "no-new": 1,
     "react/jsx-props-no-spreading": 0,
     "func-names": 0,
-    "react/jsx-wrap-multilines": [
-      "error",
-      { "declaration": false, "assignment": false }
-    ]
+    "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }]
   },
   "env": {
     "browser": true,

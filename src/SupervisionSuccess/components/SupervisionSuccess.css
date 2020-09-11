@@ -1,0 +1,28 @@
+.main-container * {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.main-container {
+  border-top: 5px solid #27edc3;
+  padding-top: 20px;
+  box-shadow: 1px 2px 4px 0.5px rgba(0, 0, 0, 0.11);
+  background-color: #ffffff;
+  display: grid;
+  grid-template-columns: 200px auto 240px;
+  grid-template-rows: 1fr 1fr;
+}
+
+.main-header {
+  border-bottom: 1px solid #ededed;
+  grid-column: span 3;
+}
+
+.main-left-aside {
+  border-right: 1px solid #ededed;
+}
+
+.main-right-aside {
+  border-left: 1px solid #ededed;
+}

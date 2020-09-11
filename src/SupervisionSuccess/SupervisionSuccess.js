@@ -1,14 +1,42 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 
-import SupervisionSuccessModelProvider from "./providers/SupervisionSuccessModelProvider";
 import SupervisionSuccessComponent from "./components/SupervisionSuccess";
 
-const SupervisionSuccess = ({ params }) => {
+const SupervisionSuccess = () => {
+  const [state, setState] = useState("MO");
+  const [implementationPeriod, setImplementationPeriod] = useState(6);
+  const [projections, setProjections] = useState(5);
+  const [changeInRevocations, setChangeInRevocations] = useState(-50);
+  const [prisonPopulationDiff] = useState(-400);
+  const [savings] = useState(32);
+
+  const onStateChange = useCallback((newState) => {
+    setState(newState);
+  }, []);
+  const onImplementationPeriodChange = useCallback((newImplPeriod) => {
+    setImplementationPeriod(newImplPeriod);
+  }, []);
+  const onProjectionsChange = useCallback((newProjections) => {
+    setProjections(newProjections);
+  }, []);
+  const onChangeInRevocationsChange = useCallback((newChangeInRevocations) => {
+    setChangeInRevocations(newChangeInRevocations);
+  }, []);
+
   return (
-    <SupervisionSuccessModelProvider params={params}>
-      <SupervisionSuccessComponent />
-    </SupervisionSuccessModelProvider>
+    <SupervisionSuccessComponent
+      state={state}
+      implementationPeriod={implementationPeriod}
+      projections={projections}
+      changeInRevocations={changeInRevocations}
+      prisonPopulationDiff={prisonPopulationDiff}
+      savings={savings}
+      onStateChange={onStateChange}
+      onImplementationPeriodChange={onImplementationPeriodChange}
+      onProjectionsChange={onProjectionsChange}
+      onChangeInRevocationsChange={onChangeInRevocationsChange}
+    />
   );
 };
 
