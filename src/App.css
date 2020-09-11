@@ -1,0 +1,11 @@
+.app {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.app-header {
+  margin-bottom: 30px;
+}
