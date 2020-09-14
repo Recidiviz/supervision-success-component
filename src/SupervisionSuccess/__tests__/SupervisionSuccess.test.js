@@ -2,16 +2,18 @@ import React from "react";
 import { render } from "@testing-library/react";
 
 import SupervisionSuccess from "../SupervisionSuccess";
-import SupervisionSuccessModelProvider from "../providers/SupervisionSuccessModelProvider";
+import SupervisionSuccessComponent from "../components/SupervisionSuccess";
 
-jest.mock("../providers/SupervisionSuccessModelProvider", () => ({
-  SupervisionSuccessModelProvider: jest.fn().mockReturnValue(null),
-}));
+jest.mock("../components/SupervisionSuccess");
 
 describe("SupervisionSuccess tests", () => {
   const mockParams = {};
+
   it("should render provider", () => {
+    SupervisionSuccessComponent.mockReturnValue(null);
+
     render(<SupervisionSuccess params={mockParams} />);
-    expect(SupervisionSuccessModelProvider).toBeCalled();
+
+    expect(SupervisionSuccessComponent).toBeCalled();
   });
 });

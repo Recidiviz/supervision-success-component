@@ -1,5 +1,9 @@
 {
   "name": "supervision-success-component",
+  "description": "A tool for modeling the impact of an increase in supervision success on the broader justice system",
+  "repository": "git@github.com:Recidiviz/supervision-success-component.git",
+  "author": "Recidiviz <team@recidiviz.org>",
+  "license": "GNU General Public License v3",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
