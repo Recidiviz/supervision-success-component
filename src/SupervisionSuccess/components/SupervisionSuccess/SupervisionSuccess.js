@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import StatePicker from "./StatePicker";
-import ImplementationPeriodPicker from "./ImplementationPeriodPicker";
-import ProjectionsPicker from "./ProjectionsPicker";
-import ChangeInRevocations from "./ChangeInRevocations";
-import Graph from "./Graph";
-import Outcomes from "./Outcomes";
+import StatePicker from "../StatePicker";
+import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
+import ProjectionsPicker from "../ProjectionsPicker";
+import ChangeInRevocations from "../ChangeInRevocations";
+import Graph from "../Graph";
+import Outcomes from "../Outcomes";
 
 import "./SupervisionSuccess.css";
 
@@ -24,12 +24,12 @@ const SupervisionSuccessComponent = ({
 }) => (
   <section className="main-container">
     <header className="main-header">
-      <StatePicker state={state} onChange={onStateChange} />
+      <StatePicker state={state} onStateChange={onStateChange} />
       <ImplementationPeriodPicker
         implementationPeriod={implementationPeriod}
-        onChange={onImplementationPeriodChange}
+        onImplementationPeriodChange={onImplementationPeriodChange}
       />
-      <ProjectionsPicker projections={projections} onChange={onProjectionsChange} />
+      <ProjectionsPicker projections={projections} onProjectionsChange={onProjectionsChange} />
     </header>
     <aside className="main-left-aside">
       <ChangeInRevocations

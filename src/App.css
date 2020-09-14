@@ -3,13 +3,14 @@
   min-height: 100vh;
   justify-content: center;
   flex-direction: column;
-  text-align: center;
   width: 100%;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  font-family: "Libre Franklin", sans-serif;
 }
 
 .app-header {
   margin-bottom: 30px;
+  text-align: center;
 }
