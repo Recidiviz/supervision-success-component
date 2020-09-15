@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import StatePicker from "../StatePicker";
 import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
 import ProjectionsPicker from "../ProjectionsPicker";
-import ChangeInRevocations from "../ChangeInRevocations";
+import ChangeInRevocations from "../ChangeInRevocations/ChangeInRevocations";
 import Graph from "../Graph";
 import Outcomes from "../Outcomes";
 

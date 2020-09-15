@@ -3,15 +3,15 @@
   box-shadow: 1px 2px 4px 0.5px rgba(0, 0, 0, 0.11);
   background-color: #ffffff;
   display: grid;
-  grid-template-columns: 200px auto 240px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 280px auto 300px;
+  grid-template-rows: auto auto;
 }
 
 .main-header {
   display: grid;
   grid-gap: 4rem;
   grid-template-columns: auto 1fr auto auto;
-  padding: 20px 40px;
+  padding: 1.25rem 2.5rem;
   border-bottom: 1px solid #ededed;
   grid-column: span 3;
   align-items: center;
