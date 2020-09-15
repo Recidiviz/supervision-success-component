@@ -21,6 +21,7 @@ const SupervisionSuccess = () => {
     setProjections(newProjections);
   }, []);
   const onChangeInRevocationsChange = useCallback((newChangeInRevocations) => {
+    console.log(newChangeInRevocations);
     setChangeInRevocations(newChangeInRevocations);
   }, []);
 
