@@ -1,0 +1,16 @@
+.chart {
+  padding-top: 1.5rem;
+  padding-left: 2rem;
+  overflow: hidden;
+}
+
+.chart_heading {
+  margin-bottom: 2rem;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.chart_chart {
+  margin-left: -25px;
+  transform: translateX(25px)
+}

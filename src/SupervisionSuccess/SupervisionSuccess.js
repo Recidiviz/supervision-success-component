@@ -36,6 +36,43 @@ const SupervisionSuccess = () => {
       onImplementationPeriodChange={onImplementationPeriodChange}
       onProjectionsChange={onProjectionsChange}
       onChangeInRevocationsChange={onChangeInRevocationsChange}
+      chartData={[
+        {
+          month: 0,
+          baseline: 33600,
+          totalPopulation: 33600,
+        },
+        {
+          month: 1,
+          baseline: 33600,
+          totalPopulation: 33596.77351,
+        },
+        {
+          month: 2,
+          baseline: 33600,
+          totalPopulation: 33588.69062,
+        },
+        {
+          month: 3,
+          baseline: 33600,
+          totalPopulation: 33577.48888,
+        },
+        {
+          month: 4,
+          baseline: 33600,
+          totalPopulation: 33564.28417,
+        },
+        {
+          month: 5,
+          baseline: 33600,
+          totalPopulation: 33549.79311,
+        },
+        {
+          month: 6,
+          baseline: 33600,
+          totalPopulation: 33534.47595,
+        },
+      ]}
     />
   );
 };

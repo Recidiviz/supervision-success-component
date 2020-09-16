@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import StatePicker from "../StatePicker";
 import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
 import ProjectionsPicker from "../ProjectionsPicker";
-import ChangeInRevocations from "../ChangeInRevocations/ChangeInRevocations";
-import Graph from "../Graph";
+import ChangeInRevocations from "../ChangeInRevocations";
+import Chart from "../Chart/Chart";
 import Outcomes from "../Outcomes";
 
 import "./SupervisionSuccess.css";
@@ -21,6 +21,7 @@ const SupervisionSuccessComponent = ({
   onImplementationPeriodChange,
   onProjectionsChange,
   onChangeInRevocationsChange,
+  chartData,
 }) => (
   <section className="main-container">
     <header className="main-header">
@@ -38,7 +39,7 @@ const SupervisionSuccessComponent = ({
       />
     </aside>
     <section>
-      <Graph />
+      <Chart data={chartData} />
     </section>
     <aside className="main-right-aside">
       <Outcomes prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
@@ -57,6 +58,13 @@ SupervisionSuccessComponent.propTypes = {
   onImplementationPeriodChange: PropTypes.func.isRequired,
   onProjectionsChange: PropTypes.func.isRequired,
   onChangeInRevocationsChange: PropTypes.func.isRequired,
+  chartData: PropTypes.arrayOf(
+    PropTypes.shape({
+      month: PropTypes.number,
+      baseline: PropTypes.number,
+      totalPopulation: PropTypes.number,
+    })
+  ).isRequired,
 };
 
 export default SupervisionSuccessComponent;
