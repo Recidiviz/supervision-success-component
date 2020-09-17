@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactSelect from "react-select";
 
+/* istanbul ignore next , no sense to cover styles */
 const customStyles = {
   container: (provided, state) => ({
     ...provided,

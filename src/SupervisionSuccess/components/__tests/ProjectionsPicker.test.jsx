@@ -25,7 +25,9 @@ describe("ProjectionsPicker tests", () => {
     );
 
     expect(Picker).toBeCalled();
+
     const fistCallProps = Picker.mock.calls[0][0];
+
     fistCallProps.onChange({ value: mockValue });
     expect(mockOnProjectionsChange).toHaveBeenCalledWith(mockValue);
     expect(fistCallProps.formatOptionLabel({ label: mockLabel }, { context: "menu" })).toBe(
