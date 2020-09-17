@@ -30,7 +30,6 @@ const SupervisionSuccess = ({ params }) => {
   useEffect(() => {
     const data = transformData(
       params[state],
-      state,
       implementationPeriod,
       projections,
       changeInRevocations
@@ -42,7 +41,7 @@ const SupervisionSuccess = ({ params }) => {
 
   return (
     <SupervisionSuccessComponent
-      states={Object.keys(params)}
+      states={states}
       state={state}
       implementationPeriod={implementationPeriod}
       projections={projections}
@@ -59,18 +58,20 @@ const SupervisionSuccess = ({ params }) => {
 };
 
 SupervisionSuccess.propTypes = {
-  params: PropTypes.shape({
-    newOffensePopulation: PropTypes.number.isRequired,
-    revocationA: PropTypes.number.isRequired,
-    revocationsTimescale: PropTypes.number.isRequired,
-    savingsMap: PropTypes.arrayOf(
-      PropTypes.shape({
-        checkpoint: PropTypes.number,
-        savings: PropTypes.number,
-      })
-    ),
-    marginalCostPerInmate: PropTypes.number.isRequired,
-  }).isRequired,
+  params: PropTypes.objectOf(
+    PropTypes.shape({
+      newOffensePopulation: PropTypes.number.isRequired,
+      revocationA: PropTypes.number.isRequired,
+      revocationsTimescale: PropTypes.number.isRequired,
+      savingsMap: PropTypes.arrayOf(
+        PropTypes.shape({
+          checkpoint: PropTypes.number,
+          savings: PropTypes.number,
+        })
+      ),
+      marginalCostPerInmate: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
 export default SupervisionSuccess;

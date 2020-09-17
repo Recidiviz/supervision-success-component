@@ -1,6 +1,10 @@
 import calcRevocations from "./calcRevocations";
 import calcSavings from "./calcSavings";
-import prettifySavings from "./prettifySavings";
+
+/* Number of months to add to the end of chart (chart need to be continued),
+This months should not participate in savings and prisonPopulationDiff calculations
+*/
+const ADDED_MONTHS = 5;
 
 /**
  * Function that transforms params and app state to chartData and stats
@@ -10,14 +14,13 @@ import prettifySavings from "./prettifySavings";
      revocationsTimescale: number
      savingsMap: {checkpoint: number savings: number}[]
      marginalCostPerInmate: number
-   }} params - params taken from source file
- * @param {string} state - name of state e.g. Alabama, Texas, Missouri
+   }} params - params for chosen state taken from source file
  * @param {number} implementationPeriod
  * @param {number} projections
  * @param {number} changeInRevocations
  * @returns {{chartData: {month: number, totalPopulation: number, baseline: number}[], prisonPopulationDiff: number, savings: number}}
  */
-function transformData(params, state, implementationPeriod, projections, changeInRevocations) {
+function transformData(params, implementationPeriod, projections, changeInRevocations) {
   const {
     newOffensePopulation,
     revocationA,
@@ -26,9 +29,11 @@ function transformData(params, state, implementationPeriod, projections, changeI
     marginalCostPerInmate,
   } = params;
 
-  const months = projections * 12;
+  const months = projections * 12 + 1;
 
-  const revocationsByMonth = Array.from({ length: months }).map((revocations, month) =>
+  const revocationsByMonth = Array.from({
+    length: months + ADDED_MONTHS,
+  }).map((revocations, month) =>
     calcRevocations(
       month,
       implementationPeriod,
@@ -52,7 +57,7 @@ function transformData(params, state, implementationPeriod, projections, changeI
     0
   );
 
-  const chartData = Array.from({ length: months }).map((item, month) => ({
+  const chartData = Array.from({ length: months + ADDED_MONTHS }).map((item, month) => ({
     month,
     baseline,
     totalPopulation: newOffensePopulation + revocationsByMonth[month],
@@ -60,8 +65,8 @@ function transformData(params, state, implementationPeriod, projections, changeI
 
   return {
     chartData,
-    savings: prettifySavings(totalSavings),
-    prisonPopulationDiff: Math.round(chartData[chartData.length - 1].totalPopulation - baseline),
+    savings: totalSavings,
+    prisonPopulationDiff: Math.round(chartData[months - 1].totalPopulation - baseline),
   };
 }
 
