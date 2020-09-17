@@ -5,15 +5,33 @@ import { Line } from "react-chartjs-2";
 import "./Chart.css";
 
 const VERTICAL_OFFSET = 0.05;
+const BASELINE_COLOR = "#ee3007";
+const TOTAL_POPULATION_COLOR = "#2b649c";
+const TOOLTIP_BG_COLOR = "#091e32";
+const CONNECTING_LINE_COLOR = "#07aded";
 
 const Chart = ({ data }) => {
   const { chartData, min, max } = useMemo(
     () =>
       data.reduce(
         (acc, { month, baseline, totalPopulation }) => {
-          acc.chartData.labels.push(month);
+          const year = month / 12;
+          const isYear = Number.isInteger(year);
           acc.chartData.datasets[0].data.push(Math.round(baseline));
           acc.chartData.datasets[1].data.push(Math.round(totalPopulation));
+          if (isYear) {
+            acc.chartData.labels.push(year);
+            acc.chartData.datasets[0].pointBackgroundColor.push(BASELINE_COLOR);
+            acc.chartData.datasets[0].pointBorderColor.push(BASELINE_COLOR);
+            acc.chartData.datasets[1].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
+            acc.chartData.datasets[1].pointBorderColor.push(TOTAL_POPULATION_COLOR);
+          } else {
+            acc.chartData.labels.push("");
+            acc.chartData.datasets[0].pointBackgroundColor.push("transparent");
+            acc.chartData.datasets[0].pointBorderColor.push("transparent");
+            acc.chartData.datasets[1].pointBackgroundColor.push("transparent");
+            acc.chartData.datasets[1].pointBorderColor.push("transparent");
+          }
           if (baseline > acc.max || totalPopulation > acc.max) {
             acc.max = Math.max(baseline, totalPopulation);
           }
@@ -29,15 +47,19 @@ const Chart = ({ data }) => {
               {
                 label: "baseline",
                 data: [],
-                borderColor: "#ee3007",
-                backgroundColor: "#ee3007",
+                pointBackgroundColor: [],
+                pointBorderColor: [],
+                borderColor: BASELINE_COLOR,
+                backgroundColor: BASELINE_COLOR,
                 fill: false,
               },
               {
                 label: "totalPopulation",
                 data: [],
-                borderColor: "#2b649c",
-                backgroundColor: "#2b649c",
+                pointBackgroundColor: [],
+                pointBorderColor: [],
+                borderColor: TOTAL_POPULATION_COLOR,
+                backgroundColor: TOTAL_POPULATION_COLOR,
                 fill: false,
               },
             ],
@@ -74,9 +96,10 @@ const Chart = ({ data }) => {
         ],
       },
       tooltips: {
+        filter: ({ index }) => index % 12 === 0,
         intersect: false,
         mode: "index",
-        backgroundColor: "#091e32",
+        backgroundColor: TOOLTIP_BG_COLOR,
         titleFontSize: 14,
         titleAlign: "center",
         footerFontStyle: "400",
@@ -86,9 +109,9 @@ const Chart = ({ data }) => {
         yPadding: 10,
         callbacks: {
           title: ([baseline, totalPopulation]) =>
-            `${totalPopulation.value - baseline.value} people`,
+            baseline && totalPopulation && `${totalPopulation.value - baseline.value} people`,
           label: () => null,
-          footer: ([baseline]) => `${baseline.label} months`,
+          footer: ([baseline]) => baseline && `${baseline.label} years`,
         },
       },
     }),
@@ -99,6 +122,7 @@ const Chart = ({ data }) => {
     afterDraw: function (chart) {
       if (chart.tooltip._active && chart.tooltip._active.length) {
         const [firstPoint, secondPoint] = chart.controller.tooltip._active;
+        if (firstPoint._index % 12 !== 0) return;
         const topY = Math.max(firstPoint._model.y, secondPoint._model.y);
         const bottomY = Math.min(firstPoint._model.y, secondPoint._model.y);
         if (topY === bottomY) return;
@@ -110,7 +134,7 @@ const Chart = ({ data }) => {
         ctx.lineTo(x, bottomY + 5);
         ctx.setLineDash([10, 2]);
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "#07aded";
+        ctx.strokeStyle = CONNECTING_LINE_COLOR;
         ctx.stroke();
         ctx.restore();
       }
@@ -125,6 +149,7 @@ const Chart = ({ data }) => {
           data={chartData}
           options={chartOptions}
           plugins={[drawLinePlugin]}
+          // TODO(19): Chart should be responsive
           width={560}
           height={400}
         />

@@ -36,6 +36,7 @@ const SupervisionSuccess = () => {
       onImplementationPeriodChange={onImplementationPeriodChange}
       onProjectionsChange={onProjectionsChange}
       onChangeInRevocationsChange={onChangeInRevocationsChange}
+      // TODO(7): Replace fake data with dynamic output from model
       chartData={[
         {
           month: 0,
@@ -70,7 +71,42 @@ const SupervisionSuccess = () => {
         {
           month: 6,
           baseline: 33600,
-          totalPopulation: 33534.47595,
+          totalPopulation: 33528.56833,
+        },
+        {
+          month: 7,
+          baseline: 33600,
+          totalPopulation: 33468.9519,
+        },
+        {
+          month: 8,
+          baseline: 33600,
+          totalPopulation: 33443.70948,
+        },
+        {
+          month: 9,
+          baseline: 33600,
+          totalPopulation: 33427.49842,
+        },
+        {
+          month: 10,
+          baseline: 33600,
+          totalPopulation: 33417.08744,
+        },
+        {
+          month: 11,
+          baseline: 33600,
+          totalPopulation: 33410.40135,
+        },
+        {
+          month: 12,
+          baseline: 33600,
+          totalPopulation: 33406.10745,
+        },
+        {
+          month: 13,
+          baseline: 33600,
+          totalPopulation: 33403.34984,
         },
       ]}
     />
