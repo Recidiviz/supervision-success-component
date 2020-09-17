@@ -1,0 +1,44 @@
+import React from "react";
+import PropTypes from "prop-types";
+
+import "./Outcomes.css";
+
+const Outcomes = ({ prisonPopulationDiff, savings }) => {
+  const [prisonPopulationDiffText, prisonPopulationDiffIconClass] = (() => {
+    if (prisonPopulationDiff < 0) return ["Fewer people in prison", "outcomes_stat-icon-down"];
+    if (prisonPopulationDiff > 0) return ["More people in prison", "outcomes_stat-icon-up"];
+    return [null, ""];
+  })();
+
+  const [savingsText, savingsIconClass] = (() => {
+    if (savings > 0) return ["Reduced costs", "outcomes_stat-icon-down"];
+    if (savings < 0) return ["Increased costs", "outcomes_stat-icon-up"];
+    return [null, ""];
+  })();
+
+  return (
+    <div className="outcomes">
+      <div className="outcomes_heading">Outcomes</div>
+      <div className="outcomes_stats">
+        <div className="outcomes_stat">
+          <div className={`outcomes_stat-value ${prisonPopulationDiffIconClass}`}>
+            {Math.abs(prisonPopulationDiff)}
+          </div>
+          <div className="outcomes_stat-key">{prisonPopulationDiffText}</div>
+        </div>
+        <div className="outcomes_stat">
+          {/*TODO(7): Replace with prettifySavings function*/}
+          <div className={`outcomes_stat-value ${savingsIconClass}`}>${Math.abs(savings)}M</div>
+          <div className="outcomes_stat-key">{savingsText}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+Outcomes.propTypes = {
+  prisonPopulationDiff: PropTypes.number.isRequired,
+  savings: PropTypes.number.isRequired,
+};
+
+export default Outcomes;
