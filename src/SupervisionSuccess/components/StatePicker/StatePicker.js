@@ -4,14 +4,11 @@ import Picker from "../Picker";
 
 import "./StatePicker.css";
 
-const options = [
-  { value: "MO", label: "Missouri" },
-  { value: "PA", label: "Pennsylvania" },
-];
-
-const StatePicker = ({ state, onStateChange }) => {
-  const currentOption = options.find(({ value }) => value === state);
-
+const StatePicker = ({ states, state, onStateChange }) => {
+  const options = states.map((item) => ({
+    label: item,
+    value: item,
+  }));
   const onChange = useCallback(
     ({ value }) => {
       onStateChange(value);
@@ -26,16 +23,17 @@ const StatePicker = ({ state, onStateChange }) => {
         className="state-picker_picker"
         menuLabel="States"
         isLarge
-        defaultValue={currentOption}
+        defaultValue={options[0]}
         options={options}
         onChange={onChange}
       />
-      <span className="state-picker_hint">Based on {currentOption.label} data from 2017</span>
+      <span className="state-picker_hint">Based on {state} data from 2017</span>
     </div>
   );
 };
 
 StatePicker.propTypes = {
+  states: PropTypes.arrayOf(PropTypes.string).isRequired,
   state: PropTypes.string.isRequired,
   onStateChange: PropTypes.func.isRequired,
 };

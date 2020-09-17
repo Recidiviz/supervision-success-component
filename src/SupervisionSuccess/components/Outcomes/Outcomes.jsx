@@ -27,7 +27,7 @@ const Outcomes = ({ prisonPopulationDiff, savings }) => {
           <div className="outcomes_stat-key">{prisonPopulationDiffText}</div>
         </div>
         <div className="outcomes_stat">
-          <div className={`outcomes_stat-value ${savingsIconClass}`}>{Math.abs(savings)}</div>
+          <div className={`outcomes_stat-value ${savingsIconClass}`}>${Math.abs(savings)}M</div>
           <div className="outcomes_stat-key">{savingsText}</div>
         </div>
       </div>

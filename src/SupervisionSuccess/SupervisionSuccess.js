@@ -1,15 +1,18 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import SupervisionSuccessComponent from "./components/SupervisionSuccess";
+import transformData from "./model/transformData";
 
-const SupervisionSuccess = () => {
-  const [state, setState] = useState("MO");
+const SupervisionSuccess = ({ params }) => {
+  const states = Object.keys(params);
+  const [state, setState] = useState(states[0]);
   const [implementationPeriod, setImplementationPeriod] = useState(6);
   const [projections, setProjections] = useState(5);
   const [changeInRevocations, setChangeInRevocations] = useState(-50);
-  const [prisonPopulationDiff] = useState(-400);
-  const [savings] = useState(32);
+  const [prisonPopulationDiff, setPrisonPopulationDiff] = useState(0);
+  const [savings, setSavings] = useState(0);
+  const [chartData, setChartData] = useState([]);
 
   const onStateChange = useCallback((newState) => {
     setState(newState);
@@ -24,8 +27,22 @@ const SupervisionSuccess = () => {
     setChangeInRevocations(newChangeInRevocations);
   }, []);
 
+  useEffect(() => {
+    const data = transformData(
+      params[state],
+      state,
+      implementationPeriod,
+      projections,
+      changeInRevocations
+    );
+    setChartData(data.chartData);
+    setSavings(data.savings);
+    setPrisonPopulationDiff(data.prisonPopulationDiff);
+  }, [params, state, implementationPeriod, projections, changeInRevocations]);
+
   return (
     <SupervisionSuccessComponent
+      states={Object.keys(params)}
       state={state}
       implementationPeriod={implementationPeriod}
       projections={projections}
@@ -36,49 +53,24 @@ const SupervisionSuccess = () => {
       onImplementationPeriodChange={onImplementationPeriodChange}
       onProjectionsChange={onProjectionsChange}
       onChangeInRevocationsChange={onChangeInRevocationsChange}
-      chartData={[
-        {
-          month: 0,
-          baseline: 33600,
-          totalPopulation: 33600,
-        },
-        {
-          month: 1,
-          baseline: 33600,
-          totalPopulation: 33596.77351,
-        },
-        {
-          month: 2,
-          baseline: 33600,
-          totalPopulation: 33588.69062,
-        },
-        {
-          month: 3,
-          baseline: 33600,
-          totalPopulation: 33577.48888,
-        },
-        {
-          month: 4,
-          baseline: 33600,
-          totalPopulation: 33564.28417,
-        },
-        {
-          month: 5,
-          baseline: 33600,
-          totalPopulation: 33549.79311,
-        },
-        {
-          month: 6,
-          baseline: 33600,
-          totalPopulation: 33534.47595,
-        },
-      ]}
+      chartData={chartData}
     />
   );
 };
 
 SupervisionSuccess.propTypes = {
-  params: PropTypes.shape({}).isRequired,
+  params: PropTypes.shape({
+    newOffensePopulation: PropTypes.number.isRequired,
+    revocationA: PropTypes.number.isRequired,
+    revocationsTimescale: PropTypes.number.isRequired,
+    savingsMap: PropTypes.arrayOf(
+      PropTypes.shape({
+        checkpoint: PropTypes.number,
+        savings: PropTypes.number,
+      })
+    ),
+    marginalCostPerInmate: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 export default SupervisionSuccess;
