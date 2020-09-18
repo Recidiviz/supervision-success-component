@@ -1,100 +1,60 @@
 import React from "react";
 import { act, render } from "@testing-library/react";
 
-import params from "../model/__mocks__/params.mock";
-
 import SupervisionSuccess from "../SupervisionSuccess";
-import SupervisionSuccessComponent from "../components/SupervisionSuccess";
-import produceProjections from "../model/produceProjections";
+import LoadingScreen from "../components/LoadingScreen";
+import SupervisionSuccessContainer from "../SupervisionSuccessContainer";
+import convertCSVStringToParams from "../utils/convertCSVStringToParams";
 
-jest.mock("../model/produceProjections");
-jest.mock("../components/SupervisionSuccess", () => ({
+jest.mock("../components/LoadingScreen", () => ({
   __esModule: true,
   default: jest.fn().mockReturnValue(null),
 }));
+jest.mock("../components/ErrorScreen", () => ({
+  __esModule: true,
+  default: jest.fn().mockReturnValue(null),
+}));
+jest.mock("../SupervisionSuccessContainer", () => ({
+  __esModule: true,
+  default: jest.fn().mockReturnValue(null),
+}));
+jest.mock("../utils/convertCSVStringToParams");
 
 describe("SupervisionSuccess tests", () => {
-  const mockState = Object.keys(params)[1];
-  const mockImplementationPeriod = 9248;
-  const mockChartData = "some chart data";
-  const mockFinalPopulation = 14920;
-  const mockSavings = "some savings";
-  const mockPrisonPopulationDiff = "some diff";
-  const mockProjections = "some projections";
-  const mockChangeInRevocations = "some change in revo";
+  const mockParams = "some params";
+  const mockPath = "some path";
 
   beforeAll(() => {
-    produceProjections.mockReturnValue({
-      chartData: mockChartData,
-      savings: mockSavings,
-      prisonPopulationDiff: mockPrisonPopulationDiff,
-      finalPopulation: mockFinalPopulation,
-    });
+    jest.spyOn(window, "fetch");
   });
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should render SupervisionSuccessComponent", () => {
-    render(<SupervisionSuccess params={params} />);
+  it("should render LoadingScreen while loading", () => {
+    render(<SupervisionSuccess path={mockPath} />);
 
-    expect(SupervisionSuccessComponent).toBeCalled();
+    expect(LoadingScreen).toBeCalled();
   });
 
-  it("should be updated with transformed data on mount", () => {
-    render(<SupervisionSuccess params={params} />);
+  it("should receive and set params after mount", async () => {
+    const mockCSVString = "some csv string";
+    const targetPromise = Promise.resolve(mockParams);
+    convertCSVStringToParams.mockReturnValue(targetPromise);
 
-    expect(produceProjections).toBeCalled();
-    expect(SupervisionSuccessComponent.mock.calls[1][0]).toMatchObject({
-      savings: mockSavings,
-      chartData: mockChartData,
-      prisonPopulationDiff: mockPrisonPopulationDiff,
-      finalPopulation: mockFinalPopulation,
+    const text = async () => mockCSVString;
+    const blob = async () => ({ text });
+    window.fetch.mockResolvedValueOnce({
+      blob,
     });
-  });
 
-  it("should change state", () => {
-    render(<SupervisionSuccess params={params} />);
+    render(<SupervisionSuccess path={mockPath} />);
 
-    act(() => {
-      SupervisionSuccessComponent.mock.calls[0][0].onStateChange(mockState);
-    });
-    expect(SupervisionSuccessComponent.mock.calls[2][0].state).toBe(mockState);
-  });
+    expect(window.fetch).toBeCalledWith(mockPath);
 
-  it("should change implementation period", () => {
-    render(<SupervisionSuccess params={params} />);
+    await act(() => targetPromise);
 
-    act(() => {
-      SupervisionSuccessComponent.mock.calls[0][0].onImplementationPeriodChange(
-        mockImplementationPeriod
-      );
-    });
-    expect(SupervisionSuccessComponent.mock.calls[2][0].implementationPeriod).toBe(
-      mockImplementationPeriod
-    );
-  });
-
-  it("should change projections", () => {
-    render(<SupervisionSuccess params={params} />);
-
-    act(() => {
-      SupervisionSuccessComponent.mock.calls[0][0].onProjectionsChange(mockProjections);
-    });
-    expect(SupervisionSuccessComponent.mock.calls[2][0].projections).toBe(mockProjections);
-  });
-
-  it("should change changeInRevocations", () => {
-    render(<SupervisionSuccess params={params} />);
-
-    act(() => {
-      SupervisionSuccessComponent.mock.calls[0][0].onChangeInRevocationsChange(
-        mockChangeInRevocations
-      );
-    });
-    expect(SupervisionSuccessComponent.mock.calls[2][0].changeInRevocations).toBe(
-      mockChangeInRevocations
-    );
+    expect(SupervisionSuccessContainer.mock.calls[0][0]).toStrictEqual({ params: mockParams });
   });
 });

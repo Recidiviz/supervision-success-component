@@ -1,80 +1,41 @@
-import React, { useCallback, useEffect, useState } from "react";
+/* eslint-disable no-console */
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import SupervisionSuccessComponent from "./components/SupervisionSuccess";
-import produceProjections from "./model/produceProjections";
+import SupervisionSuccessContainer from "./SupervisionSuccessContainer";
+import convertCSVStringToParams from "./utils/convertCSVStringToParams";
+import LoadingScreen from "./components/LoadingScreen";
+import ErrorScreen from "./components/ErrorScreen";
+import { CSV_PROCESSING_ERROR } from "./constants";
 
-const SupervisionSuccess = ({ params }) => {
-  const states = Object.keys(params);
-  const [state, setState] = useState(states[0]);
-  const [implementationPeriod, setImplementationPeriod] = useState(6);
-  const [projections, setProjections] = useState(5);
-  const [changeInRevocations, setChangeInRevocations] = useState(-50);
-  const [finalPopulation, setFinalPopulation] = useState(0);
-  const [prisonPopulationDiff, setPrisonPopulationDiff] = useState(0);
-  const [savings, setSavings] = useState(0);
-  const [chartData, setChartData] = useState([]);
-
-  const onStateChange = useCallback((newState) => {
-    setState(newState);
-  }, []);
-  const onImplementationPeriodChange = useCallback((newImplPeriod) => {
-    setImplementationPeriod(newImplPeriod);
-  }, []);
-  const onProjectionsChange = useCallback((newProjections) => {
-    setProjections(newProjections);
-  }, []);
-  const onChangeInRevocationsChange = useCallback((newChangeInRevocations) => {
-    setChangeInRevocations(newChangeInRevocations);
-  }, []);
+const SupervisionSuccess = ({ path }) => {
+  const [error, setError] = useState(null);
+  const [params, setParams] = useState(null);
 
   useEffect(() => {
-    const data = produceProjections(
-      params[state],
-      implementationPeriod,
-      projections,
-      changeInRevocations
-    );
-    setChartData(data.chartData);
-    setSavings(data.savings);
-    setPrisonPopulationDiff(data.prisonPopulationDiff);
-    setFinalPopulation(data.finalPopulation);
-  }, [params, state, implementationPeriod, projections, changeInRevocations]);
+    const fetchCSVString = async () => {
+      try {
+        const response = await fetch(path);
+        const blob = await response.blob();
+        const CSVString = await blob.text();
+        const newParams = await convertCSVStringToParams(CSVString);
+        setParams(newParams);
+      } catch (e) {
+        console.error(e);
+        setError(CSV_PROCESSING_ERROR);
+      }
+    };
+    fetchCSVString();
+  }, [path]);
 
-  return (
-    <SupervisionSuccessComponent
-      states={states}
-      state={state}
-      implementationPeriod={implementationPeriod}
-      projections={projections}
-      changeInRevocations={changeInRevocations}
-      finalPopulation={finalPopulation}
-      prisonPopulationDiff={prisonPopulationDiff}
-      savings={savings}
-      onStateChange={onStateChange}
-      onImplementationPeriodChange={onImplementationPeriodChange}
-      onProjectionsChange={onProjectionsChange}
-      onChangeInRevocationsChange={onChangeInRevocationsChange}
-      chartData={chartData}
-    />
-  );
+  if (error) return <ErrorScreen error={error} />;
+  if (params === null) return <LoadingScreen />;
+
+  return <SupervisionSuccessContainer params={params} />;
 };
 
 SupervisionSuccess.propTypes = {
-  params: PropTypes.objectOf(
-    PropTypes.shape({
-      newOffensePopulation: PropTypes.number.isRequired,
-      revocationA: PropTypes.number.isRequired,
-      revocationsTimescale: PropTypes.number.isRequired,
-      savingsMap: PropTypes.arrayOf(
-        PropTypes.shape({
-          checkpoint: PropTypes.number,
-          savings: PropTypes.number,
-        })
-      ),
-      marginalCostPerInmate: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  path: PropTypes.string.isRequired,
 };
 
 export default SupervisionSuccess;
