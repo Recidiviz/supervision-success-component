@@ -85,7 +85,7 @@ describe("SupervisionSuccess tests", () => {
     expect(SupervisionSuccessComponent.mock.calls[2][0].projections).toBe(mockProjections);
   });
 
-  it("should change projections", () => {
+  it("should change changeInRevocations", () => {
     render(<SupervisionSuccess params={params} />);
 
     act(() => {

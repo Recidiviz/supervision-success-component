@@ -1,6 +1,6 @@
 import React from "react";
-import { render } from "@testing-library/react";
 import { Line } from "react-chartjs-2";
+import { render } from "@testing-library/react";
 
 import Chart from "../Chart";
 import {
@@ -159,7 +159,7 @@ describe("Chart tests", () => {
     expect(mockChart.ctx.restore).toHaveBeenCalled();
   });
 
-  it("should not draw line that connects 2 charts because no active tooltips", () => {
+  it("should not draw line that connects 2 charts when no active tooltips", () => {
     const mockChart = {
       tooltip: { _active: [] },
     };

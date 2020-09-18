@@ -1,10 +1,10 @@
+import calcSavings from "../calcSavings";
 import params from "../__mocks__/params.mock";
 import {
   mockAKRevocationsByMonth,
   mockALRevocationsByMonth,
   mockTXRevocationsByMonth,
 } from "../__mocks__/revocations.mock";
-import calcSavings from "../calcSavings";
 import {
   mockAKTotalSavingsByMonth,
   mockALTotalSavingsByMonth,

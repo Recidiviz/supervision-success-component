@@ -16,6 +16,7 @@ const StatePicker = ({ states, state, onStateChange }) => {
     [onStateChange]
   );
 
+  // TODO: Need to know where from year need to come
   return (
     <div className="state-picker_root">
       <span className="state-picker_label">Choose state</span>

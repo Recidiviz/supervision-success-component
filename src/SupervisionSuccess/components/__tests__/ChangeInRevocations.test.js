@@ -1,6 +1,6 @@
 import React from "react";
-import { render } from "@testing-library/react";
 import ReactSlider from "react-slider";
+import { render } from "@testing-library/react";
 
 import ChangeInRevocations from "../ChangeInRevocations";
 

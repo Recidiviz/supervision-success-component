@@ -1,9 +1,8 @@
 /* eslint-disable no-plusplus */
 import produceProjections from "../produceProjections";
-import params from "../__mocks__/params.mock";
-
 import calcRevocations from "../calcRevocations";
 import calcSavings from "../calcSavings";
+import params from "../__mocks__/params.mock";
 
 jest.mock("../calcRevocations");
 jest.mock("../calcSavings");
