@@ -21,6 +21,7 @@ describe("calcRevocations tests", () => {
     expect(round(calcRevocations(6, 0, RA, RT, -70))).toBe(234.6027);
     expect(round(calcRevocations(0, 0, RA, RT, -70))).toBe(672);
   });
+
   it("should return correct revocations with different params", () => {
     const AlaskaRA = Alaska.revocationA;
     const AlaskaRT = Alaska.revocationsTimescale;

@@ -5,9 +5,9 @@ import params from "../model/__mocks__/params.mock";
 
 import SupervisionSuccess from "../SupervisionSuccess";
 import SupervisionSuccessComponent from "../components/SupervisionSuccess";
-import transformData from "../model/transformData";
+import produceProjections from "../model/produceProjections";
 
-jest.mock("../model/transformData");
+jest.mock("../model/produceProjections");
 jest.mock("../components/SupervisionSuccess", () => ({
   __esModule: true,
   default: jest.fn().mockReturnValue(null),
@@ -17,16 +17,18 @@ describe("SupervisionSuccess tests", () => {
   const mockState = Object.keys(params)[1];
   const mockImplementationPeriod = 9248;
   const mockChartData = "some chart data";
+  const mockFinalPopulation = 14920;
   const mockSavings = "some savings";
   const mockPrisonPopulationDiff = "some diff";
   const mockProjections = "some projections";
   const mockChangeInRevocations = "some change in revo";
 
   beforeAll(() => {
-    transformData.mockReturnValue({
+    produceProjections.mockReturnValue({
       chartData: mockChartData,
       savings: mockSavings,
       prisonPopulationDiff: mockPrisonPopulationDiff,
+      finalPopulation: mockFinalPopulation,
     });
   });
 
@@ -43,11 +45,12 @@ describe("SupervisionSuccess tests", () => {
   it("should be updated with transformed data on mount", () => {
     render(<SupervisionSuccess params={params} />);
 
-    expect(transformData).toBeCalled();
+    expect(produceProjections).toBeCalled();
     expect(SupervisionSuccessComponent.mock.calls[1][0]).toMatchObject({
       savings: mockSavings,
       chartData: mockChartData,
       prisonPopulationDiff: mockPrisonPopulationDiff,
+      finalPopulation: mockFinalPopulation,
     });
   });
 

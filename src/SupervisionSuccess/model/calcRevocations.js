@@ -1,17 +1,20 @@
 const { exp } = Math;
 
 /**
- * Calculates revocations
- * @param month - Month
- * @param IP - implementationPeriod (Interface -> A5)
- * @param RA - revocations A (Parameters -> M)
- * @param RT - revocations Timescale (Parameters -> K)
- * @param changeInRevocations - integer value of revocations change
- * @const RR - revocation reduction (Interface -> A3)
+ * Function that calculates revocations
+ * @param {number} month - Integer from 0 to Infinity that represents quantity
+ *   of months since the start
+ * @param {number} IP - implementationPeriod integer value of months
+ * @param {number} RA - revocations A (param from spreadsheet)
+ * @param {number} RT - revocations Timescale (param from spreadsheet)
+ * @param {number} changeInRevocations - integer value of change percents
+ * @const {number} RR - revocation reduction - as we store changeInRevocations
+ *   as integer number of percents we need to divide it by 100 and multiple on
+ *   -1 to transform  to revocation reduction that is used in calculations
  * @returns {number}
  */
 function calcRevocations(month, IP, RA, RT, changeInRevocations) {
-  const RR = changeInRevocations * -0.01;
+  const RR = (changeInRevocations / 100) * -1;
 
   if (IP === 0) {
     return RA * RT ** 2 * (1 - RR + RR * exp(-month / RT));

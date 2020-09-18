@@ -5,18 +5,23 @@ import debounce from "debounce";
 
 import "./ChangeInRevocations.css";
 
-const ChangeInRevocations = ({ changeInRevocations, onChangeInRevocationsChange }) => {
+const ChangeInRevocations = ({
+  state,
+  finalPopulation,
+  changeInRevocations,
+  onChangeInRevocationsChange,
+}) => {
   const renderThumb = useCallback(
-    (props, state) => (
+    (props, thumbState) => (
       <span {...props} className="revocations-slider_thumb">
-        <span className="revocations-slider_percent">{state.valueNow}%</span>
+        <span className="revocations-slider_percent">{thumbState.valueNow}%</span>
         <span className="revocations-slider_hint">
-          <b className="revocations-slider_hint-count">6324</b> Violations resulting in State
-          incarceration
+          <b className="revocations-slider_hint-count">{finalPopulation}</b> Violations resulting in{" "}
+          {state} incarceration
         </span>
       </span>
     ),
-    []
+    [finalPopulation, state]
   );
 
   return (
@@ -43,6 +48,8 @@ const ChangeInRevocations = ({ changeInRevocations, onChangeInRevocationsChange 
 ChangeInRevocations.propTypes = {
   onChangeInRevocationsChange: PropTypes.func.isRequired,
   changeInRevocations: PropTypes.number.isRequired,
+  finalPopulation: PropTypes.number.isRequired,
+  state: PropTypes.string.isRequired,
 };
 
 export default ChangeInRevocations;

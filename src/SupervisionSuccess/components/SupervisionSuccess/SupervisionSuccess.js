@@ -16,6 +16,7 @@ const SupervisionSuccessComponent = ({
   implementationPeriod,
   projections,
   changeInRevocations,
+  finalPopulation,
   prisonPopulationDiff,
   savings,
   onStateChange,
@@ -35,6 +36,8 @@ const SupervisionSuccessComponent = ({
     </header>
     <aside className="main-left-aside">
       <ChangeInRevocations
+        state={state}
+        finalPopulation={finalPopulation}
         changeInRevocations={changeInRevocations}
         onChangeInRevocationsChange={onChangeInRevocationsChange}
       />
@@ -54,6 +57,7 @@ SupervisionSuccessComponent.propTypes = {
   implementationPeriod: PropTypes.number.isRequired,
   projections: PropTypes.number.isRequired,
   changeInRevocations: PropTypes.number.isRequired,
+  finalPopulation: PropTypes.number.isRequired,
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
   onStateChange: PropTypes.func.isRequired,

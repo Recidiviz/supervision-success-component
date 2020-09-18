@@ -1,5 +1,5 @@
 /* eslint-disable no-plusplus */
-import transformData from "../transformData";
+import produceProjections from "../produceProjections";
 import params from "../__mocks__/params.mock";
 
 import calcRevocations from "../calcRevocations";
@@ -8,7 +8,7 @@ import calcSavings from "../calcSavings";
 jest.mock("../calcRevocations");
 jest.mock("../calcSavings");
 
-describe("transformData tests", () => {
+describe("produceProjections tests", () => {
   it("should return correct results", () => {
     let i = 0;
     let k = 0;
@@ -19,7 +19,7 @@ describe("transformData tests", () => {
       return k++;
     });
 
-    expect(transformData(params.Alabama, 6, 1, -50)).toStrictEqual({
+    expect(produceProjections(params.Alabama, 6, 1, -50)).toStrictEqual({
       chartData: [
         { month: 0, baseline: 32928, totalPopulation: 32928 },
         { month: 1, baseline: 32928, totalPopulation: 32929 },
@@ -42,6 +42,7 @@ describe("transformData tests", () => {
       ],
       savings: 78,
       prisonPopulationDiff: 12,
+      finalPopulation: 32940,
     });
   });
 });

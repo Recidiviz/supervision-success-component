@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import SupervisionSuccessComponent from "./components/SupervisionSuccess";
-import transformData from "./model/transformData";
+import produceProjections from "./model/produceProjections";
 
 const SupervisionSuccess = ({ params }) => {
   const states = Object.keys(params);
@@ -10,6 +10,7 @@ const SupervisionSuccess = ({ params }) => {
   const [implementationPeriod, setImplementationPeriod] = useState(6);
   const [projections, setProjections] = useState(5);
   const [changeInRevocations, setChangeInRevocations] = useState(-50);
+  const [finalPopulation, setFinalPopulation] = useState(0);
   const [prisonPopulationDiff, setPrisonPopulationDiff] = useState(0);
   const [savings, setSavings] = useState(0);
   const [chartData, setChartData] = useState([]);
@@ -28,7 +29,7 @@ const SupervisionSuccess = ({ params }) => {
   }, []);
 
   useEffect(() => {
-    const data = transformData(
+    const data = produceProjections(
       params[state],
       implementationPeriod,
       projections,
@@ -37,6 +38,7 @@ const SupervisionSuccess = ({ params }) => {
     setChartData(data.chartData);
     setSavings(data.savings);
     setPrisonPopulationDiff(data.prisonPopulationDiff);
+    setFinalPopulation(data.finalPopulation);
   }, [params, state, implementationPeriod, projections, changeInRevocations]);
 
   return (
@@ -46,6 +48,7 @@ const SupervisionSuccess = ({ params }) => {
       implementationPeriod={implementationPeriod}
       projections={projections}
       changeInRevocations={changeInRevocations}
+      finalPopulation={finalPopulation}
       prisonPopulationDiff={prisonPopulationDiff}
       savings={savings}
       onStateChange={onStateChange}

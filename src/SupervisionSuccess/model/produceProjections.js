@@ -1,7 +1,7 @@
 import calcRevocations from "./calcRevocations";
 import calcSavings from "./calcSavings";
 
-/* Number of months to add to the end of chart (chart need to be continued),
+/* Number of months to add to the end of chart (chart need to be continued and overflow block),
 This months should not participate in savings and prisonPopulationDiff calculations
 */
 const ADDED_MONTHS = 5;
@@ -18,9 +18,14 @@ const ADDED_MONTHS = 5;
  * @param {number} implementationPeriod
  * @param {number} projections
  * @param {number} changeInRevocations
- * @returns {{chartData: {month: number, totalPopulation: number, baseline: number}[], prisonPopulationDiff: number, savings: number}}
+ * @returns {{
+ *   chartData: {month: number, totalPopulation: number, baseline: number}[],
+ *   prisonPopulationDiff: number,
+ *   savings: number,
+ *   finalPopulation: number,
+ * }}
  */
-function transformData(params, implementationPeriod, projections, changeInRevocations) {
+function produceProjections(params, implementationPeriod, projections, changeInRevocations) {
   const {
     newOffensePopulation,
     revocationA,
@@ -43,7 +48,7 @@ function transformData(params, implementationPeriod, projections, changeInRevoca
     )
   );
 
-  const baseline = revocationsByMonth[0] + newOffensePopulation;
+  const baseline = Math.round(revocationsByMonth[0] + newOffensePopulation);
 
   const totalSavings = Array.from({ length: months }).reduce(
     (acc, _, month) =>
@@ -63,11 +68,14 @@ function transformData(params, implementationPeriod, projections, changeInRevoca
     totalPopulation: newOffensePopulation + revocationsByMonth[month],
   }));
 
+  const finalPopulation = Math.round(chartData[months - 1].totalPopulation);
+
   return {
     chartData,
     savings: totalSavings,
-    prisonPopulationDiff: Math.round(chartData[months - 1].totalPopulation - baseline),
+    prisonPopulationDiff: finalPopulation - baseline,
+    finalPopulation,
   };
 }
 
-export default transformData;
+export default produceProjections;

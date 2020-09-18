@@ -198,7 +198,7 @@ describe("Chart tests", () => {
     drawLinePlugin.afterDraw(mockChart);
   });
 
-  it("should not line if y's are same", () => {
+  it("should not draw line if y's are same", () => {
     const mockFirstPoint = {
       _index: 12,
       _model: {
