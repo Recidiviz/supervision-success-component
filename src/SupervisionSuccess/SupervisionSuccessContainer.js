@@ -10,7 +10,7 @@ const SupervisionSuccessContainer = ({ params }) => {
   const [implementationPeriod, setImplementationPeriod] = useState(6);
   const [projections, setProjections] = useState(5);
   const [changeInRevocations, setChangeInRevocations] = useState(-50);
-  const [finalPopulation, setFinalPopulation] = useState(0);
+  const [finalRevocations, setFinalRevocations] = useState(0);
   const [prisonPopulationDiff, setPrisonPopulationDiff] = useState(0);
   const [savings, setSavings] = useState(0);
   const [chartData, setChartData] = useState([]);
@@ -38,7 +38,7 @@ const SupervisionSuccessContainer = ({ params }) => {
     setChartData(data.chartData);
     setSavings(data.savings);
     setPrisonPopulationDiff(data.prisonPopulationDiff);
-    setFinalPopulation(data.finalPopulation);
+    setFinalRevocations(data.finalRevocations);
   }, [params, state, implementationPeriod, projections, changeInRevocations]);
 
   return (
@@ -48,7 +48,7 @@ const SupervisionSuccessContainer = ({ params }) => {
       implementationPeriod={implementationPeriod}
       projections={projections}
       changeInRevocations={changeInRevocations}
-      finalPopulation={finalPopulation}
+      finalRevocations={finalRevocations}
       prisonPopulationDiff={prisonPopulationDiff}
       savings={savings}
       onStateChange={onStateChange}

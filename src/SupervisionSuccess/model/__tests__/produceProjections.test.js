@@ -41,7 +41,7 @@ describe("produceProjections tests", () => {
       ],
       savings: 78,
       prisonPopulationDiff: 12,
-      finalPopulation: 32940,
+      finalRevocations: 12,
     });
   });
 });

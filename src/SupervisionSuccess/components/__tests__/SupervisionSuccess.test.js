@@ -27,7 +27,7 @@ describe("SupervisionSuccessComponent tests", () => {
   it("should successfully render", () => {
     render(
       <SupervisionSuccessComponent
-        finalPopulation={12000}
+        finalRevocations={12000}
         state="some state"
         onStateChange={jest.fn()}
         states={[]}

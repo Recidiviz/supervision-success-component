@@ -7,7 +7,7 @@ import "./ChangeInRevocations.css";
 
 const ChangeInRevocations = ({
   state,
-  finalPopulation,
+  finalRevocations,
   changeInRevocations,
   onChangeInRevocationsChange,
 }) => {
@@ -16,12 +16,12 @@ const ChangeInRevocations = ({
       <span {...props} className="revocations-slider_thumb">
         <span className="revocations-slider_percent">{thumbState.valueNow}%</span>
         <span className="revocations-slider_hint">
-          <b className="revocations-slider_hint-count">{finalPopulation}</b> Violations resulting in{" "}
-          {state} incarceration
+          <b className="revocations-slider_hint-count">{finalRevocations}</b> Violations resulting
+          in {state} incarceration
         </span>
       </span>
     ),
-    [finalPopulation, state]
+    [finalRevocations, state]
   );
 
   return (
@@ -48,7 +48,7 @@ const ChangeInRevocations = ({
 ChangeInRevocations.propTypes = {
   onChangeInRevocationsChange: PropTypes.func.isRequired,
   changeInRevocations: PropTypes.number.isRequired,
-  finalPopulation: PropTypes.number.isRequired,
+  finalRevocations: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
 };
 
