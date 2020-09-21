@@ -1,2 +1,2 @@
-export const CSV_FETCHING_ERROR = "Error occurred while fetching csv file";
+/* eslint-disable import/prefer-default-export */
 export const CSV_PROCESSING_ERROR = "Error occurred while processing csv file";

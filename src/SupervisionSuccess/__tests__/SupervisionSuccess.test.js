@@ -3,8 +3,10 @@ import { act, render } from "@testing-library/react";
 
 import SupervisionSuccess from "../SupervisionSuccess";
 import LoadingScreen from "../components/LoadingScreen";
+import ErrorScreen from "../components/ErrorScreen";
 import SupervisionSuccessContainer from "../SupervisionSuccessContainer";
 import convertCSVStringToParams from "../utils/convertCSVStringToParams";
+import { CSV_PROCESSING_ERROR } from "../constants";
 
 jest.mock("../components/LoadingScreen", () => ({
   __esModule: true,
@@ -22,10 +24,11 @@ jest.mock("../utils/convertCSVStringToParams");
 
 describe("SupervisionSuccess tests", () => {
   const mockParams = "some params";
-  const mockPath = "some path";
+  const mockPath = "/some_path";
 
   beforeAll(() => {
     jest.spyOn(window, "fetch");
+    jest.spyOn(window.console, "error");
   });
 
   beforeEach(() => {
@@ -40,21 +43,35 @@ describe("SupervisionSuccess tests", () => {
 
   it("should receive and set params after mount", async () => {
     const mockCSVString = "some csv string";
-    const targetPromise = Promise.resolve(mockParams);
-    convertCSVStringToParams.mockReturnValue(targetPromise);
 
-    const text = async () => mockCSVString;
-    const blob = async () => ({ text });
+    convertCSVStringToParams.mockResolvedValueOnce(mockParams);
+
+    const text = jest.fn().mockResolvedValueOnce(mockCSVString);
+    const blob = jest.fn().mockResolvedValueOnce({ text });
     window.fetch.mockResolvedValueOnce({
       blob,
     });
 
-    render(<SupervisionSuccess path={mockPath} />);
+    await act(async () => {
+      render(<SupervisionSuccess path={mockPath} />);
+    });
 
     expect(window.fetch).toBeCalledWith(mockPath);
 
-    await act(() => targetPromise);
-
     expect(SupervisionSuccessContainer.mock.calls[0][0]).toStrictEqual({ params: mockParams });
+  });
+
+  it("should show error screen and log the error", async () => {
+    const mockError = "some error";
+    window.fetch.mockRejectedValueOnce(mockError);
+
+    await act(async () => {
+      render(<SupervisionSuccess path={mockPath} />);
+    });
+
+    expect(window.fetch).toBeCalledWith(mockPath);
+
+    expect(ErrorScreen.mock.calls[0][0].error).toBe(CSV_PROCESSING_ERROR);
+    expect(window.console.error).toBeCalledWith(mockError);
   });
 });
