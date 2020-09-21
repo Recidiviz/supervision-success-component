@@ -8,7 +8,7 @@ jest.mock("react-slider");
 
 describe("ChangeInRevocations tests", () => {
   const mockState = "Texas";
-  const mockFinalPopulation = 12000;
+  const mockFinalRevocations = 350;
   const mockChangeInRevocations = 50;
   const mockOnChangeInRevocationsChange = jest.fn();
   ReactSlider.mockReturnValue(null);
@@ -17,7 +17,7 @@ describe("ChangeInRevocations tests", () => {
     render(
       <ChangeInRevocations
         state={mockState}
-        finalPopulation={mockFinalPopulation}
+        finalRevocations={mockFinalRevocations}
         changeInRevocations={mockChangeInRevocations}
         onChangeInRevocationsChange={mockOnChangeInRevocationsChange}
       />
@@ -31,7 +31,7 @@ describe("ChangeInRevocations tests", () => {
     render(
       <ChangeInRevocations
         state={mockState}
-        finalPopulation={mockFinalPopulation}
+        finalRevocations={mockFinalRevocations}
         changeInRevocations={mockChangeInRevocations}
         onChangeInRevocationsChange={mockOnChangeInRevocationsChange}
       />
@@ -41,7 +41,7 @@ describe("ChangeInRevocations tests", () => {
       ReactSlider.mock.calls[0][0].renderThumb(mockThumbProps, mockThumbState)
     );
     expect(getByText("-40%")).toBeInTheDocument();
-    expect(getByText("12000")).toBeInTheDocument();
+    expect(getByText(mockFinalRevocations.toString())).toBeInTheDocument();
     expect(getByText("Violations resulting in Texas incarceration")).toBeInTheDocument();
   });
 });

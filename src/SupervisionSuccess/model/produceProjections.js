@@ -22,7 +22,7 @@ const ADDED_MONTHS = 5;
  *   chartData: {month: number, totalPopulation: number, baseline: number}[],
  *   prisonPopulationDiff: number,
  *   savings: number,
- *   finalPopulation: number,
+ *   finalRevocations: number,
  * }}
  */
 function produceProjections(params, implementationPeriod, projections, changeInRevocations) {
@@ -68,13 +68,11 @@ function produceProjections(params, implementationPeriod, projections, changeInR
     totalPopulation: newOffensePopulation + revocationsByMonth[month],
   }));
 
-  const finalPopulation = Math.round(chartData[months - 1].totalPopulation);
-
   return {
     chartData,
     savings: totalSavings,
-    prisonPopulationDiff: finalPopulation - baseline,
-    finalPopulation,
+    prisonPopulationDiff: Math.round(chartData[months - 1].totalPopulation) - baseline,
+    finalRevocations: Math.round(revocationsByMonth[months - 1]),
   };
 }
 
