@@ -18,6 +18,7 @@ const SupervisionSuccess = ({ path }) => {
         const response = await fetch(path);
         const blob = await response.blob();
         const CSVString = await blob.text();
+        // TODO(9): Add csv format validation and throw error if some field is missing
         const newParams = await convertCSVStringToParams(CSVString);
         setParams(newParams);
       } catch (e) {
