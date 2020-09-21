@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import prettifySavings from "../../utils/prettifySavings";
+
 import "./Outcomes.css";
 
 const Outcomes = ({ prisonPopulationDiff, savings }) => {
@@ -27,8 +29,9 @@ const Outcomes = ({ prisonPopulationDiff, savings }) => {
           <div className="outcomes_stat-key">{prisonPopulationDiffText}</div>
         </div>
         <div className="outcomes_stat">
-          {/*TODO(7): Replace with prettifySavings function*/}
-          <div className={`outcomes_stat-value ${savingsIconClass}`}>${Math.abs(savings)}M</div>
+          <div className={`outcomes_stat-value ${savingsIconClass}`}>
+            {prettifySavings(savings)}
+          </div>
           <div className="outcomes_stat-key">{savingsText}</div>
         </div>
       </div>

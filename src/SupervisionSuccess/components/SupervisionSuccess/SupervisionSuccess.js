@@ -11,10 +11,12 @@ import Outcomes from "../Outcomes";
 import "./SupervisionSuccess.css";
 
 const SupervisionSuccessComponent = ({
+  states,
   state,
   implementationPeriod,
   projections,
   changeInRevocations,
+  finalRevocations,
   prisonPopulationDiff,
   savings,
   onStateChange,
@@ -25,7 +27,7 @@ const SupervisionSuccessComponent = ({
 }) => (
   <section className="main-container">
     <header className="main-header">
-      <StatePicker state={state} onStateChange={onStateChange} />
+      <StatePicker states={states} state={state} onStateChange={onStateChange} />
       <ImplementationPeriodPicker
         implementationPeriod={implementationPeriod}
         onImplementationPeriodChange={onImplementationPeriodChange}
@@ -34,6 +36,8 @@ const SupervisionSuccessComponent = ({
     </header>
     <aside className="main-left-aside">
       <ChangeInRevocations
+        state={state}
+        finalRevocations={finalRevocations}
         changeInRevocations={changeInRevocations}
         onChangeInRevocationsChange={onChangeInRevocationsChange}
       />
@@ -48,10 +52,12 @@ const SupervisionSuccessComponent = ({
 );
 
 SupervisionSuccessComponent.propTypes = {
+  states: PropTypes.arrayOf(PropTypes.string).isRequired,
   state: PropTypes.string.isRequired,
   implementationPeriod: PropTypes.number.isRequired,
   projections: PropTypes.number.isRequired,
   changeInRevocations: PropTypes.number.isRequired,
+  finalRevocations: PropTypes.number.isRequired,
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
   onStateChange: PropTypes.func.isRequired,

@@ -13,7 +13,7 @@
     "react": "^16.13.1",
     "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3",
+    "react-scripts": "3.4.0",
     "react-select": "^3.1.0",
     "react-slider": "^1.0.9"
   },
@@ -57,7 +57,7 @@
   ],
   "jest": {
     "collectCoverageFrom": [
-      "src/SupervisionSuccess/**/*.{js}"
+      "!src/*.js"
     ],
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/__mocks__/styleMock.js"

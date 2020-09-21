@@ -5,10 +5,11 @@ import { Line } from "react-chartjs-2";
 import "./Chart.css";
 
 const VERTICAL_OFFSET = 0.05;
-const BASELINE_COLOR = "#ee3007";
-const TOTAL_POPULATION_COLOR = "#2b649c";
+export const BASELINE_COLOR = "#ee3007";
+export const TOTAL_POPULATION_COLOR = "#2b649c";
+export const TRANSPARENT_COLOR = "transparent";
 const TOOLTIP_BG_COLOR = "#091e32";
-const CONNECTING_LINE_COLOR = "#07aded";
+export const CONNECTING_LINE_COLOR = "#07aded";
 
 const Chart = ({ data }) => {
   const { chartData, min, max } = useMemo(
@@ -27,17 +28,13 @@ const Chart = ({ data }) => {
             acc.chartData.datasets[1].pointBorderColor.push(TOTAL_POPULATION_COLOR);
           } else {
             acc.chartData.labels.push("");
-            acc.chartData.datasets[0].pointBackgroundColor.push("transparent");
-            acc.chartData.datasets[0].pointBorderColor.push("transparent");
-            acc.chartData.datasets[1].pointBackgroundColor.push("transparent");
-            acc.chartData.datasets[1].pointBorderColor.push("transparent");
+            acc.chartData.datasets[0].pointBackgroundColor.push(TRANSPARENT_COLOR);
+            acc.chartData.datasets[0].pointBorderColor.push(TRANSPARENT_COLOR);
+            acc.chartData.datasets[1].pointBackgroundColor.push(TRANSPARENT_COLOR);
+            acc.chartData.datasets[1].pointBorderColor.push(TRANSPARENT_COLOR);
           }
-          if (baseline > acc.max || totalPopulation > acc.max) {
-            acc.max = Math.max(baseline, totalPopulation);
-          }
-          if (baseline < acc.min || totalPopulation < acc.min) {
-            acc.min = Math.min(baseline, totalPopulation);
-          }
+          acc.max = Math.max(baseline, totalPopulation, acc.max);
+          acc.min = Math.min(baseline, totalPopulation, acc.min);
           return acc;
         },
         {
@@ -111,7 +108,8 @@ const Chart = ({ data }) => {
           title: ([baseline, totalPopulation]) =>
             baseline && totalPopulation && `${totalPopulation.value - baseline.value} people`,
           label: () => null,
-          footer: ([baseline]) => baseline && `${baseline.label} years`,
+          footer: ([baseline]) =>
+            baseline && `${baseline.label} year${baseline.label === 1 ? "" : "s"}`,
         },
       },
     }),
