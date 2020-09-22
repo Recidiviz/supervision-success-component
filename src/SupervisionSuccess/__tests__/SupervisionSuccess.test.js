@@ -5,7 +5,7 @@ import SupervisionSuccess from "../SupervisionSuccess";
 import LoadingScreen from "../components/LoadingScreen";
 import ErrorScreen from "../components/ErrorScreen";
 import SupervisionSuccessContainer from "../SupervisionSuccessContainer";
-import convertCSVStringToParams from "../utils/convertCSVStringToParams";
+import deriveModelParamsFromCsvString from "../utils/deriveModelParamsFromCsvString";
 import { CSV_PROCESSING_ERROR } from "../constants";
 
 jest.mock("../components/LoadingScreen", () => ({
@@ -20,7 +20,7 @@ jest.mock("../SupervisionSuccessContainer", () => ({
   __esModule: true,
   default: jest.fn().mockReturnValue(null),
 }));
-jest.mock("../utils/convertCSVStringToParams");
+jest.mock("../utils/deriveModelParamsFromCsvString");
 
 describe("SupervisionSuccess tests", () => {
   const mockParams = "some params";
@@ -44,7 +44,7 @@ describe("SupervisionSuccess tests", () => {
   it("should receive and set params after mount", async () => {
     const mockCSVString = "some csv string";
 
-    convertCSVStringToParams.mockResolvedValueOnce(mockParams);
+    deriveModelParamsFromCsvString.mockResolvedValueOnce(mockParams);
 
     const text = jest.fn().mockResolvedValueOnce(mockCSVString);
     const blob = jest.fn().mockResolvedValueOnce({ text });

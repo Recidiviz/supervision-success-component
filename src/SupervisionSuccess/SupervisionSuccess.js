@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import SupervisionSuccessContainer from "./SupervisionSuccessContainer";
-import convertCSVStringToParams from "./utils/convertCSVStringToParams";
+import deriveModelParamsFromCsvString from "./utils/deriveModelParamsFromCsvString";
 import LoadingScreen from "./components/LoadingScreen";
 import ErrorScreen from "./components/ErrorScreen";
 import { CSV_PROCESSING_ERROR } from "./constants";
@@ -19,7 +19,7 @@ const SupervisionSuccess = ({ path }) => {
         const blob = await response.blob();
         const CSVString = await blob.text();
         // TODO(9): Add csv format validation and throw error if some field is missing
-        const newParams = await convertCSVStringToParams(CSVString);
+        const newParams = await deriveModelParamsFromCsvString(CSVString);
         setParams(newParams);
       } catch (e) {
         console.error(e);

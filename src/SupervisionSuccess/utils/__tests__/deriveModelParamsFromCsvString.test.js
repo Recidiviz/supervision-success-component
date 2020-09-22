@@ -1,10 +1,10 @@
 import csv from "csvtojson";
 
-import convertCSVStringToParams from "../convertCSVStringToParams";
+import deriveModelParamsFromCsvString from "../deriveModelParamsFromCsvString";
 
 jest.mock("csvtojson");
 
-describe("convertCSVStringToParams tests", () => {
+describe("deriveModelParamsFromCsvString tests", () => {
   const mockString = "some string";
   it("should convert csv string to params", () => {
     csv.mockReturnValue({
@@ -29,7 +29,7 @@ describe("convertCSVStringToParams tests", () => {
       ),
     });
 
-    expect(convertCSVStringToParams(mockString)).resolves.toStrictEqual({
+    expect(deriveModelParamsFromCsvString(mockString)).resolves.toStrictEqual({
       Alabama: {
         newOffensePopulation: 32928,
         revocationsTimescale: 2.258190983,

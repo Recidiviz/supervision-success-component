@@ -1,7 +1,8 @@
 import csv from "csvtojson";
 
 /**
- * Functions that extracts needed fields from csv and transforms to params object
+ * Function that extracts needed fields from the given CSV string and transforms
+ * them into parameters ready to be fed into the revocations model.
  * @param string - string representation of csv file
  * @returns {Promise<Object.<string, {
  *   newOffensePopulation: number
@@ -14,7 +15,7 @@ import csv from "csvtojson";
  *   }[]
  * }>>}
  */
-async function convertCSVStringToParams(string) {
+async function deriveModelParamsFromCsvString(string) {
   const json = await csv().fromString(string);
 
   return json.reduce(
@@ -55,4 +56,4 @@ async function convertCSVStringToParams(string) {
   );
 }
 
-export default convertCSVStringToParams;
+export default deriveModelParamsFromCsvString;

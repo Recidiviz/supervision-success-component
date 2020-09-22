@@ -17,7 +17,7 @@ describe("SupervisionSuccessContainer tests", () => {
   const mockState = Object.keys(params)[1];
   const mockImplementationPeriod = 9248;
   const mockChartData = "some chart data";
-  const mockFinalPopulation = 14920;
+  const mockFinalRevocations = 14920;
   const mockSavings = "some savings";
   const mockPrisonPopulationDiff = "some diff";
   const mockProjections = "some projections";
@@ -28,7 +28,7 @@ describe("SupervisionSuccessContainer tests", () => {
       chartData: mockChartData,
       savings: mockSavings,
       prisonPopulationDiff: mockPrisonPopulationDiff,
-      finalPopulation: mockFinalPopulation,
+      finalRevocations: mockFinalRevocations,
     });
   });
 
@@ -50,7 +50,7 @@ describe("SupervisionSuccessContainer tests", () => {
       savings: mockSavings,
       chartData: mockChartData,
       prisonPopulationDiff: mockPrisonPopulationDiff,
-      finalPopulation: mockFinalPopulation,
+      finalRevocations: mockFinalRevocations,
     });
   });
 
