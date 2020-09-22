@@ -5,6 +5,7 @@ import { Line } from "react-chartjs-2";
 import "./Chart.css";
 
 const VERTICAL_OFFSET = 0.05;
+const Y_AXIS_OFFSET = 3;
 export const BASELINE_COLOR = "#ee3007";
 export const TOTAL_POPULATION_COLOR = "#2b649c";
 export const TRANSPARENT_COLOR = "transparent";
@@ -33,8 +34,8 @@ const Chart = ({ data }) => {
             acc.chartData.datasets[1].pointBackgroundColor.push(TRANSPARENT_COLOR);
             acc.chartData.datasets[1].pointBorderColor.push(TRANSPARENT_COLOR);
           }
-          acc.max = Math.max(baseline, totalPopulation, acc.max);
-          acc.min = Math.min(baseline, totalPopulation, acc.min);
+          acc.max = Math.round(Math.max(baseline, totalPopulation, acc.max));
+          acc.min = Math.round(Math.min(baseline, totalPopulation, acc.min));
           return acc;
         },
         {
@@ -81,8 +82,8 @@ const Chart = ({ data }) => {
               padding: 20,
               fontSize: 16,
               precision: 0,
-              suggestedMax: max + (max - min) * VERTICAL_OFFSET,
-              suggestedMin: min - (max - min) * VERTICAL_OFFSET,
+              suggestedMax: min === max ? max + Y_AXIS_OFFSET : max + (max - min) * VERTICAL_OFFSET,
+              suggestedMin: min === max ? max - Y_AXIS_OFFSET : min - (max - min) * VERTICAL_OFFSET,
             },
           },
         ],
