@@ -1,18 +1,8 @@
 const params = {
   Alabama: {
-    revocationsPopulation: 672,
-    populationFraction: 0.02,
-    totalPopulation: 33600,
     newOffensePopulation: 32928,
-    revocationsAdmissions: 3571,
-    admissionsFraction: 0.3,
-    totalAdmissions: 11903.33333,
-    newOffenseAdmissions: 8332.333333,
-    newOffenseAvgTimeServedInYears: 47.42201064,
     revocationsTimescale: 2.258190983,
-    newOffenseA: 14.64216936,
     revocationA: 131.7795242,
-    totalCostPerInmate: 0.01785714286,
     marginalCostPerInmate: 0.001,
     savingsMap: [
       {
@@ -34,19 +24,9 @@ const params = {
     ],
   },
   Alaska: {
-    revocationsPopulation: 1099,
-    populationFraction: 0.25,
-    totalPopulation: 4396,
     newOffensePopulation: 3297,
-    revocationsAdmissions: 4895,
-    admissionsFraction: 0.17,
-    totalAdmissions: 28794.11765,
-    newOffenseAdmissions: 23899.11765,
-    newOffenseAvgTimeServedInYears: 1.655458607,
     revocationsTimescale: 2.694177732,
-    newOffenseA: 1203.046171,
     revocationA: 151.4067397,
-    totalCostPerInmate: 0.07279344859,
     marginalCostPerInmate: 0.001,
     savingsMap: [
       {
@@ -68,19 +48,9 @@ const params = {
     ],
   },
   Texas: {
-    revocationsPopulation: 22940,
-    populationFraction: 0.16,
-    totalPopulation: 143375,
     newOffensePopulation: 120435,
-    revocationsAdmissions: 30460,
-    admissionsFraction: 0.47,
-    totalAdmissions: 64808.51064,
-    newOffenseAdmissions: 34348.51064,
-    newOffenseAvgTimeServedInYears: 42.07518676,
     revocationsTimescale: 9.037426133,
-    newOffenseA: 68.03002213,
     revocationA: 280.8690545,
-    totalCostPerInmate: 0.02262423714,
     marginalCostPerInmate: 0.001,
     savingsMap: [
       {
