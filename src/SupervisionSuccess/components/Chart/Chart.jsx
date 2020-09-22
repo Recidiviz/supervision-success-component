@@ -80,6 +80,7 @@ const Chart = ({ data }) => {
             ticks: {
               padding: 20,
               fontSize: 16,
+              precision: 0,
               suggestedMax: max + (max - min) * VERTICAL_OFFSET,
               suggestedMin: min - (max - min) * VERTICAL_OFFSET,
             },
