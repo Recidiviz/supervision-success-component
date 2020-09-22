@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Picker from "../Picker";
 
-import "./StatePicker.css";
+import "./StatePicker.scss";
 
 const StatePicker = ({ states, state, onStateChange }) => {
   const options = states.map((item) => ({

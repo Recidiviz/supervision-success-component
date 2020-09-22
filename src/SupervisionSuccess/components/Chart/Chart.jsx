@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 
-import "./Chart.css";
+import "./Chart.scss";
 
 const VERTICAL_OFFSET = 0.05;
 export const BASELINE_COLOR = "#ee3007";

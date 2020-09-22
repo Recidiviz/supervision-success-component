@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import ReactSlider from "react-slider";
 import debounce from "debounce";
 
-import "./ChangeInRevocations.css";
+import "./ChangeInRevocations.scss";
 
 const ChangeInRevocations = ({
   state,

@@ -8,9 +8,12 @@ import ChangeInRevocations from "../ChangeInRevocations";
 import Chart from "../Chart/Chart";
 import Outcomes from "../Outcomes";
 
-import "./SupervisionSuccess.css";
+import "./SupervisionSuccess.scss";
 
 const SupervisionSuccessComponent = ({
+  title,
+  description,
+  methodology,
   states,
   state,
   implementationPeriod,
@@ -25,29 +28,41 @@ const SupervisionSuccessComponent = ({
   onChangeInRevocationsChange,
   chartData,
 }) => (
-  <section className="main-container">
-    <header className="main-header">
-      <StatePicker states={states} state={state} onStateChange={onStateChange} />
-      <ImplementationPeriodPicker
-        implementationPeriod={implementationPeriod}
-        onImplementationPeriodChange={onImplementationPeriodChange}
-      />
-      <ProjectionsPicker projections={projections} onProjectionsChange={onProjectionsChange} />
+  <section className="main">
+    <header className="main_description">
+      <div className="main_description-container">
+        <h2 className="main_description-heading">{title}</h2>
+        <p className="main_description-text">{description}</p>
+      </div>
     </header>
-    <aside className="main-left-aside">
-      <ChangeInRevocations
-        state={state}
-        finalRevocations={finalRevocations}
-        changeInRevocations={changeInRevocations}
-        onChangeInRevocationsChange={onChangeInRevocationsChange}
-      />
-    </aside>
-    <section>
-      <Chart data={chartData} />
+    <section className="main_container">
+      <header className="main_header">
+        <StatePicker states={states} state={state} onStateChange={onStateChange} />
+        <ImplementationPeriodPicker
+          implementationPeriod={implementationPeriod}
+          onImplementationPeriodChange={onImplementationPeriodChange}
+        />
+        <ProjectionsPicker projections={projections} onProjectionsChange={onProjectionsChange} />
+      </header>
+      <aside className="main_left-aside">
+        <ChangeInRevocations
+          state={state}
+          finalRevocations={finalRevocations}
+          changeInRevocations={changeInRevocations}
+          onChangeInRevocationsChange={onChangeInRevocationsChange}
+        />
+      </aside>
+      <section>
+        <Chart data={chartData} />
+      </section>
+      <aside className="main_right-aside">
+        <Outcomes prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
+      </aside>
     </section>
-    <aside className="main-right-aside">
-      <Outcomes prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
-    </aside>
+    <footer className="main_methodology">
+      <h3 className="main_methodology-heading">Our Methodology</h3>
+      <p className="main_methodology-text">{methodology}</p>
+    </footer>
   </section>
 );
 
@@ -71,6 +86,9 @@ SupervisionSuccessComponent.propTypes = {
       totalPopulation: PropTypes.number,
     })
   ).isRequired,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  methodology: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default SupervisionSuccessComponent;

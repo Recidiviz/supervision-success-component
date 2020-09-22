@@ -1,0 +1,14 @@
+.projections-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  grid-column: 4 / 5;
+
+  &_label {
+    font-size: 1rem;
+  }
+
+  &_picker {
+    margin-bottom: 0.5rem;
+  }
+}

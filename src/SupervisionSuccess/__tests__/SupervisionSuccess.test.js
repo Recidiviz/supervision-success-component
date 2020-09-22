@@ -34,17 +34,14 @@ describe("SupervisionSuccess tests", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    render(<SupervisionSuccess params={params} description="some description" />);
   });
 
   it("should render SupervisionSuccessComponent", () => {
-    render(<SupervisionSuccess params={params} />);
-
     expect(SupervisionSuccessComponent).toBeCalled();
   });
 
   it("should be updated with transformed data on mount", () => {
-    render(<SupervisionSuccess params={params} />);
-
     expect(produceProjections).toBeCalled();
     expect(SupervisionSuccessComponent.mock.calls[1][0]).toMatchObject({
       savings: mockSavings,
@@ -55,8 +52,6 @@ describe("SupervisionSuccess tests", () => {
   });
 
   it("should change state", () => {
-    render(<SupervisionSuccess params={params} />);
-
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onStateChange(mockState);
     });
@@ -64,8 +59,6 @@ describe("SupervisionSuccess tests", () => {
   });
 
   it("should change implementation period", () => {
-    render(<SupervisionSuccess params={params} />);
-
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onImplementationPeriodChange(
         mockImplementationPeriod
@@ -77,8 +70,6 @@ describe("SupervisionSuccess tests", () => {
   });
 
   it("should change projections", () => {
-    render(<SupervisionSuccess params={params} />);
-
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onProjectionsChange(mockProjections);
     });
@@ -86,8 +77,6 @@ describe("SupervisionSuccess tests", () => {
   });
 
   it("should change changeInRevocations", () => {
-    render(<SupervisionSuccess params={params} />);
-
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onChangeInRevocationsChange(
         mockChangeInRevocations

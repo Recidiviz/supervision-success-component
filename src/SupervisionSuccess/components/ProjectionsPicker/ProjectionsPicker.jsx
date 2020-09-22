@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Picker from "../Picker";
 
-import "./ProjectionsPicker.css";
+import "./ProjectionsPicker.scss";
 
 const options = [
   { value: 1, label: "1" },
@@ -28,7 +28,7 @@ const ProjectionsPicker = ({ projections, onProjectionsChange }) => {
   );
 
   return (
-    <div className="projections-picker_root">
+    <div className="projections-picker">
       <span className="projections-picker_label">Projections</span>
       <Picker
         className="projections-picker_picker"
