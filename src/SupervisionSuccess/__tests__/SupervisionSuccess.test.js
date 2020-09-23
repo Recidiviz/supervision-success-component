@@ -1,89 +1,77 @@
 import React from "react";
 import { act, render } from "@testing-library/react";
 
-import params from "../model/__mocks__/params.mock";
-
 import SupervisionSuccess from "../SupervisionSuccess";
-import SupervisionSuccessComponent from "../components/SupervisionSuccess";
-import produceProjections from "../model/produceProjections";
+import LoadingScreen from "../components/LoadingScreen";
+import ErrorScreen from "../components/ErrorScreen";
+import SupervisionSuccessContainer from "../SupervisionSuccessContainer";
+import deriveModelParamsFromCsvString from "../utils/deriveModelParamsFromCsvString";
+import { CSV_PROCESSING_ERROR } from "../constants";
 
-jest.mock("../model/produceProjections");
-jest.mock("../components/SupervisionSuccess", () => ({
+jest.mock("../components/LoadingScreen", () => ({
   __esModule: true,
   default: jest.fn().mockReturnValue(null),
 }));
+jest.mock("../components/ErrorScreen", () => ({
+  __esModule: true,
+  default: jest.fn().mockReturnValue(null),
+}));
+jest.mock("../SupervisionSuccessContainer", () => ({
+  __esModule: true,
+  default: jest.fn().mockReturnValue(null),
+}));
+jest.mock("../utils/deriveModelParamsFromCsvString");
 
 describe("SupervisionSuccess tests", () => {
-  const mockState = Object.keys(params)[1];
-  const mockImplementationPeriod = 9248;
-  const mockChartData = "some chart data";
-  const mockFinalRevocations = 14920;
-  const mockSavings = "some savings";
-  const mockPrisonPopulationDiff = "some diff";
-  const mockProjections = "some projections";
-  const mockChangeInRevocations = "some change in revo";
+  const mockParams = "some params";
+  const mockPath = "/some_path";
 
   beforeAll(() => {
-    produceProjections.mockReturnValue({
-      chartData: mockChartData,
-      savings: mockSavings,
-      prisonPopulationDiff: mockPrisonPopulationDiff,
-      finalRevocations: mockFinalRevocations,
-    });
+    jest.spyOn(window, "fetch");
+    jest.spyOn(window.console, "error");
   });
 
   beforeEach(() => {
     jest.clearAllMocks();
-    render(<SupervisionSuccess params={params} description="some description" />);
   });
 
-  it("should render SupervisionSuccessComponent", () => {
-    expect(SupervisionSuccessComponent).toBeCalled();
+  it("should render LoadingScreen while loading", () => {
+    render(<SupervisionSuccess path={mockPath} />);
+
+    expect(LoadingScreen).toBeCalled();
   });
 
-  it("should be updated with transformed data on mount", () => {
-    expect(produceProjections).toBeCalled();
-    expect(SupervisionSuccessComponent.mock.calls[1][0]).toMatchObject({
-      savings: mockSavings,
-      chartData: mockChartData,
-      prisonPopulationDiff: mockPrisonPopulationDiff,
-      finalRevocations: mockFinalRevocations,
+  it("should receive and set params after mount", async () => {
+    const mockCSVString = "some csv string";
+
+    deriveModelParamsFromCsvString.mockResolvedValueOnce(mockParams);
+
+    const text = jest.fn().mockResolvedValueOnce(mockCSVString);
+    const blob = jest.fn().mockResolvedValueOnce({ text });
+    window.fetch.mockResolvedValueOnce({
+      blob,
     });
+
+    await act(async () => {
+      render(<SupervisionSuccess path={mockPath} />);
+    });
+
+    expect(window.fetch).toBeCalledWith(mockPath);
+
+    expect(SupervisionSuccessContainer.mock.calls[0][0]).toStrictEqual({ params: mockParams });
   });
 
-  it("should change state", () => {
-    act(() => {
-      SupervisionSuccessComponent.mock.calls[0][0].onStateChange(mockState);
-    });
-    expect(SupervisionSuccessComponent.mock.calls[2][0].state).toBe(mockState);
-  });
+  it("should show error screen and log the error", async () => {
+    const mockError = "some error";
+    window.fetch.mockRejectedValueOnce(mockError);
 
-  it("should change implementation period", () => {
-    act(() => {
-      SupervisionSuccessComponent.mock.calls[0][0].onImplementationPeriodChange(
-        mockImplementationPeriod
-      );
+    await act(async () => {
+      render(<SupervisionSuccess path={mockPath} />);
     });
-    expect(SupervisionSuccessComponent.mock.calls[2][0].implementationPeriod).toBe(
-      mockImplementationPeriod
-    );
-  });
 
-  it("should change projections", () => {
-    act(() => {
-      SupervisionSuccessComponent.mock.calls[0][0].onProjectionsChange(mockProjections);
-    });
-    expect(SupervisionSuccessComponent.mock.calls[2][0].projections).toBe(mockProjections);
-  });
+    expect(window.fetch).toBeCalledWith(mockPath);
 
-  it("should change changeInRevocations", () => {
-    act(() => {
-      SupervisionSuccessComponent.mock.calls[0][0].onChangeInRevocationsChange(
-        mockChangeInRevocations
-      );
-    });
-    expect(SupervisionSuccessComponent.mock.calls[2][0].changeInRevocations).toBe(
-      mockChangeInRevocations
-    );
+    expect(ErrorScreen.mock.calls[0][0].error).toBe(CSV_PROCESSING_ERROR);
+    expect(window.console.error).toBeCalledWith(mockError);
   });
 });

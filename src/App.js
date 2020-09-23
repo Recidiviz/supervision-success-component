@@ -1,6 +1,6 @@
 import React from "react";
 import SupervisionSuccess from "./SupervisionSuccess";
-import params from "./SupervisionSuccess/model/__mocks__/params.mock";
+import params from "./params.csv";
 
 import "./App.scss";
 
@@ -28,7 +28,7 @@ const App = () => (
       </div>
     </header>
     <section className="app_supervision-success">
-      <SupervisionSuccess params={params} />
+      <SupervisionSuccess path={params} />
     </section>
     <footer className="app_footer">
       <h3 className="app_footer-heading">Our Methodology</h3>
@@ -41,4 +41,5 @@ const App = () => (
     </footer>
   </section>
 );
+
 export default App;
