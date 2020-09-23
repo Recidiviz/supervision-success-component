@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Picker from "../Picker";
 
-import "./ImplementationPeriodPicker.css";
+import "./ImplementationPeriodPicker.scss";
 
 const options = [
   { value: 0, label: "0" },
@@ -28,7 +28,7 @@ const ImplementationPeriodPicker = ({ implementationPeriod, onImplementationPeri
   );
 
   return (
-    <div className="implementation-period-picker_root">
+    <div className="implementation-period-picker">
       <span className="implementation-period-picker_label">Implementation period</span>
       <Picker
         className="implementation-period-picker_picker"

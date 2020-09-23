@@ -5,10 +5,10 @@ import StatePicker from "../StatePicker";
 import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
 import ProjectionsPicker from "../ProjectionsPicker";
 import ChangeInRevocations from "../ChangeInRevocations";
-import Chart from "../Chart/Chart";
+import Chart from "../Chart";
 import Outcomes from "../Outcomes";
 
-import "./SupervisionSuccess.css";
+import "./SupervisionSuccess.scss";
 
 const SupervisionSuccessComponent = ({
   states,
@@ -25,8 +25,8 @@ const SupervisionSuccessComponent = ({
   onChangeInRevocationsChange,
   chartData,
 }) => (
-  <section className="main-container">
-    <header className="main-header">
+  <section className="main">
+    <header className="main_header">
       <StatePicker states={states} state={state} onStateChange={onStateChange} />
       <ImplementationPeriodPicker
         implementationPeriod={implementationPeriod}
@@ -34,7 +34,7 @@ const SupervisionSuccessComponent = ({
       />
       <ProjectionsPicker projections={projections} onProjectionsChange={onProjectionsChange} />
     </header>
-    <aside className="main-left-aside">
+    <aside className="main_left-aside">
       <ChangeInRevocations
         state={state}
         finalRevocations={finalRevocations}
@@ -45,7 +45,7 @@ const SupervisionSuccessComponent = ({
     <section>
       <Chart data={chartData} />
     </section>
-    <aside className="main-right-aside">
+    <aside className="main_right-aside">
       <Outcomes prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
     </aside>
   </section>

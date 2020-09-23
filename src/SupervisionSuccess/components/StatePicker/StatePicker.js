@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Picker from "../Picker";
 
-import "./StatePicker.css";
+import "./StatePicker.scss";
 
 const StatePicker = ({ states, state, onStateChange }) => {
   const options = states.map((item) => ({
@@ -16,7 +16,6 @@ const StatePicker = ({ states, state, onStateChange }) => {
     [onStateChange]
   );
 
-  // TODO: Need to know where from year need to come
   return (
     <div className="state-picker_root">
       <span className="state-picker_label">Choose state</span>

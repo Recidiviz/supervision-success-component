@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import prettifySavings from "../../utils/prettifySavings";
 
-import "./Outcomes.css";
+import "./Outcomes.scss";
 
 const Outcomes = ({ prisonPopulationDiff, savings }) => {
   const [prisonPopulationDiffText, prisonPopulationDiffIconClass] = (() => {

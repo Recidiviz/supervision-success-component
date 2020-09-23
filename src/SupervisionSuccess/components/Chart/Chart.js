@@ -1,8 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 
-import "./Chart.css";
+import "./Chart.scss";
 
 const VERTICAL_OFFSET = 0.05;
 const Y_AXIS_OFFSET = 3;
@@ -119,15 +120,15 @@ const Chart = ({ data }) => {
   );
 
   const drawLinePlugin = {
-    afterDraw: function (chart) {
+    afterDraw(chart) {
       if (chart.tooltip._active && chart.tooltip._active.length) {
         const [firstPoint, secondPoint] = chart.controller.tooltip._active;
         if (firstPoint._index % 12 !== 0) return;
         const topY = Math.max(firstPoint._model.y, secondPoint._model.y);
         const bottomY = Math.min(firstPoint._model.y, secondPoint._model.y);
         if (topY === bottomY) return;
-        const x = firstPoint._model.x;
-        const ctx = chart.ctx;
+        const { x } = firstPoint._model;
+        const { ctx } = chart;
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(x, topY - 5);
