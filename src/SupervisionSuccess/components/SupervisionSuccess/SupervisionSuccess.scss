@@ -1,46 +1,10 @@
 .main {
-  &_description {
-    display: flex;
-    flex-direction: column;
-    padding-top: 2rem;
-    padding-bottom: 10rem;
-    background-color: #011e35;
-  }
-
-  &_description-container {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  &_description-heading {
-    font-weight: 700;
-    color: #fff;
-    font-size: 2rem;
-  }
-  
-  &_description-text {
-    font-size: 1rem;
-    line-height: 1.5rem;
-    color: #fff;
-    a {
-      color: #fff
-    }
-  }
-
-  &_container {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;
-    margin-top: -8rem;
-    border-top: 5px solid #27edc3;
-    box-shadow: 1px 2px 4px 0.5px rgba(0, 0, 0, 0.11);
-    background-color: #ffffff;
-    display: grid;
-    grid-template-columns: 280px auto 300px;
-    grid-template-rows: auto auto;
-  }
-
+  border-top: 5px solid #27edc3;
+  box-shadow: 1px 2px 4px 0.5px rgba(0, 0, 0, 0.11);
+  background-color: #ffffff;
+  display: grid;
+  grid-template-columns: 280px auto 300px;
+  grid-template-rows: auto auto;
   &_header {
     display: grid;
     grid-gap: 4rem;
@@ -57,24 +21,5 @@
 
   &_right-aside {
     border-left: 1px solid #ededed;
-  }
-
-  &_methodology {
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;
-  }
-
-  &_methodology-heading {
-    font-weight: 700;
-    color: #000;
-    font-size: 1.25rem;
-  }
-
-  &_methodology-text {
-    font-size: 1rem;
-    line-height: 1.5rem;
   }
 }
