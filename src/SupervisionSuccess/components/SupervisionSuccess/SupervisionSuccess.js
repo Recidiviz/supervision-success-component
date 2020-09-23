@@ -5,7 +5,7 @@ import StatePicker from "../StatePicker";
 import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
 import ProjectionsPicker from "../ProjectionsPicker";
 import ChangeInRevocations from "../ChangeInRevocations";
-import Chart from "../Chart/Chart";
+import Chart from "../Chart";
 import Outcomes from "../Outcomes";
 
 import "./SupervisionSuccess.scss";
