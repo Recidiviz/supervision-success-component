@@ -1,5 +1,5 @@
 import csv from "csvtojson";
-import { ERROR_CHECKPOINTS } from "../constants";
+import { ERROR_CHECKPOINTS, ERROR_NO_ROWS } from "../constants";
 import getMissingFieldsError from "./getMissingFieldsError";
 
 /**
@@ -19,6 +19,9 @@ import getMissingFieldsError from "./getMissingFieldsError";
  */
 async function deriveModelParamsFromCsvString(string) {
   const json = await csv().fromString(string);
+  if (!json.length) {
+    throw new Error(ERROR_NO_ROWS);
+  }
 
   return json.reduce(
     (

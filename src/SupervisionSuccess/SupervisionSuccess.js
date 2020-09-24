@@ -16,7 +16,8 @@ const SupervisionSuccess = ({ path }) => {
       try {
         const response = await fetch(path);
         if (!response.ok) {
-          throw new Error(ERROR_RESPONSE_NOT_OK);
+          const text = await response.text();
+          throw new Error(ERROR_RESPONSE_NOT_OK(text));
         }
         const blob = await response.blob();
         if (blob.type !== "text/csv") {

@@ -2,7 +2,7 @@ import csv from "csvtojson";
 
 import deriveModelParamsFromCsvString from "../deriveModelParamsFromCsvString";
 import getMissingFieldsError from "../getMissingFieldsError";
-import { ERROR_CHECKPOINTS } from "../../constants";
+import { ERROR_CHECKPOINTS, ERROR_NO_ROWS } from "../../constants";
 
 jest.mock("csvtojson");
 jest.mock("../getMissingFieldsError");
@@ -146,5 +146,13 @@ describe("deriveModelParamsFromCsvString tests", () => {
     expect(deriveModelParamsFromCsvString(mockString)).rejects.toThrowError(
       Error(ERROR_CHECKPOINTS)
     );
+  });
+
+  it("should throw error if no data", () => {
+    csv.mockReturnValue({
+      fromString: jest.fn().mockResolvedValue([]),
+    });
+
+    expect(deriveModelParamsFromCsvString(mockString)).rejects.toThrowError(Error(ERROR_NO_ROWS));
   });
 });

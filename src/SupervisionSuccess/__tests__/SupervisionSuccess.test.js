@@ -61,7 +61,9 @@ describe("SupervisionSuccess tests", () => {
   });
 
   it("should throw error if response is not OK", async () => {
-    window.fetch.mockResolvedValueOnce({ ok: false });
+    const mockResponse = "some response";
+    const text = jest.fn().mockResolvedValue(mockResponse);
+    window.fetch.mockResolvedValueOnce({ ok: false, text });
 
     await act(async () => {
       render(<SupervisionSuccess path={mockPath} />);
@@ -69,7 +71,9 @@ describe("SupervisionSuccess tests", () => {
 
     expect(SupervisionSuccessContainer.mock.calls[0][0]).toMatchObject({ isError: true });
 
-    expect(window.console.log).toBeCalledWith(Error(ERROR_RESPONSE_NOT_OK).toString());
+    expect(window.console.log).toBeCalledWith(
+      Error(ERROR_RESPONSE_NOT_OK(mockResponse)).toString()
+    );
   });
 
   it("should throw error if fetched non-csv file", async () => {
