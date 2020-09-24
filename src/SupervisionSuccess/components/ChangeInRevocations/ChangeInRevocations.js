@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import ReactSlider from "react-slider";
-import debounce from "debounce";
+import useIsMobile from "../../utils/useIsMobile";
 
 import "./ChangeInRevocations.scss";
 
@@ -11,17 +11,23 @@ const ChangeInRevocations = ({
   changeInRevocations,
   onChangeInRevocationsChange,
 }) => {
+  const [valueNow, setValueNow] = useState(changeInRevocations);
+  const isMobile = useIsMobile();
   const renderThumb = useCallback(
-    (props, thumbState) => (
+    (props) => (
       <span {...props} className="revocations-slider_thumb">
-        <span className="revocations-slider_percent">{thumbState.valueNow}%</span>
-        <span className="revocations-slider_hint">
-          <b className="revocations-slider_hint-count">{finalRevocations}</b> Violations resulting
-          in {state} incarceration
-        </span>
+        {!isMobile && (
+          <>
+            <span className="revocations-slider_percent">{valueNow}%</span>
+            <span className="revocations-slider_hint">
+              <b className="revocations-slider_hint-count">{finalRevocations}</b> Violations
+              resulting in {state} incarceration
+            </span>
+          </>
+        )}
       </span>
     ),
-    [finalRevocations, state]
+    [isMobile, finalRevocations, state, valueNow]
   );
 
   return (
@@ -30,17 +36,27 @@ const ChangeInRevocations = ({
       <div className="revocations-slider_wrapper">
         <span className="revocations-slider_label">+100%</span>
         <ReactSlider
-          orientation="vertical"
+          orientation={isMobile ? "horizontal" : "vertical"}
           min={-100}
           max={100}
-          invert
+          invert={!isMobile}
           defaultValue={changeInRevocations}
           className="revocations-slider_track"
           renderThumb={renderThumb}
-          onChange={debounce(onChangeInRevocationsChange, 200)}
+          onChange={setValueNow}
+          onAfterChange={onChangeInRevocationsChange}
         />
         <span className="revocations-slider_label">-100%</span>
       </div>
+      {isMobile && (
+        <div className="revocations-slider_footer">
+          <span className="revocations-slider_percent">{valueNow}%</span>
+          <span className="revocations-slider_hint">
+            <b className="revocations-slider_hint-count">{finalRevocations}</b> Violations resulting
+            in {state} incarceration
+          </span>
+        </div>
+      )}
     </div>
   );
 };

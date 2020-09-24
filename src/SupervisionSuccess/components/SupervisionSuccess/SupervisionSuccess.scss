@@ -1,25 +1,50 @@
+@import "../../variables";
 .main {
   border-top: 5px solid #27edc3;
   box-shadow: 1px 2px 4px 0.5px rgba(0, 0, 0, 0.11);
   background-color: #ffffff;
   display: grid;
-  grid-template-columns: 280px auto 300px;
+  grid-template-columns: 17rem auto 18rem;
   grid-template-rows: auto auto;
+  @media (max-width: $lg) {
+    grid-template-columns: 15rem auto 15rem;
+  }
+  @media (max-width: $md) {
+    display: flex;
+    flex-direction: column;
+  }
   &_header {
     display: grid;
     grid-gap: 4rem;
     grid-template-columns: auto 1fr auto auto;
-    padding: 1.25rem 2.5rem;
+    padding: 1.25rem 1.5rem;
     border-bottom: 1px solid #ededed;
     grid-column: span 3;
     align-items: center;
+    @media (max-width: $md) {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      padding-left: 0;
+      padding-right: 0;
+      padding-bottom: 0;
+      grid-gap: 0;
+      border-bottom: 0;
+    }
   }
 
   &_left-aside {
     border-right: 1px solid #ededed;
+    @media (max-width: $md) {
+      border-right: 0;
+      border-bottom: 1px solid #ededed;
+    }
   }
 
   &_right-aside {
     border-left: 1px solid #ededed;
+    @media (max-width: $md) {
+      border-left: 0;
+    }
   }
 }

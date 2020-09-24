@@ -1,16 +1,26 @@
+@import "../../variables";
 .chart {
   padding-top: 1.5rem;
-  padding-left: 2rem;
+  padding-bottom: 1.5rem;
   overflow: hidden;
+  border-bottom: 1px solid #ededed;
 
   &_heading {
     margin-bottom: 2rem;
+    padding-left: 2rem;
     font-weight: 700;
     font-size: 1rem;
+    @media (max-width: $md) {
+      padding-left: 0.75rem;
+    }
   }
 
   &_chart {
-    margin-left: -25px;
-    transform: translateX(25px);
+    width: 100%;
+    margin-left: -2rem;
+    transform: translateX(4rem);
+    @media (max-width: $md) {
+      transform: translateX(2.75rem);
+    }
   }
 }

@@ -7,6 +7,7 @@ import deriveModelParamsFromCsvString from "./utils/deriveModelParamsFromCsvStri
 import LoadingScreen from "./components/LoadingScreen";
 import ErrorScreen from "./components/ErrorScreen";
 import { CSV_PROCESSING_ERROR } from "./constants";
+import "blob-polyfill";
 
 const SupervisionSuccess = ({ path }) => {
   const [error, setError] = useState(null);
