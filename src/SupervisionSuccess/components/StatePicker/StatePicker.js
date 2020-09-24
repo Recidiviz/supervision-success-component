@@ -17,7 +17,7 @@ const StatePicker = ({ states, state, onStateChange }) => {
   );
 
   return (
-    <div className="state-picker_root">
+    <div className="state-picker">
       <span className="state-picker_label">Choose state</span>
       <Picker
         className="state-picker_picker"
