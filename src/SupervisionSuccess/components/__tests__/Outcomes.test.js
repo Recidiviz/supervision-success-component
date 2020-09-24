@@ -30,4 +30,10 @@ describe("Outcomes tests", () => {
   it("Should render neutral results", () => {
     render(<Outcomes savings={0} prisonPopulationDiff={0} />);
   });
+
+  it("Should render '-' if isError = true", () => {
+    const { findAllByText } = render(<Outcomes isError savings={0} prisonPopulationDiff={0} />);
+
+    expect(findAllByText("-")).resolves.toHaveLength(2);
+  });
 });

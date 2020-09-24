@@ -1,4 +1,6 @@
 import csv from "csvtojson";
+import { ERROR_CHECKPOINTS } from "../constants";
+import getMissingFieldsError from "./getMissingFieldsError";
 
 /**
  * Function that extracts needed fields from the given CSV string and transforms
@@ -30,9 +32,28 @@ async function deriveModelParamsFromCsvString(string) {
         ...row
       }
     ) => {
+      const requiredFields = {
+        state,
+        newOffensePopulation,
+        revocationA,
+        revocationsTimescale,
+        marginalCostPerInmate,
+      };
+      const missingFields = Object.keys(requiredFields).filter(
+        (key) => typeof requiredFields[key] !== "string"
+      );
+
+      if (missingFields.length) {
+        throw new Error(getMissingFieldsError(missingFields));
+      }
+
       const checkpointNumbers = Object.keys(row)
         .filter((key) => key.startsWith("checkpoint"))
         .map((checkpoint) => checkpoint.replace("checkpoint", ""));
+
+      if (checkpointNumbers.some((checkpointNumber) => !row[`savings${checkpointNumber}`])) {
+        throw new Error(ERROR_CHECKPOINTS);
+      }
 
       const savingsMap = checkpointNumbers
         .map((checkpointNumber) => ({

@@ -226,4 +226,10 @@ describe("Chart tests", () => {
 
     drawLinePlugin.afterDraw(mockChart);
   });
+
+  it("should not render chart if isError = true", () => {
+    render(<Chart isError data={[]} />);
+
+    expect(Line).toHaveBeenCalledTimes(0);
+  });
 });
