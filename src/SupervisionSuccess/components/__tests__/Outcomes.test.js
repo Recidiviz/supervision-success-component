@@ -28,6 +28,9 @@ describe("Outcomes tests", () => {
   });
 
   it("Should render neutral results", () => {
-    render(<Outcomes savings={0} prisonPopulationDiff={0} />);
+    const { getByText } = render(<Outcomes savings={0} prisonPopulationDiff={0} />);
+
+    expect(getByText("No change in population")).toBeInTheDocument();
+    expect(getByText("No change in cost")).toBeInTheDocument();
   });
 });
