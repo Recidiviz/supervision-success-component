@@ -1,0 +1,22 @@
+@import "../../variables";
+.implementation-period-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  grid-column: 3 / 4;
+  @media (max-width: $md) {
+    border-bottom: 1px solid #ededed;
+    padding: 1rem 0.75rem;
+  }
+
+  &_label {
+    font-size: 1rem;
+    @media (max-width: $lg) {
+      font-size: 0.875rem;
+    }
+  }
+
+  &_picker {
+    margin-bottom: 0.5rem;
+  }
+}

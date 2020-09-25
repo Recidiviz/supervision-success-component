@@ -1,0 +1,77 @@
+@import "../../variables";
+.outcomes {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 1.5rem;
+
+  &_heading {
+    padding-left: 2rem;
+    font-weight: 700;
+    font-size: 1rem;
+    @media (max-width: $md) {
+      margin-bottom: 2rem;
+      padding-left: 0.75rem;
+    }
+  }
+
+  &_stats {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-left: 0.75rem;
+  }
+
+  &_stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media (max-width: $md) {
+      margin-bottom: 2rem;
+      align-items: flex-start;
+    }
+  }
+
+  &_stat-value {
+    display: flex;
+    margin-bottom: 0.75rem;
+    font-size: 2.25rem;
+    font-weight: 700;
+    @media (max-width: $lg) {
+      font-size: 2rem;
+    }
+    @media (max-width: $md) {
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+    }
+  }
+
+  &_stat-key {
+    font-size: 1rem;
+    font-weight: 700;
+    @media (max-width: $lg) {
+      font-size: 0.875rem;
+    }
+  }
+
+  &_stat-icon-up:before {
+    content: "";
+    margin-right: 0.5rem;
+    display: block;
+    align-self: center;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 15px solid #ee3007;
+  }
+
+  &_stat-icon-down:before {
+    content: "";
+    margin-right: 0.5rem;
+    display: block;
+    align-self: center;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid #07aded;
+  }
+}

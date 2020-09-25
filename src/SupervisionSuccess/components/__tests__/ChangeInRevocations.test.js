@@ -3,8 +3,10 @@ import ReactSlider from "react-slider";
 import { render } from "@testing-library/react";
 
 import ChangeInRevocations from "../ChangeInRevocations";
+import useIsMobile from "../../utils/useIsMobile";
 
 jest.mock("react-slider");
+jest.mock("../../utils/useIsMobile");
 
 describe("ChangeInRevocations tests", () => {
   const mockState = "Texas";
@@ -26,7 +28,7 @@ describe("ChangeInRevocations tests", () => {
 
   it("should render thumb", () => {
     const mockThumbProps = { some: "prop" };
-    const mockThumbState = { valueNow: -40 };
+    useIsMobile.mockReturnValue(false);
 
     render(
       <ChangeInRevocations
@@ -37,10 +39,8 @@ describe("ChangeInRevocations tests", () => {
       />
     );
 
-    const { getByText } = render(
-      ReactSlider.mock.calls[0][0].renderThumb(mockThumbProps, mockThumbState)
-    );
-    expect(getByText("-40%")).toBeInTheDocument();
+    const { getByText } = render(ReactSlider.mock.calls[0][0].renderThumb(mockThumbProps));
+    expect(getByText(`${mockChangeInRevocations.toString()}%`)).toBeInTheDocument();
     expect(getByText(mockFinalRevocations.toString())).toBeInTheDocument();
     expect(getByText("Violations resulting in Texas incarceration")).toBeInTheDocument();
   });

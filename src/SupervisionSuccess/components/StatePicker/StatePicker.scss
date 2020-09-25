@@ -1,0 +1,31 @@
+@import "../../variables";
+.state-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  grid-column: 1 / 2;
+  @media (max-width: $md) {
+    border-bottom: 1px solid #ededed;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-bottom: 1rem;
+  }
+
+  &_label {
+    font-size: 1rem;
+    @media (max-width: $lg) {
+      font-size: 0.875rem;
+    }
+  }
+
+  &_picker {
+    margin-bottom: 0.5rem;
+  }
+
+  &_hint {
+    font-size: 1rem;
+    @media (max-width: $lg) {
+      font-size: 0.875rem;
+    }
+  }
+}
