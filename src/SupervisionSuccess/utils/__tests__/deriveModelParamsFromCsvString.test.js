@@ -94,7 +94,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
     await expect(deriveModelParamsFromCsvString(mockString)).rejects.toThrowError(
       Error(mockFieldsError)
     );
-    expect(getMissingFieldsError).toHaveBeenCalledWith(["state"]);
+    expect(getMissingFieldsError).toHaveBeenCalledWith(undefined, ["state"]);
   });
 
   it("should throw error if there are multiple missing fields", async () => {
@@ -116,7 +116,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
     await expect(deriveModelParamsFromCsvString(mockString)).rejects.toThrowError(
       Error(mockFieldsError)
     );
-    expect(getMissingFieldsError).toHaveBeenCalledWith([
+    expect(getMissingFieldsError).toHaveBeenCalledWith(undefined, [
       "state",
       "year",
       "newOffensePopulation",
