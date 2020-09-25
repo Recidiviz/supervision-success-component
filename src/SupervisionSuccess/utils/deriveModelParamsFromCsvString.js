@@ -89,11 +89,11 @@ async function deriveModelParamsFromCsvString(string) {
         savings4,
       };
       const missingFields = Object.keys(requiredFields).filter(
-        (key) => typeof requiredFields[key] !== "string"
+        (key) => typeof requiredFields[key] !== "string" || requiredFields[key].length === 0
       );
 
       if (missingFields.length) {
-        throw new Error(getMissingFieldsError(missingFields));
+        throw new Error(getMissingFieldsError(state, missingFields));
       }
 
       const savingsMap = [
