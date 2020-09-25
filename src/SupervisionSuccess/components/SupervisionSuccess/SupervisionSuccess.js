@@ -12,6 +12,7 @@ import "./SupervisionSuccess.scss";
 
 const SupervisionSuccessComponent = ({
   states,
+  year,
   state,
   implementationPeriod,
   projections,
@@ -27,7 +28,7 @@ const SupervisionSuccessComponent = ({
 }) => (
   <section className="main">
     <header className="main_header">
-      <StatePicker states={states} state={state} onStateChange={onStateChange} />
+      <StatePicker states={states} year={year} state={state} onStateChange={onStateChange} />
       <ImplementationPeriodPicker
         implementationPeriod={implementationPeriod}
         onImplementationPeriodChange={onImplementationPeriodChange}
@@ -53,6 +54,7 @@ const SupervisionSuccessComponent = ({
 
 SupervisionSuccessComponent.propTypes = {
   states: PropTypes.arrayOf(PropTypes.string).isRequired,
+  year: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
   implementationPeriod: PropTypes.number.isRequired,
   projections: PropTypes.number.isRequired,

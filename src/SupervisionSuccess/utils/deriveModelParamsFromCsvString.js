@@ -16,13 +16,42 @@ import csv from "csvtojson";
  * }>>}
  */
 async function deriveModelParamsFromCsvString(string) {
-  const json = await csv().fromString(string);
+  const json = await csv({
+    noheader: false,
+    headers: [
+      "state",
+      "year",
+      "revocationsPopulation",
+      "populationFraction",
+      "revocationsAdmissions",
+      "admissionsFraction",
+      "totalCostPerInmate",
+      "marginalCostPerInmate",
+      "checkpoint1",
+      "savings1",
+      "checkpoint2",
+      "savings2",
+      "checkpoint3",
+      "savings3",
+      "checkpoint4",
+      "savings4",
+      "totalPopulation",
+      "newOffensePopulation",
+      "totalAdmissions",
+      "newOffenseAdmissions",
+      "newOffenseAvgTimeServedInMonths",
+      "revocationsTimescale",
+      "newOffenseA",
+      "revocationA",
+    ],
+  }).fromString(string);
 
   return json.reduce(
     (
       params,
       {
         state,
+        year,
         newOffensePopulation,
         revocationA,
         revocationsTimescale,
@@ -48,6 +77,7 @@ async function deriveModelParamsFromCsvString(string) {
           revocationA: Number(revocationA),
           revocationsTimescale: Number(revocationsTimescale),
           marginalCostPerInmate: Number(marginalCostPerInmate),
+          year: Number(year),
           savingsMap,
         },
       };

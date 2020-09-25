@@ -6,6 +6,7 @@ import produceProjections from "./model/produceProjections";
 
 const SupervisionSuccessContainer = ({ params }) => {
   const states = Object.keys(params);
+  const [year, setYear] = useState(0);
   const [state, setState] = useState(states[0]);
   const [implementationPeriod, setImplementationPeriod] = useState(6);
   const [projections, setProjections] = useState(5);
@@ -39,11 +40,13 @@ const SupervisionSuccessContainer = ({ params }) => {
     setSavings(data.savings);
     setPrisonPopulationDiff(data.prisonPopulationDiff);
     setFinalRevocations(data.finalRevocations);
+    setYear(params[state].year);
   }, [params, state, implementationPeriod, projections, changeInRevocations]);
 
   return (
     <SupervisionSuccessComponent
       states={states}
+      year={year}
       state={state}
       implementationPeriod={implementationPeriod}
       projections={projections}
@@ -73,6 +76,7 @@ SupervisionSuccessContainer.propTypes = {
         })
       ),
       marginalCostPerInmate: PropTypes.number.isRequired,
+      year: PropTypes.number.isRequired,
     })
   ).isRequired,
 };
