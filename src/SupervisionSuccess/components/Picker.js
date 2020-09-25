@@ -49,7 +49,7 @@ const customStyles = {
     ...provided,
     fontSize: state.selectProps.isLarge ? "1.25rem" : "1.125rem",
     fontWeight: 700,
-    backgroundColor: "transparent",
+    backgroundColor: state.isFocused ? "rgba(0, 0, 0, 0.1)" : "transparent",
     color: state.isSelected ? "#07aded" : "#081d33",
     "&:hover": {
       backgroundColor: "rgba(0, 0, 0, 0.1)",

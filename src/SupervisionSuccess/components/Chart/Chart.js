@@ -2,6 +2,7 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
+import transformChartDataToText from "../../utils/transformChartAsText";
 
 import "./Chart.scss";
 
@@ -144,7 +145,12 @@ const Chart = ({ isError, data }) => {
   return (
     <div className="chart">
       <div className="chart_heading">Total people in prison projected in years</div>
-      <div className="chart_chart">
+      <div
+        className="chart_chart"
+        tabIndex={-1}
+        role="img"
+        aria-label={transformChartDataToText(chartData.datasets[1].data)}
+      >
         {isError ? null : (
           <Line
             data={chartData}
