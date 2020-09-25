@@ -150,9 +150,8 @@ const Chart = ({ isError, data }) => {
             data={chartData}
             options={chartOptions}
             plugins={[drawLinePlugin]}
-            // TODO(19): Chart should be responsive
             width={560}
-            height={400}
+            height={380}
           />
         )}
       </div>

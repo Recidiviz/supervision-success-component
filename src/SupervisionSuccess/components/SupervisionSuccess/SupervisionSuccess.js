@@ -13,6 +13,7 @@ import "./SupervisionSuccess.scss";
 const SupervisionSuccessComponent = ({
   isError,
   states,
+  year,
   state,
   implementationPeriod,
   projections,
@@ -28,7 +29,13 @@ const SupervisionSuccessComponent = ({
 }) => (
   <section className="main">
     <header className="main_header">
-      <StatePicker isError={isError} states={states} state={state} onStateChange={onStateChange} />
+      <StatePicker
+        isError={isError}
+        year={year}
+        states={states}
+        state={state}
+        onStateChange={onStateChange}
+      />
       <ImplementationPeriodPicker
         implementationPeriod={implementationPeriod}
         onImplementationPeriodChange={onImplementationPeriodChange}
@@ -60,6 +67,8 @@ SupervisionSuccessComponent.defaultProps = {
 SupervisionSuccessComponent.propTypes = {
   isError: PropTypes.bool,
   states: PropTypes.arrayOf(PropTypes.string).isRequired,
+  year: PropTypes.number.isRequired,
+  state: PropTypes.string.isRequired,
   implementationPeriod: PropTypes.number.isRequired,
   projections: PropTypes.number.isRequired,
   changeInRevocations: PropTypes.number.isRequired,
@@ -77,7 +86,6 @@ SupervisionSuccessComponent.propTypes = {
       totalPopulation: PropTypes.number,
     })
   ).isRequired,
-  state: PropTypes.string.isRequired,
 };
 
 export default SupervisionSuccessComponent;

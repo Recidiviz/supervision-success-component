@@ -29,6 +29,9 @@ const customStyles = {
     transition: "color 0.2s",
     marginLeft: 0,
     marginRight: 0,
+    "@media (max-width: 1200px)": {
+      fontSize: state.selectProps.isLarge ? "2rem" : "1.5rem",
+    },
   }),
   menu: (provided) => ({
     ...provided,

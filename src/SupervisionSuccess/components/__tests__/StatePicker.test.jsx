@@ -9,6 +9,7 @@ jest.mock("../Picker");
 describe("StatePicker tests", () => {
   const mockState1 = "Texas";
   const mockState2 = "Alabama";
+  const mockYear = 2017;
   const mockStates = [mockState1, mockState2];
   const mockOnStateChange = jest.fn();
 
@@ -20,7 +21,7 @@ describe("StatePicker tests", () => {
 
   it("should successfully render", () => {
     const { getByText } = render(
-      <StatePicker states={mockStates} state={mockState1} onStateChange={mockOnStateChange} />
+      <StatePicker year={mockYear} states={mockStates} state={mockState1} onStateChange={mockOnStateChange} />
     );
 
     expect(getByText("Based on Texas data from 2017")).toBeInTheDocument();

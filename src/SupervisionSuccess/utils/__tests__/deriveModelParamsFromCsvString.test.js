@@ -24,6 +24,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
       fromString: jest.fn().mockResolvedValue([
         {
           state: "Alabama",
+          year: "2017",
           newOffensePopulation: "32928",
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
@@ -46,6 +47,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
         revocationsTimescale: 2.258190983,
         revocationA: 131.7795242,
         marginalCostPerInmate: 0.001,
+        year: 2017,
         savingsMap: [
           {
             checkpoint: 3360,

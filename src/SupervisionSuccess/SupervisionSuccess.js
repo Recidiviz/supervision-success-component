@@ -6,6 +6,7 @@ import SupervisionSuccessContainer from "./SupervisionSuccessContainer";
 import deriveModelParamsFromCsvString from "./utils/deriveModelParamsFromCsvString";
 import LoadingScreen from "./components/LoadingScreen";
 import { ERROR_RESPONSE_NOT_OK, ERROR_NOT_CSV_FETCHED } from "./constants";
+import "blob-polyfill";
 
 const SupervisionSuccess = ({ path }) => {
   const [isError, setIsError] = useState(false);

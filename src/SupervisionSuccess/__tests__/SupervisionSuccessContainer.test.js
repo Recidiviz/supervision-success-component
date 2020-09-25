@@ -22,6 +22,7 @@ describe("SupervisionSuccessContainer tests", () => {
   const mockPrisonPopulationDiff = "some diff";
   const mockProjections = "some projections";
   const mockChangeInRevocations = "some change in revo";
+  const mockYear = 2017;
 
   beforeAll(() => {
     produceProjections.mockReturnValue({
@@ -58,6 +59,7 @@ describe("SupervisionSuccessContainer tests", () => {
       chartData: mockChartData,
       prisonPopulationDiff: mockPrisonPopulationDiff,
       finalRevocations: mockFinalRevocations,
+      year: mockYear,
     });
   });
 

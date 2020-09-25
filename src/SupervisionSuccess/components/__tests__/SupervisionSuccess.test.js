@@ -28,6 +28,7 @@ describe("SupervisionSuccessComponent tests", () => {
     render(
       <SupervisionSuccessComponent
         isError
+        year={2017}
         finalRevocations={12000}
         state="some state"
         onStateChange={jest.fn()}

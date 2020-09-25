@@ -9,13 +9,13 @@ const Outcomes = ({ isError, prisonPopulationDiff, savings }) => {
   const [prisonPopulationDiffText, prisonPopulationDiffIconClass] = (() => {
     if (prisonPopulationDiff < 0) return ["Fewer people in prison", "outcomes_stat-icon-down"];
     if (prisonPopulationDiff > 0) return ["More people in prison", "outcomes_stat-icon-up"];
-    return [null, ""];
+    return ["No change in population", ""];
   })();
 
   const [savingsText, savingsIconClass] = (() => {
     if (savings > 0) return ["Reduced costs", "outcomes_stat-icon-down"];
     if (savings < 0) return ["Increased costs", "outcomes_stat-icon-up"];
-    return [null, ""];
+    return ["No change in cost", ""];
   })();
 
   return (

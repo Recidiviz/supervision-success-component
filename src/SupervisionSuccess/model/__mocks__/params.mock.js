@@ -1,5 +1,6 @@
 const params = {
   Alabama: {
+    year: 2017,
     newOffensePopulation: 32928,
     revocationsTimescale: 2.258190983,
     revocationA: 131.7795242,
@@ -24,6 +25,7 @@ const params = {
     ],
   },
   Alaska: {
+    year: 2017,
     newOffensePopulation: 3297,
     revocationsTimescale: 2.694177732,
     revocationA: 151.4067397,
@@ -48,6 +50,7 @@ const params = {
     ],
   },
   Texas: {
+    year: 2017,
     newOffensePopulation: 120435,
     revocationsTimescale: 9.037426133,
     revocationA: 280.8690545,

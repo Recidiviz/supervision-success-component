@@ -4,7 +4,7 @@ import Picker from "../Picker";
 
 import "./StatePicker.scss";
 
-const StatePicker = ({ isError, states, state, onStateChange }) => {
+const StatePicker = ({ isError, states, year, state, onStateChange }) => {
   const options = isError
     ? [{ label: "-", value: "-" }]
     : states.map((item) => ({
@@ -19,7 +19,7 @@ const StatePicker = ({ isError, states, state, onStateChange }) => {
   );
 
   return (
-    <div className="state-picker_root">
+    <div className="state-picker">
       <span className="state-picker_label">Choose state</span>
       <Picker
         className="state-picker_picker"
@@ -28,10 +28,9 @@ const StatePicker = ({ isError, states, state, onStateChange }) => {
         defaultValue={options[0]}
         options={options}
         onChange={onChange}
-        isError={isError}
       />
       <span className="state-picker_hint">
-        Based on {isError ? "-" : state} data from {isError ? "-" : 2017}
+        Based on {isError ? "-" : state} data from {isError ? "-" : year}
       </span>
     </div>
   );
@@ -43,6 +42,7 @@ StatePicker.defaultProps = {
 
 StatePicker.propTypes = {
   states: PropTypes.arrayOf(PropTypes.string).isRequired,
+  year: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
   onStateChange: PropTypes.func.isRequired,
   isError: PropTypes.bool,
