@@ -21,7 +21,12 @@ describe("StatePicker tests", () => {
 
   it("should successfully render", () => {
     const { getByText } = render(
-      <StatePicker year={mockYear} states={mockStates} state={mockState1} onStateChange={mockOnStateChange} />
+      <StatePicker
+        year={mockYear}
+        states={mockStates}
+        state={mockState1}
+        onStateChange={mockOnStateChange}
+      />
     );
 
     expect(getByText("Based on Texas data from 2017")).toBeInTheDocument();
@@ -45,6 +50,7 @@ describe("StatePicker tests", () => {
   it("should render '-' options, state and year options if isError = true", () => {
     const { getByText } = render(
       <StatePicker
+        year={mockYear}
         isError
         states={mockStates}
         state={mockState1}

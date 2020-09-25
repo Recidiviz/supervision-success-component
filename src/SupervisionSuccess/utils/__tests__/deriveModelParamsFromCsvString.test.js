@@ -2,7 +2,7 @@ import csv from "csvtojson";
 
 import deriveModelParamsFromCsvString from "../deriveModelParamsFromCsvString";
 import getMissingFieldsError from "../getMissingFieldsError";
-import { ERROR_CHECKPOINTS, ERROR_NO_ROWS } from "../../constants";
+import { ERROR_NO_ROWS } from "../../constants";
 
 jest.mock("csvtojson");
 jest.mock("../getMissingFieldsError");
@@ -74,6 +74,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
     csv.mockReturnValue({
       fromString: jest.fn().mockResolvedValue([
         {
+          year: "2017",
           newOffensePopulation: "32928",
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
@@ -117,37 +118,12 @@ describe("deriveModelParamsFromCsvString tests", () => {
     );
     expect(getMissingFieldsError).toHaveBeenCalledWith([
       "state",
+      "year",
       "newOffensePopulation",
       "revocationA",
       "revocationsTimescale",
       "marginalCostPerInmate",
     ]);
-  });
-
-  it("should throw error if checkpoints and savings do not match", () => {
-    csv.mockReturnValue({
-      fromString: jest.fn().mockResolvedValue([
-        {
-          state: "some state",
-          newOffensePopulation: "32928",
-          revocationsTimescale: "2.258190983",
-          revocationA: "131.7795242",
-          marginalCostPerInmate: "0.001",
-          checkpoint2: "2240",
-          savings7: "40",
-          checkpoint1: "3360",
-          savings1: "60",
-          checkpoint3: "1680",
-          savings3: "30",
-          checkpoint4: "672",
-          savings4: "12",
-        },
-      ]),
-    });
-
-    expect(deriveModelParamsFromCsvString(mockString)).rejects.toThrowError(
-      Error(ERROR_CHECKPOINTS)
-    );
   });
 
   it("should throw error if no data", () => {

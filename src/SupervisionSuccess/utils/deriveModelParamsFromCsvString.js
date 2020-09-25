@@ -1,5 +1,5 @@
 import csv from "csvtojson";
-import { ERROR_CHECKPOINTS, ERROR_NO_ROWS } from "../constants";
+import { ERROR_NO_ROWS } from "../constants";
 import getMissingFieldsError from "./getMissingFieldsError";
 
 /**
@@ -62,15 +62,31 @@ async function deriveModelParamsFromCsvString(string) {
         revocationA,
         revocationsTimescale,
         marginalCostPerInmate,
-        ...row
+        checkpoint1,
+        savings1,
+        checkpoint2,
+        savings2,
+        checkpoint3,
+        savings3,
+        checkpoint4,
+        savings4,
       }
     ) => {
       const requiredFields = {
         state,
+        year,
         newOffensePopulation,
         revocationA,
         revocationsTimescale,
         marginalCostPerInmate,
+        checkpoint1,
+        savings1,
+        checkpoint2,
+        savings2,
+        checkpoint3,
+        savings3,
+        checkpoint4,
+        savings4,
       };
       const missingFields = Object.keys(requiredFields).filter(
         (key) => typeof requiredFields[key] !== "string"
@@ -80,20 +96,12 @@ async function deriveModelParamsFromCsvString(string) {
         throw new Error(getMissingFieldsError(missingFields));
       }
 
-      const checkpointNumbers = Object.keys(row)
-        .filter((key) => key.startsWith("checkpoint"))
-        .map((checkpoint) => checkpoint.replace("checkpoint", ""));
-
-      if (checkpointNumbers.some((checkpointNumber) => !row[`savings${checkpointNumber}`])) {
-        throw new Error(ERROR_CHECKPOINTS);
-      }
-
-      const savingsMap = checkpointNumbers
-        .map((checkpointNumber) => ({
-          checkpoint: Number(row[`checkpoint${checkpointNumber}`]),
-          savings: Number(row[`savings${checkpointNumber}`]),
-        }))
-        .sort((a, b) => b.checkpoint - a.checkpoint);
+      const savingsMap = [
+        { checkpoint: Number(checkpoint1), savings: Number(savings1) },
+        { checkpoint: Number(checkpoint2), savings: Number(savings2) },
+        { checkpoint: Number(checkpoint3), savings: Number(savings3) },
+        { checkpoint: Number(checkpoint4), savings: Number(savings4) },
+      ].sort((a, b) => b.checkpoint - a.checkpoint);
 
       return {
         ...params,

@@ -149,7 +149,9 @@ const Chart = ({ isError, data }) => {
         className="chart_chart"
         tabIndex={-1}
         role="img"
-        aria-label={transformChartDataToText(chartData.datasets[1].data)}
+        aria-label={
+          isError ? "Chart is unavailable" : transformChartDataToText(chartData.datasets[1].data)
+        }
       >
         {isError ? null : (
           <Line
