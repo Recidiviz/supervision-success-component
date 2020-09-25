@@ -11,6 +11,7 @@ import Outcomes from "../Outcomes";
 import "./SupervisionSuccess.scss";
 
 const SupervisionSuccessComponent = ({
+  isError,
   states,
   year,
   state,
@@ -28,7 +29,13 @@ const SupervisionSuccessComponent = ({
 }) => (
   <section className="main">
     <header className="main_header">
-      <StatePicker states={states} year={year} state={state} onStateChange={onStateChange} />
+      <StatePicker
+        isError={isError}
+        year={year}
+        states={states}
+        state={state}
+        onStateChange={onStateChange}
+      />
       <ImplementationPeriodPicker
         implementationPeriod={implementationPeriod}
         onImplementationPeriodChange={onImplementationPeriodChange}
@@ -37,6 +44,7 @@ const SupervisionSuccessComponent = ({
     </header>
     <aside className="main_left-aside">
       <ChangeInRevocations
+        isError={isError}
         state={state}
         finalRevocations={finalRevocations}
         changeInRevocations={changeInRevocations}
@@ -44,15 +52,20 @@ const SupervisionSuccessComponent = ({
       />
     </aside>
     <section>
-      <Chart data={chartData} />
+      <Chart isError={isError} data={chartData} />
     </section>
     <aside className="main_right-aside">
-      <Outcomes prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
+      <Outcomes isError={isError} prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
     </aside>
   </section>
 );
 
+SupervisionSuccessComponent.defaultProps = {
+  isError: false,
+};
+
 SupervisionSuccessComponent.propTypes = {
+  isError: PropTypes.bool,
   states: PropTypes.arrayOf(PropTypes.string).isRequired,
   year: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,

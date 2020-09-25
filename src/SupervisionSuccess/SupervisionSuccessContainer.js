@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import SupervisionSuccessComponent from "./components/SupervisionSuccess";
 import produceProjections from "./model/produceProjections";
 
-const SupervisionSuccessContainer = ({ params }) => {
+const SupervisionSuccessContainer = ({ params, isError }) => {
   const states = Object.keys(params);
   const [year, setYear] = useState(0);
-  const [state, setState] = useState(states[0]);
+  const [state, setState] = useState(isError ? "" : states[0]);
   const [implementationPeriod, setImplementationPeriod] = useState(6);
   const [projections, setProjections] = useState(5);
   const [changeInRevocations, setChangeInRevocations] = useState(-50);
@@ -30,6 +30,7 @@ const SupervisionSuccessContainer = ({ params }) => {
   }, []);
 
   useEffect(() => {
+    if (isError) return;
     const data = produceProjections(
       params[state],
       implementationPeriod,
@@ -41,10 +42,11 @@ const SupervisionSuccessContainer = ({ params }) => {
     setPrisonPopulationDiff(data.prisonPopulationDiff);
     setFinalRevocations(data.finalRevocations);
     setYear(params[state].year);
-  }, [params, state, implementationPeriod, projections, changeInRevocations]);
+  }, [isError, params, state, implementationPeriod, projections, changeInRevocations]);
 
   return (
     <SupervisionSuccessComponent
+      isError={isError}
       states={states}
       year={year}
       state={state}
@@ -63,6 +65,10 @@ const SupervisionSuccessContainer = ({ params }) => {
   );
 };
 
+SupervisionSuccessContainer.defaultProps = {
+  isError: false,
+};
+
 SupervisionSuccessContainer.propTypes = {
   params: PropTypes.objectOf(
     PropTypes.shape({
@@ -79,6 +85,7 @@ SupervisionSuccessContainer.propTypes = {
       year: PropTypes.number.isRequired,
     })
   ).isRequired,
+  isError: PropTypes.bool,
 };
 
 export default SupervisionSuccessContainer;

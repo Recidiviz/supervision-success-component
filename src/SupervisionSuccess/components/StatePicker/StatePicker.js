@@ -4,11 +4,13 @@ import Picker from "../Picker";
 
 import "./StatePicker.scss";
 
-const StatePicker = ({ states, year, state, onStateChange }) => {
-  const options = states.map((item) => ({
-    label: item,
-    value: item,
-  }));
+const StatePicker = ({ isError, states, year, state, onStateChange }) => {
+  const options = isError
+    ? [{ label: "-", value: "-" }]
+    : states.map((item) => ({
+        label: item,
+        value: item,
+      }));
   const onChange = useCallback(
     ({ value }) => {
       onStateChange(value);
@@ -28,10 +30,14 @@ const StatePicker = ({ states, year, state, onStateChange }) => {
         onChange={onChange}
       />
       <span className="state-picker_hint">
-        Based on {state} data from {year}
+        Based on {isError ? "-" : state} data from {isError ? "-" : year}
       </span>
     </div>
   );
+};
+
+StatePicker.defaultProps = {
+  isError: false,
 };
 
 StatePicker.propTypes = {
@@ -39,6 +45,7 @@ StatePicker.propTypes = {
   year: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
   onStateChange: PropTypes.func.isRequired,
+  isError: PropTypes.bool,
 };
 
 export default StatePicker;

@@ -6,6 +6,7 @@ import useIsMobile from "../../utils/useIsMobile";
 import "./ChangeInRevocations.scss";
 
 const ChangeInRevocations = ({
+  isError,
   state,
   finalRevocations,
   changeInRevocations,
@@ -20,14 +21,14 @@ const ChangeInRevocations = ({
           <>
             <span className="revocations-slider_percent">{valueNow}%</span>
             <span className="revocations-slider_hint">
-              <b className="revocations-slider_hint-count">{finalRevocations}</b> Violations
-              resulting in {state} incarceration
+              <b className="revocations-slider_hint-count">{isError ? "-" : finalRevocations}</b>{" "}
+              Violations resulting in {isError ? "-" : state} incarceration
             </span>
           </>
         )}
       </span>
     ),
-    [isMobile, finalRevocations, state, valueNow]
+    [isMobile, valueNow, isError, finalRevocations, state]
   );
 
   return (
@@ -61,11 +62,16 @@ const ChangeInRevocations = ({
   );
 };
 
+ChangeInRevocations.defaultProps = {
+  isError: false,
+};
+
 ChangeInRevocations.propTypes = {
   onChangeInRevocationsChange: PropTypes.func.isRequired,
   changeInRevocations: PropTypes.number.isRequired,
   finalRevocations: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
+  isError: PropTypes.bool,
 };
 
 export default ChangeInRevocations;

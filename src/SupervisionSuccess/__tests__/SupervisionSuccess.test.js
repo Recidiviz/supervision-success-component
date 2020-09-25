@@ -3,16 +3,11 @@ import { act, render } from "@testing-library/react";
 
 import SupervisionSuccess from "../SupervisionSuccess";
 import LoadingScreen from "../components/LoadingScreen";
-import ErrorScreen from "../components/ErrorScreen";
 import SupervisionSuccessContainer from "../SupervisionSuccessContainer";
 import deriveModelParamsFromCsvString from "../utils/deriveModelParamsFromCsvString";
-import { CSV_PROCESSING_ERROR } from "../constants";
+import { ERROR_NOT_CSV_FETCHED, ERROR_RESPONSE_NOT_OK } from "../constants";
 
 jest.mock("../components/LoadingScreen", () => ({
-  __esModule: true,
-  default: jest.fn().mockReturnValue(null),
-}));
-jest.mock("../components/ErrorScreen", () => ({
   __esModule: true,
   default: jest.fn().mockReturnValue(null),
 }));
@@ -28,7 +23,7 @@ describe("SupervisionSuccess tests", () => {
 
   beforeAll(() => {
     jest.spyOn(window, "fetch");
-    jest.spyOn(window.console, "error");
+    jest.spyOn(window.console, "log");
   });
 
   beforeEach(() => {
@@ -47,9 +42,10 @@ describe("SupervisionSuccess tests", () => {
     deriveModelParamsFromCsvString.mockResolvedValueOnce(mockParams);
 
     const text = jest.fn().mockResolvedValueOnce(mockCSVString);
-    const blob = jest.fn().mockResolvedValueOnce({ text });
+    const blob = jest.fn().mockResolvedValueOnce({ text, type: "text/csv" });
     window.fetch.mockResolvedValueOnce({
       blob,
+      ok: true,
     });
 
     await act(async () => {
@@ -58,20 +54,38 @@ describe("SupervisionSuccess tests", () => {
 
     expect(window.fetch).toBeCalledWith(mockPath);
 
-    expect(SupervisionSuccessContainer.mock.calls[0][0]).toStrictEqual({ params: mockParams });
+    expect(SupervisionSuccessContainer.mock.calls[0][0]).toStrictEqual({
+      params: mockParams,
+      isError: false,
+    });
   });
 
-  it("should show error screen and log the error", async () => {
-    const mockError = "some error";
-    window.fetch.mockRejectedValueOnce(mockError);
+  it("should throw error if response is not OK", async () => {
+    const mockResponse = "some response";
+    const text = jest.fn().mockResolvedValue(mockResponse);
+    window.fetch.mockResolvedValueOnce({ ok: false, text });
 
     await act(async () => {
       render(<SupervisionSuccess path={mockPath} />);
     });
 
-    expect(window.fetch).toBeCalledWith(mockPath);
+    expect(SupervisionSuccessContainer.mock.calls[0][0]).toMatchObject({ isError: true });
 
-    expect(ErrorScreen.mock.calls[0][0].error).toBe(CSV_PROCESSING_ERROR);
-    expect(window.console.error).toBeCalledWith(mockError);
+    expect(window.console.log).toBeCalledWith(
+      Error(ERROR_RESPONSE_NOT_OK(mockResponse)).toString()
+    );
+  });
+
+  it("should throw error if fetched non-csv file", async () => {
+    const blob = jest.fn().mockResolvedValueOnce({ type: "text/html" });
+    window.fetch.mockResolvedValueOnce({ ok: true, blob });
+
+    await act(async () => {
+      render(<SupervisionSuccess path={mockPath} />);
+    });
+
+    expect(SupervisionSuccessContainer.mock.calls[0][0]).toMatchObject({ isError: true });
+
+    expect(window.console.log).toBeCalledWith(Error(ERROR_NOT_CSV_FETCHED).toString());
   });
 });

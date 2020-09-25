@@ -14,62 +14,61 @@ export const TRANSPARENT_COLOR = "transparent";
 const TOOLTIP_BG_COLOR = "#091e32";
 export const CONNECTING_LINE_COLOR = "#07aded";
 
-const Chart = ({ data }) => {
-  const { chartData, min, max } = useMemo(
-    () =>
-      data.reduce(
-        (acc, { month, baseline, totalPopulation }) => {
-          const year = month / 12;
-          const isYear = Number.isInteger(year);
-          acc.chartData.datasets[0].data.push(Math.round(baseline));
-          acc.chartData.datasets[1].data.push(Math.round(totalPopulation));
-          if (isYear) {
-            acc.chartData.labels.push(year);
-            acc.chartData.datasets[0].pointBackgroundColor.push(BASELINE_COLOR);
-            acc.chartData.datasets[0].pointBorderColor.push(BASELINE_COLOR);
-            acc.chartData.datasets[1].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
-            acc.chartData.datasets[1].pointBorderColor.push(TOTAL_POPULATION_COLOR);
-          } else {
-            acc.chartData.labels.push("");
-            acc.chartData.datasets[0].pointBackgroundColor.push(TRANSPARENT_COLOR);
-            acc.chartData.datasets[0].pointBorderColor.push(TRANSPARENT_COLOR);
-            acc.chartData.datasets[1].pointBackgroundColor.push(TRANSPARENT_COLOR);
-            acc.chartData.datasets[1].pointBorderColor.push(TRANSPARENT_COLOR);
-          }
-          acc.max = Math.round(Math.max(baseline, totalPopulation, acc.max));
-          acc.min = Math.round(Math.min(baseline, totalPopulation, acc.min));
-          return acc;
-        },
-        {
-          chartData: {
-            labels: [],
-            datasets: [
-              {
-                label: "baseline",
-                data: [],
-                pointBackgroundColor: [],
-                pointBorderColor: [],
-                borderColor: BASELINE_COLOR,
-                backgroundColor: BASELINE_COLOR,
-                fill: false,
-              },
-              {
-                label: "totalPopulation",
-                data: [],
-                pointBackgroundColor: [],
-                pointBorderColor: [],
-                borderColor: TOTAL_POPULATION_COLOR,
-                backgroundColor: TOTAL_POPULATION_COLOR,
-                fill: false,
-              },
-            ],
-          },
-          min: Infinity,
-          max: -Infinity,
+const Chart = ({ isError, data }) => {
+  const { chartData, min, max } = useMemo(() => {
+    if (isError) return { chartData: null, min: null, max: null };
+    return data.reduce(
+      (acc, { month, baseline, totalPopulation }) => {
+        const year = month / 12;
+        const isYear = Number.isInteger(year);
+        acc.chartData.datasets[0].data.push(Math.round(baseline));
+        acc.chartData.datasets[1].data.push(Math.round(totalPopulation));
+        if (isYear) {
+          acc.chartData.labels.push(year);
+          acc.chartData.datasets[0].pointBackgroundColor.push(BASELINE_COLOR);
+          acc.chartData.datasets[0].pointBorderColor.push(BASELINE_COLOR);
+          acc.chartData.datasets[1].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
+          acc.chartData.datasets[1].pointBorderColor.push(TOTAL_POPULATION_COLOR);
+        } else {
+          acc.chartData.labels.push("");
+          acc.chartData.datasets[0].pointBackgroundColor.push(TRANSPARENT_COLOR);
+          acc.chartData.datasets[0].pointBorderColor.push(TRANSPARENT_COLOR);
+          acc.chartData.datasets[1].pointBackgroundColor.push(TRANSPARENT_COLOR);
+          acc.chartData.datasets[1].pointBorderColor.push(TRANSPARENT_COLOR);
         }
-      ),
-    [data]
-  );
+        acc.max = Math.round(Math.max(baseline, totalPopulation, acc.max));
+        acc.min = Math.round(Math.min(baseline, totalPopulation, acc.min));
+        return acc;
+      },
+      {
+        chartData: {
+          labels: [],
+          datasets: [
+            {
+              label: "baseline",
+              data: [],
+              pointBackgroundColor: [],
+              pointBorderColor: [],
+              borderColor: BASELINE_COLOR,
+              backgroundColor: BASELINE_COLOR,
+              fill: false,
+            },
+            {
+              label: "totalPopulation",
+              data: [],
+              pointBackgroundColor: [],
+              pointBorderColor: [],
+              borderColor: TOTAL_POPULATION_COLOR,
+              backgroundColor: TOTAL_POPULATION_COLOR,
+              fill: false,
+            },
+          ],
+        },
+        min: Infinity,
+        max: -Infinity,
+      }
+    );
+  }, [isError, data]);
 
   const chartOptions = useMemo(
     () => ({
@@ -150,21 +149,30 @@ const Chart = ({ data }) => {
         className="chart_chart"
         tabIndex={-1}
         role="img"
-        aria-label={transformChartDataToText(chartData.datasets[1].data)}
+        aria-label={
+          isError ? "Chart is unavailable" : transformChartDataToText(chartData.datasets[1].data)
+        }
       >
-        <Line
-          data={chartData}
-          options={chartOptions}
-          plugins={[drawLinePlugin]}
-          width={560}
-          height={380}
-        />
+        {isError ? null : (
+          <Line
+            data={chartData}
+            options={chartOptions}
+            plugins={[drawLinePlugin]}
+            width={560}
+            height={380}
+          />
+        )}
       </div>
     </div>
   );
 };
 
+Chart.defaultProps = {
+  isError: false,
+};
+
 Chart.propTypes = {
+  isError: PropTypes.bool,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       month: PropTypes.number,

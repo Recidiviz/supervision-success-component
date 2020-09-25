@@ -1,4 +1,6 @@
 import csv from "csvtojson";
+import { ERROR_NO_ROWS } from "../constants";
+import getMissingFieldsError from "./getMissingFieldsError";
 
 /**
  * Function that extracts needed fields from the given CSV string and transforms
@@ -46,6 +48,10 @@ async function deriveModelParamsFromCsvString(string) {
     ],
   }).fromString(string);
 
+  if (!json.length) {
+    throw new Error(ERROR_NO_ROWS);
+  }
+
   return json.reduce(
     (
       params,
@@ -56,19 +62,46 @@ async function deriveModelParamsFromCsvString(string) {
         revocationA,
         revocationsTimescale,
         marginalCostPerInmate,
-        ...row
+        checkpoint1,
+        savings1,
+        checkpoint2,
+        savings2,
+        checkpoint3,
+        savings3,
+        checkpoint4,
+        savings4,
       }
     ) => {
-      const checkpointNumbers = Object.keys(row)
-        .filter((key) => key.startsWith("checkpoint"))
-        .map((checkpoint) => checkpoint.replace("checkpoint", ""));
+      const requiredFields = {
+        state,
+        year,
+        newOffensePopulation,
+        revocationA,
+        revocationsTimescale,
+        marginalCostPerInmate,
+        checkpoint1,
+        savings1,
+        checkpoint2,
+        savings2,
+        checkpoint3,
+        savings3,
+        checkpoint4,
+        savings4,
+      };
+      const missingFields = Object.keys(requiredFields).filter(
+        (key) => typeof requiredFields[key] !== "string" || requiredFields[key].length === 0
+      );
 
-      const savingsMap = checkpointNumbers
-        .map((checkpointNumber) => ({
-          checkpoint: Number(row[`checkpoint${checkpointNumber}`]),
-          savings: Number(row[`savings${checkpointNumber}`]),
-        }))
-        .sort((a, b) => b.checkpoint - a.checkpoint);
+      if (missingFields.length) {
+        throw new Error(getMissingFieldsError(state, missingFields));
+      }
+
+      const savingsMap = [
+        { checkpoint: Number(checkpoint1), savings: Number(savings1) },
+        { checkpoint: Number(checkpoint2), savings: Number(savings2) },
+        { checkpoint: Number(checkpoint3), savings: Number(savings3) },
+        { checkpoint: Number(checkpoint4), savings: Number(savings4) },
+      ].sort((a, b) => b.checkpoint - a.checkpoint);
 
       return {
         ...params,

@@ -5,35 +5,40 @@ import PropTypes from "prop-types";
 import SupervisionSuccessContainer from "./SupervisionSuccessContainer";
 import deriveModelParamsFromCsvString from "./utils/deriveModelParamsFromCsvString";
 import LoadingScreen from "./components/LoadingScreen";
-import ErrorScreen from "./components/ErrorScreen";
-import { CSV_PROCESSING_ERROR } from "./constants";
+import { ERROR_RESPONSE_NOT_OK, ERROR_NOT_CSV_FETCHED } from "./constants";
 import "blob-polyfill";
 
 const SupervisionSuccess = ({ path }) => {
-  const [error, setError] = useState(null);
+  const [isError, setIsError] = useState(false);
   const [params, setParams] = useState(null);
 
   useEffect(() => {
     const fetchCSVString = async () => {
       try {
         const response = await fetch(path);
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(ERROR_RESPONSE_NOT_OK(text));
+        }
         const blob = await response.blob();
+        if (blob.type !== "text/csv") {
+          throw new Error(ERROR_NOT_CSV_FETCHED);
+        }
         const CSVString = await blob.text();
-        // TODO(9): Add csv format validation and throw error if some field is missing
         const newParams = await deriveModelParamsFromCsvString(CSVString);
         setParams(newParams);
       } catch (e) {
-        console.error(e);
-        setError(CSV_PROCESSING_ERROR);
+        console.log(e.toString());
+        setIsError(true);
+        setParams({});
       }
     };
     fetchCSVString();
   }, [path]);
 
-  if (error) return <ErrorScreen error={error} />;
   if (params === null) return <LoadingScreen />;
 
-  return <SupervisionSuccessContainer params={params} />;
+  return <SupervisionSuccessContainer isError={isError} params={params} />;
 };
 
 SupervisionSuccess.propTypes = {

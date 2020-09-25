@@ -19,6 +19,7 @@
     width: 100%;
     margin-left: -2rem;
     transform: translateX(4rem);
+    outline: none;
     @media (max-width: $md) {
       transform: translateX(2.75rem);
     }

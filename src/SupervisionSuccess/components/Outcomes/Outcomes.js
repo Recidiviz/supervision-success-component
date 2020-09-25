@@ -5,7 +5,7 @@ import prettifySavings from "../../utils/prettifySavings";
 
 import "./Outcomes.scss";
 
-const Outcomes = ({ prisonPopulationDiff, savings }) => {
+const Outcomes = ({ isError, prisonPopulationDiff, savings }) => {
   const [prisonPopulationDiffText, prisonPopulationDiffIconClass] = (() => {
     if (prisonPopulationDiff < 0) return ["Fewer people in prison", "outcomes_stat-icon-down"];
     if (prisonPopulationDiff > 0) return ["More people in prison", "outcomes_stat-icon-up"];
@@ -24,13 +24,13 @@ const Outcomes = ({ prisonPopulationDiff, savings }) => {
       <div className="outcomes_stats">
         <div className="outcomes_stat">
           <div className={`outcomes_stat-value ${prisonPopulationDiffIconClass}`}>
-            {Math.abs(prisonPopulationDiff)}
+            {isError ? "-" : Math.abs(prisonPopulationDiff)}
           </div>
           <div className="outcomes_stat-key">{prisonPopulationDiffText}</div>
         </div>
         <div className="outcomes_stat">
           <div className={`outcomes_stat-value ${savingsIconClass}`}>
-            {prettifySavings(savings)}
+            {isError ? "-" : prettifySavings(savings)}
           </div>
           <div className="outcomes_stat-key">{savingsText}</div>
         </div>
@@ -39,9 +39,14 @@ const Outcomes = ({ prisonPopulationDiff, savings }) => {
   );
 };
 
+Outcomes.defaultProps = {
+  isError: false,
+};
+
 Outcomes.propTypes = {
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
+  isError: PropTypes.bool,
 };
 
 export default Outcomes;

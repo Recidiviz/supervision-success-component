@@ -33,4 +33,10 @@ describe("Outcomes tests", () => {
     expect(getByText("No change in population")).toBeInTheDocument();
     expect(getByText("No change in cost")).toBeInTheDocument();
   });
+
+  it("Should render '-' if isError = true", () => {
+    const { findAllByText } = render(<Outcomes isError savings={0} prisonPopulationDiff={0} />);
+
+    expect(findAllByText("-")).resolves.toHaveLength(2);
+  });
 });

@@ -35,15 +35,25 @@ describe("SupervisionSuccessContainer tests", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    render(<SupervisionSuccessContainer params={params} />);
   });
 
   it("should render SupervisionSuccessComponent", () => {
+    render(<SupervisionSuccessContainer params={params} />);
+
     expect(SupervisionSuccessComponent).toBeCalled();
   });
 
+  it("should not be updated if isError = true", () => {
+    render(<SupervisionSuccessContainer isError params={params} />);
+
+    expect(SupervisionSuccessComponent).toHaveBeenCalledTimes(1);
+  });
+
   it("should be updated with transformed data on mount", () => {
+    render(<SupervisionSuccessContainer params={params} />);
+
     expect(produceProjections).toBeCalled();
+    expect(SupervisionSuccessComponent).toHaveBeenCalledTimes(2);
     expect(SupervisionSuccessComponent.mock.calls[1][0]).toMatchObject({
       savings: mockSavings,
       chartData: mockChartData,
@@ -54,6 +64,8 @@ describe("SupervisionSuccessContainer tests", () => {
   });
 
   it("should change state", () => {
+    render(<SupervisionSuccessContainer params={params} />);
+
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onStateChange(mockState);
     });
@@ -61,6 +73,8 @@ describe("SupervisionSuccessContainer tests", () => {
   });
 
   it("should change implementation period", () => {
+    render(<SupervisionSuccessContainer params={params} />);
+
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onImplementationPeriodChange(
         mockImplementationPeriod
@@ -72,6 +86,8 @@ describe("SupervisionSuccessContainer tests", () => {
   });
 
   it("should change projections", () => {
+    render(<SupervisionSuccessContainer params={params} />);
+
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onProjectionsChange(mockProjections);
     });
@@ -79,6 +95,8 @@ describe("SupervisionSuccessContainer tests", () => {
   });
 
   it("should change changeInRevocations", () => {
+    render(<SupervisionSuccessContainer params={params} />);
+
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onChangeInRevocationsChange(
         mockChangeInRevocations
