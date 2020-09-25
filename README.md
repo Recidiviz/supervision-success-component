@@ -10,55 +10,43 @@ A React component powering a miniature web app for exploring the impact of succe
 
 An example of a valid CSV file can be found in [`params.csv`](/src/params.csv).
 
-The first row of the file (the headers) contains the required revocation model parameters, **in any order**.
+The first row of the file (the headers) contains revocation model parameters **in fixed order**.
 
-- `state`
-- `newOffensePopulation`
-- `revocationA`
-- `revocationsTimescale`
-- `marginalCostPerInmate`
-- `totalCostPerInmate`
-- `checkpoint[n]`
-- `savings[n]`
+- \[A] `State`
+- \[B] `Data Year`
+- \[C] `Revocations Population [C&C input]`
+- \[D] `Population Fraction [C&C input]`
+- \[E] `Revocations Admissions [C&C input]`
+- \[F] `Admissions Fraction [C&C input]`
+- \[G] `total cost per inmate [input]`
+- \[H] `marginal cost per inmate [input]`
+- \[I] `checkpoint (number of fewer people incarcerated) [input]`
+- \[J] `associated savings [input]`
+- \[K] `checkpoint (number of fewer people incarcerated) [input]`
+- \[L] `associated savings [input]`
+- \[M] `checkpoint (number of fewer people incarcerated) [input]`
+- \[N] `associated savings [input]`
+- \[O] `checkpoint (number of fewer people incarcerated) [input]`
+- \[P] `associated savings [input]`
+- \[Q] `Total Population`
+- \[R] `New Offense Population`
+- \[S] `Total Admissions`
+- \[T] `New Offense Admissions`
+- \[U] `New Offense Avg Time Served in Months`
+- \[V] `Revocations Timescale`
+- \[W] `N A`
+- \[X] `R A`
 
-Checkpoint and savings columns model the changing amount of savings per person released from incarceration as the
-total number of people released passes certain checkpoints, i.e. as the number of people incarcerated decreases
-further, the amount of savings per person continues to change.
-
-These columns should be provided in this format:
-`checkpoint1`, `savings1` `checkpoint2`, `savings2` `...`, `checkpoint99`, `savings99`
-
-You can provide as many checkpoint and savings columns as you'd like, but the number of each should be equal and
-there should be a 1:1 mapping from checkpoint n to savings n.
-
-Any others params that may be useful for calculations also could be in the sheet in any format
-(This params are not used in application) e.g.:
-
-- `revocationsPopulation`
-- `Population Fraction`
-- `totalPopulation`
-- `revocationsAdmissions`
-- `admissionsFraction`
-- `Total Admissions`
-- `newOffenseAdmissions`
-- `newOffenseAvgTimeServedInYears`
-- `newOffenseA`
-- `...`
-
-Each row after the first row should correspond to a single state. Each row should include the parameters necessary for 
+Each row after the first row should correspond to a single state. Each row should include the parameters necessary for
 accurately modeling revocations within that state.
 
-Here are some additional examples of valid model parameters. 
+Example of valid model parameters presented below.
 
-**Note:** these are formatted as a table in Markdown for readability, but these tables are not valid 
+**Note:** these are formatted as a table in Markdown for readability, but these tables are not valid
 CSV and the exact formatting should be provided as described above.
 
-| state   | newOffensePopulation | revocationA | revocationsTimescale | marginalCostPerInmate | totalCostPerInmate | checkpoint1 | savings1 | checkpoint2 | savings2 | checkpoint3 | savings3 |
-| ------- | -------------------- | ----------- | -------------------- | --------------------- | ------------------ | ----------- | -------- | ----------- | -------- | ----------- | -------- |
-| Texas   | 12000                | 20          | 1.239                | 0.023                 | 0.044              | 599         | 12.3     | 900         | 23.4     | 1500        | 42.55    |
-| Alabama | 9004                 | 60          | 1.509                | 0.4                   | 0.53               | 100         | 53.2     | 200         | 59.4     | 1500        | 400.55   |
-
-| state   | totalCostPerInmate | newOffensePopulation | revocationA | revocationsTimescale | marginalCostPerInmate | checkpoint2 | savings2 | checkpoint1 | savings1 | other field |
-| ------- | ------------------ | -------------------- | ----------- | -------------------- | --------------------- | ----------- | -------- | ----------- | -------- | ----------- |
-| Texas   | 0.004              | 20                   | 1.239       | 0.023                | 12000                 | 900         | 23.4     | 599         | 12.3     | any value   |
-| Alabama | 0.53               | 60                   | 1.509       | 0.4                  | 9004                  | 200         | 59.4     | 100         | 53.2     | any value   |
+| State   | Data Year | Revocations Population \[C&C input] | Population Fraction \[C&C input] | Revocations Admissions \[C&C input] | Admissions Fraction \[C&C input] | total cost per inmate \[input] | marginal cost per inmate \[input] | checkpoint (number of fewer people incarcerated) \[input] | associated savings \[input] | checkpoint (number of fewer people incarcerated) \[input] | associated savings \[input] | checkpoint (number of fewer people incarcerated) \[input] | associated savings \[input] | checkpoint (number of fewer people incarcerated) \[input] | associated savings \[input] | Total Population | New Offense Population | Total Admissions | New Offense Admissions | New Offense Avg Time Served in Months | Revocations Timescale | N A         | R A         |
+| ------- | --------- | ----------------------------------- | -------------------------------- | ----------------------------------- | -------------------------------- | ------------------------------ | --------------------------------- | --------------------------------------------------------- | --------------------------- | --------------------------------------------------------- | --------------------------- | --------------------------------------------------------- | --------------------------- | --------------------------------------------------------- | --------------------------- | ---------------- | ---------------------- | ---------------- | ---------------------- | ------------------------------------- | --------------------- | ----------- | ----------- |
+| Alabama | 2017      | 672                                 | 0.02                             | 3571                                | 0.3                              | 0.01785714286                  | 0.001                             | 672                                                       | 12                          | 1680                                                      | 30                          | 2240                                                      | 40                          | 3360                                                      | 60                          | 33600            | 32928                  | 11903.33333      | 8332.333333            | 47.42201064                           | 2.258190983           | 14.64216936 | 131.7795242 |
+| Alaska  | 2017      | 1099                                | 0.25                             | 4895                                | 0.17                             | 0.07279344859                  | 0.001                             | 87.92                                                     | 6.4                         | 219.8                                                     | 16                          | 293.0666667                                               | 21.33333333                 | 439.6                                                     | 32                          | 4396             | 3297                   | 28794.11765      | 23899.11765            | 1.655458607                           | 2.694177732           | 1203.046171 | 151.4067397 |
+| Texas   | 2017      | 22940                               | 0.16                             | 30460                               | 0.47                             | 0.02262423714                  | 0.001                             | 2867.5                                                    | 64.875                      | 7168.75                                                   | 162.1875                    | 9558.333333                                               | 216.25                      | 14337.5                                                   | 324.375                     | 143375           | 120435                 | 64808.51064      | 34348.51064            | 42.07518676                           | 9.037426133           | 68.03002213 | 280.8690545 |
