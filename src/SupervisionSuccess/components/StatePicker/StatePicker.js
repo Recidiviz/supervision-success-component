@@ -4,7 +4,7 @@ import Picker from "../Picker";
 
 import "./StatePicker.scss";
 
-const StatePicker = ({ states, state, onStateChange }) => {
+const StatePicker = ({ states, year, state, onStateChange }) => {
   const options = states.map((item) => ({
     label: item,
     value: item,
@@ -27,13 +27,16 @@ const StatePicker = ({ states, state, onStateChange }) => {
         options={options}
         onChange={onChange}
       />
-      <span className="state-picker_hint">Based on {state} data from 2017</span>
+      <span className="state-picker_hint">
+        Based on {state} data from {year}
+      </span>
     </div>
   );
 };
 
 StatePicker.propTypes = {
   states: PropTypes.arrayOf(PropTypes.string).isRequired,
+  year: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
   onStateChange: PropTypes.func.isRequired,
 };
