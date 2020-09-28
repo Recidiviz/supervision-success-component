@@ -25,7 +25,7 @@ const StatePicker = ({ isError, states, year, state, onStateChange }) => {
         className="state-picker_picker"
         menuLabel="States"
         isLarge
-        defaultValue={options[0]}
+        defaultValue={options.find((item) => item.value === state)}
         options={options}
         onChange={onChange}
       />
