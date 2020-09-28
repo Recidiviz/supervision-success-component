@@ -24,13 +24,15 @@ const customStyles = {
   }),
   singleValue: ({ maxWidth, position, top, transform, ...provided }, state) => ({
     ...provided,
-    fontSize: state.selectProps.isLarge ? "2.25rem" : "1.75rem",
+    fontSize: state.selectProps.isLarge ? "3rem" : "2rem",
+    lineHeight: state.selectProps.isLarge ? "3.625rem" : "2.4375rem",
     fontWeight: 700,
     transition: "color 0.2s",
     marginLeft: 0,
     marginRight: 0,
-    "@media (max-width: 1200px)": {
-      fontSize: state.selectProps.isLarge ? "2rem" : "1.5rem",
+    "@media (max-width: 1023px)": {
+      fontSize: "2rem",
+      lineHeight: "2.5rem",
     },
   }),
   menu: (provided) => ({

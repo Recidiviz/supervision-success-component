@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 import transformChartDataToText from "../../utils/transformChartAsText";
+import useIsMobile from "../../utils/useIsMobile";
 
 import "./Chart.scss";
 
@@ -15,6 +16,7 @@ const TOOLTIP_BG_COLOR = "#091e32";
 export const CONNECTING_LINE_COLOR = "#07aded";
 
 const Chart = ({ isError, data }) => {
+  const isMobile = useIsMobile();
   const { chartData, min, max } = useMemo(() => {
     if (isError) return { chartData: null, min: null, max: null };
     return data.reduce(
@@ -23,14 +25,13 @@ const Chart = ({ isError, data }) => {
         const isYear = Number.isInteger(year);
         acc.chartData.datasets[0].data.push(Math.round(baseline));
         acc.chartData.datasets[1].data.push(Math.round(totalPopulation));
-        if (isYear) {
-          acc.chartData.labels.push(year);
+        acc.chartData.labels.push(isYear ? year : "");
+        if (isYear && !isMobile) {
           acc.chartData.datasets[0].pointBackgroundColor.push(BASELINE_COLOR);
           acc.chartData.datasets[0].pointBorderColor.push(BASELINE_COLOR);
           acc.chartData.datasets[1].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
           acc.chartData.datasets[1].pointBorderColor.push(TOTAL_POPULATION_COLOR);
         } else {
-          acc.chartData.labels.push("");
           acc.chartData.datasets[0].pointBackgroundColor.push(TRANSPARENT_COLOR);
           acc.chartData.datasets[0].pointBorderColor.push(TRANSPARENT_COLOR);
           acc.chartData.datasets[1].pointBackgroundColor.push(TRANSPARENT_COLOR);
@@ -51,6 +52,7 @@ const Chart = ({ isError, data }) => {
               pointBorderColor: [],
               borderColor: BASELINE_COLOR,
               backgroundColor: BASELINE_COLOR,
+              borderWidth: isMobile ? 1 : 2,
               fill: false,
             },
             {
@@ -60,6 +62,7 @@ const Chart = ({ isError, data }) => {
               pointBorderColor: [],
               borderColor: TOTAL_POPULATION_COLOR,
               backgroundColor: TOTAL_POPULATION_COLOR,
+              borderWidth: isMobile ? 1 : 2,
               fill: false,
             },
           ],
@@ -68,7 +71,7 @@ const Chart = ({ isError, data }) => {
         max: -Infinity,
       }
     );
-  }, [isError, data]);
+  }, [isMobile, isError, data]);
 
   const chartOptions = useMemo(
     () => ({
@@ -81,17 +84,19 @@ const Chart = ({ isError, data }) => {
             gridLines: false,
             ticks: {
               padding: 20,
-              fontSize: 16,
+              fontSize: isMobile ? 12 : 16,
               precision: 0,
               suggestedMax: min === max ? max + Y_AXIS_OFFSET : max + (max - min) * VERTICAL_OFFSET,
               suggestedMin: min === max ? max - Y_AXIS_OFFSET : min - (max - min) * VERTICAL_OFFSET,
+              maxTicksLimit: 7,
+              callback: (value) => value.toLocaleString(),
             },
           },
         ],
         xAxes: [
           {
             gridLines: false,
-            ticks: { fontSize: 16, padding: 20 },
+            ticks: { fontSize: isMobile ? 12 : 16, padding: 20, minRotation: 0, maxRotation: 0 },
           },
         ],
       },
@@ -116,7 +121,7 @@ const Chart = ({ isError, data }) => {
         },
       },
     }),
-    [min, max]
+    [isMobile, min, max]
   );
 
   const drawLinePlugin = {
@@ -159,7 +164,7 @@ const Chart = ({ isError, data }) => {
             options={chartOptions}
             plugins={[drawLinePlugin]}
             width={560}
-            height={380}
+            height={isMobile ? 450 : 340}
           />
         )}
       </div>

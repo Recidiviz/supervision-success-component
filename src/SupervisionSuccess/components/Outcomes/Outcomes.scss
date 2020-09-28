@@ -3,15 +3,18 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-top: 1.5rem;
+  padding-top: 1.75rem;
 
   &_heading {
+    margin-bottom: 5rem;
     padding-left: 2rem;
     font-weight: 700;
     font-size: 1rem;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
     @media (max-width: $md) {
       margin-bottom: 2rem;
-      padding-left: 0.75rem;
+      padding-left: 1rem;
     }
   }
 
@@ -19,40 +22,36 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    justify-content: space-around;
-    padding-left: 0.75rem;
+    padding-left: 1rem;
   }
 
   &_stat {
+    margin-bottom: 7.125rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     @media (max-width: $md) {
-      margin-bottom: 2rem;
+      margin-bottom: 3.5rem;
       align-items: flex-start;
     }
   }
 
   &_stat-value {
     display: flex;
-    margin-bottom: 0.75rem;
-    font-size: 2.25rem;
+    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    line-height: 1;
     font-weight: 700;
-    @media (max-width: $lg) {
-      font-size: 2rem;
-    }
     @media (max-width: $md) {
-      margin-bottom: 0.5rem;
       font-size: 2.5rem;
     }
   }
 
   &_stat-key {
     font-size: 1rem;
+    line-height: 1;
     font-weight: 700;
-    @media (max-width: $lg) {
-      font-size: 0.875rem;
-    }
+    letter-spacing: -0.005em;
   }
 
   &_stat-icon-up:before {

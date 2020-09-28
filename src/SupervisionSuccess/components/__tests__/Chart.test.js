@@ -9,8 +9,10 @@ import {
   TOTAL_POPULATION_COLOR,
   CONNECTING_LINE_COLOR,
 } from "../Chart/Chart";
+import useIsMobile from "../../utils/useIsMobile";
 
 jest.mock("react-chartjs-2");
+jest.mock("../../utils/useIsMobile");
 
 describe("Chart tests", () => {
   Line.mockReturnValue(null);
@@ -24,6 +26,7 @@ describe("Chart tests", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    useIsMobile.mockReturnValue(false);
   });
 
   it("should successfully render chart", () => {
@@ -49,6 +52,7 @@ describe("Chart tests", () => {
             TRANSPARENT_COLOR,
             TRANSPARENT_COLOR,
           ],
+          borderWidth: 2,
           borderColor: BASELINE_COLOR,
           backgroundColor: BASELINE_COLOR,
           fill: false,
@@ -70,11 +74,32 @@ describe("Chart tests", () => {
             TRANSPARENT_COLOR,
             TRANSPARENT_COLOR,
           ],
+          borderWidth: 2,
           borderColor: TOTAL_POPULATION_COLOR,
           backgroundColor: TOTAL_POPULATION_COLOR,
           fill: false,
         },
       ],
+    });
+  });
+
+  it("should be responsive", () => {
+    useIsMobile.mockReturnValue(true);
+    render(<Chart data={mockData} />);
+
+    expect(Line.mock.calls[0][0].data).toMatchObject({
+      datasets: [
+        {
+          borderWidth: 1,
+        },
+        {
+          borderWidth: 1,
+        },
+      ],
+    });
+
+    expect(Line.mock.calls[0][0].options).toMatchObject({
+      scales: { yAxes: [{ ticks: { fontSize: 12 } }] },
     });
   });
 
@@ -231,5 +256,13 @@ describe("Chart tests", () => {
     render(<Chart isError data={[]} />);
 
     expect(Line).toHaveBeenCalledTimes(0);
+  });
+
+  it("should format y axes", () => {
+    render(<Chart data={mockData} />);
+
+    expect(Line.mock.calls[0][0].options.scales.yAxes[0].ticks.callback(140299588)).toBe(
+      "140,299,588"
+    );
   });
 });

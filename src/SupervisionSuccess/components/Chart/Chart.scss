@@ -1,9 +1,12 @@
 @import "../../variables";
 .chart {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 1.75rem;
+  padding-bottom: 5rem;
   overflow: hidden;
-  border-bottom: 1px solid #ededed;
+  @media (max-width: $md) {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #ededed;
+  }
 
   &_heading {
     margin-bottom: 2rem;
@@ -11,7 +14,8 @@
     font-weight: 700;
     font-size: 1rem;
     @media (max-width: $md) {
-      padding-left: 0.75rem;
+      padding-left: 1rem;
+      max-width: 12.5rem;
     }
   }
 
