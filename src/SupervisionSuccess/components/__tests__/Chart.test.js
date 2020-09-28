@@ -258,7 +258,7 @@ describe("Chart tests", () => {
     expect(Line).toHaveBeenCalledTimes(0);
   });
 
-  it("should format y axes", () => {
+  it("should format y axis", () => {
     render(<Chart data={mockData} />);
 
     expect(Line.mock.calls[0][0].options.scales.yAxes[0].ticks.callback(140299588)).toBe(

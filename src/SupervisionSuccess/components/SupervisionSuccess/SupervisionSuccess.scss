@@ -1,11 +1,12 @@
 @import "../../variables";
 .main {
-  border-top: 5px solid $color-accent-2;
+  border-top: 5px solid #2AECC3;
   box-shadow: 1px 2px 4px 0.5px rgba(0, 0, 0, 0.11);
   background-color: #ffffff;
   display: grid;
   grid-template-columns: 17rem auto 18rem;
   grid-template-rows: auto auto;
+  color: #071E33;
   @media (max-width: $lg) {
     grid-template-columns: 16rem auto 16rem;
   }
@@ -13,6 +14,7 @@
     display: flex;
     flex-direction: column;
   }
+
   &_header {
     display: grid;
     grid-gap: 4rem;
