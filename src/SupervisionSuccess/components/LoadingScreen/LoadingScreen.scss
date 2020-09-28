@@ -14,13 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
-import React from "react";
-import { render } from "@testing-library/react";
-
-import LoadingScreen from "../LoadingScreen";
-
-describe("LoadingScreen tests", () => {
-  it("should successfully render", () => {
-    render(<LoadingScreen />);
-  });
-});
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 5px solid #27edc3;
+  box-shadow: 1px 2px 4px 0.5px rgba(0, 0, 0, 0.11);
+  width: 100%;
+  min-height: 300px;
+}
