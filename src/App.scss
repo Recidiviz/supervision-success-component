@@ -19,6 +19,26 @@ body {
   background-color: #f0f0f0;
 }
 
+@font-face {
+  font-family: "GT America";
+  src: url("./fonts/GTAmerica-Bold.woff2") format("woff2"),
+    url("./fonts/GTAmerica-Bold.woff") format("woff"),
+    url("./fonts/GTAmerica-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GT America";
+  src: url("./fonts/GTAmerica-Regular.woff2") format("woff2"),
+    url("./fonts/GTAmerica-Regular.woff") format("woff"),
+    url("./fonts/GTAmerica-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 .app {
   display: flex;
   min-height: 100vh;
@@ -27,38 +47,49 @@ body {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  font-family: "Libre Franklin", sans-serif;
+  font-family: "GT America", sans-serif;
+  font-weight: 400;
 
   &_header {
     display: flex;
     flex-direction: column;
     padding-top: 2rem;
-    padding-bottom: 10rem;
-    background-color: #011e35;
-    @media (max-width: 1200px) {
-      padding-top: 1rem;
+    padding-bottom: 12.8125rem;
+    background-color: #001e35;
+    @media (max-width: 1023px) {
+      padding-bottom: 17rem;
     }
   }
 
   &_header-container {
-    max-width: 1200px;
+    max-width: 1250px;
     margin-left: auto;
     margin-right: auto;
-    @media (max-width: 1200px) {
+    @media (max-width: 1300px) {
       margin-left: 15px;
       margin-right: 15px;
     }
   }
 
   &_header-heading {
+    margin-top: 0;
+    margin-bottom: 2.375rem;
     font-weight: 700;
     color: #fff;
-    font-size: 2rem;
+    font-size: 3rem;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    @media (max-width: 1023px) {
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
   }
 
   &_header-text {
-    font-size: 1rem;
-    line-height: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
     color: #fff;
   }
 
@@ -70,12 +101,15 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    max-width: 1200px;
-    margin-top: -8rem;
-    @media (max-width: 1200px) {
+    max-width: 1250px;
+    margin-top: -10rem;
+    @media (max-width: 1300px) {
       margin-left: 15px;
       margin-right: 15px;
       max-width: calc(100% - 30px);
+    }
+    @media (max-width: 1023px) {
+      margin-top: -14.5rem;
     }
   }
 
@@ -85,7 +119,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
-    @media (max-width: 1200px) {
+    @media (max-width: 1300px) {
       margin-left: 15px;
       margin-right: 15px;
     }
@@ -98,7 +132,10 @@ body {
   }
 
   &_footer-text {
-    font-size: 1rem;
-    line-height: 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.4;
+    @media (max-width: 1023px) {
+      font-size: 1rem;
+    }
   }
 }
