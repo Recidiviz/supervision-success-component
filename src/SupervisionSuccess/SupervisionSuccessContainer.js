@@ -7,7 +7,7 @@ import { DEFAULT_STATE, LS_PERSIST_KEY } from "./constants";
 
 const SupervisionSuccessContainer = ({ params, isError }) => {
   const states = Object.keys(params);
-  const persistedValues = JSON.parse(window.localStorage.getItem(LS_PERSIST_KEY));
+  const persistedValues = JSON.parse(window.localStorage.getItem(LS_PERSIST_KEY)) || {};
   const initialState = {
     ...DEFAULT_STATE,
     ...persistedValues,
