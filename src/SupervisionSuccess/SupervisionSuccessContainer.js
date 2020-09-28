@@ -19,14 +19,23 @@ import PropTypes from "prop-types";
 
 import SupervisionSuccessComponent from "./components/SupervisionSuccess";
 import produceProjections from "./model/produceProjections";
+import { DEFAULT_STATE, LS_PERSIST_KEY } from "./constants";
 
 const SupervisionSuccessContainer = ({ params, isError }) => {
   const states = Object.keys(params);
+  const persistedValues = JSON.parse(window.localStorage.getItem(LS_PERSIST_KEY)) || {};
+  const initialState = {
+    ...DEFAULT_STATE,
+    ...persistedValues,
+    state: states.includes(persistedValues.state) ? persistedValues.state : states[0],
+  };
   const [year, setYear] = useState(0);
-  const [state, setState] = useState(isError ? "" : states[0]);
-  const [implementationPeriod, setImplementationPeriod] = useState(6);
-  const [projections, setProjections] = useState(5);
-  const [changeInRevocations, setChangeInRevocations] = useState(-50);
+  const [state, setState] = useState(isError ? "" : initialState.state);
+  const [implementationPeriod, setImplementationPeriod] = useState(
+    initialState.implementationPeriod
+  );
+  const [projections, setProjections] = useState(initialState.projections);
+  const [changeInRevocations, setChangeInRevocations] = useState(initialState.changeInRevocations);
   const [finalRevocations, setFinalRevocations] = useState(0);
   const [prisonPopulationDiff, setPrisonPopulationDiff] = useState(0);
   const [savings, setSavings] = useState(0);
@@ -44,6 +53,17 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   const onChangeInRevocationsChange = useCallback((newChangeInRevocations) => {
     setChangeInRevocations(newChangeInRevocations);
   }, []);
+
+  useEffect(() => {
+    const valuesToPersist = JSON.stringify({
+      implementationPeriod,
+      projections,
+      changeInRevocations,
+      state,
+    });
+
+    window.localStorage.setItem(LS_PERSIST_KEY, valuesToPersist);
+  }, [state, implementationPeriod, projections, changeInRevocations]);
 
   useEffect(() => {
     if (isError) return;
