@@ -77,6 +77,7 @@ const customStyles = {
     ...provided,
     paddingLeft: 0,
     paddingRight: 0,
+    flex: "auto",
   }),
 };
 

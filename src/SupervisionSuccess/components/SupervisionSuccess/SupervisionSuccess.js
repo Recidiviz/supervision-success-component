@@ -45,18 +45,24 @@ const SupervisionSuccessComponent = ({
 }) => (
   <section className="main">
     <header className="main_header">
-      <StatePicker
-        isError={isError}
-        year={year}
-        states={states}
-        state={state}
-        onStateChange={onStateChange}
-      />
-      <ImplementationPeriodPicker
-        implementationPeriod={implementationPeriod}
-        onImplementationPeriodChange={onImplementationPeriodChange}
-      />
-      <ProjectionsPicker projections={projections} onProjectionsChange={onProjectionsChange} />
+      <div className="main_header-state">
+        <StatePicker
+          isError={isError}
+          year={year}
+          states={states}
+          state={state}
+          onStateChange={onStateChange}
+        />
+      </div>
+      <div className="main_header-implementation-period">
+        <ImplementationPeriodPicker
+          implementationPeriod={implementationPeriod}
+          onImplementationPeriodChange={onImplementationPeriodChange}
+        />
+      </div>
+      <div className="main_header_projections">
+        <ProjectionsPicker projections={projections} onProjectionsChange={onProjectionsChange} />
+      </div>
     </header>
     <aside className="main_left-aside">
       <ChangeInRevocations
@@ -67,7 +73,7 @@ const SupervisionSuccessComponent = ({
         onChangeInRevocationsChange={onChangeInRevocationsChange}
       />
     </aside>
-    <section>
+    <section className="main_center">
       <Chart isError={isError} data={chartData} />
     </section>
     <aside className="main_right-aside">
