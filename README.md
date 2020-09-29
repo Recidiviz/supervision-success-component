@@ -8,8 +8,8 @@ A React component powering a miniature web app for exploring the impact of succe
 
 ## Contents
 
-1. [Development](w#development)
-1. [Params File Format](w#params-file-format)
+1. [Development](#development)
+1. [Params File Format](#params-file-format)
 
 ## Development
 
