@@ -22,7 +22,6 @@ import SupervisionSuccessContainer from "./SupervisionSuccessContainer";
 import deriveModelParamsFromCsvString from "./utils/deriveModelParamsFromCsvString";
 import LoadingScreen from "./components/LoadingScreen";
 import { ERROR_RESPONSE_NOT_OK, ERROR_NOT_CSV_FETCHED } from "./constants";
-import "blob-polyfill";
 
 const SupervisionSuccess = ({ path }) => {
   const [isError, setIsError] = useState(false);
@@ -37,7 +36,7 @@ const SupervisionSuccess = ({ path }) => {
           throw new Error(ERROR_RESPONSE_NOT_OK(text));
         }
         const blob = await response.blob();
-        if (blob.type !== "text/csv") {
+        if (blob.type.indexOf("text/csv") === -1) {
           throw new Error(ERROR_NOT_CSV_FETCHED);
         }
         const CSVString = await blob.text();

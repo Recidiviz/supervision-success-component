@@ -16,28 +16,21 @@
 // =============================================================================
 @import "../../variables";
 .main {
-  border-top: 5px solid #2AECC3;
+  border-top: 5px solid #2aecc3;
   box-shadow: 1px 2px 4px 0.5px rgba(0, 0, 0, 0.11);
   background-color: #ffffff;
-  display: grid;
-  grid-template-columns: 17rem auto 18rem;
-  grid-template-rows: auto auto;
-  color: #071E33;
-  @media (max-width: $lg) {
-    grid-template-columns: 16rem auto 16rem;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  color: #071e33;
   @media (max-width: $md) {
-    display: flex;
     flex-direction: column;
   }
 
   &_header {
-    display: grid;
-    grid-gap: 4rem;
-    grid-template-columns: auto 1fr auto auto;
+    width: 100%;
+    display: flex;
     padding: 2rem 3.5rem;
     border-bottom: 1px solid #ededed;
-    grid-column: span 3;
     align-items: center;
     @media (max-width: $lg) {
       padding-left: 1.5rem;
@@ -45,7 +38,6 @@
     }
     @media (max-width: $md) {
       padding: 1.5rem 0 0;
-      display: flex;
       flex-direction: column;
       align-items: stretch;
       grid-gap: 0;
@@ -53,16 +45,49 @@
     }
   }
 
-  &_left-aside {
-    border-right: 1px solid #ededed;
+  &_header-implementation-period {
+    margin-left: auto;
     @media (max-width: $md) {
+      margin-left: 0;
+    }
+  }
+
+  &_header_projections {
+    margin-left: 4rem;
+    @media (max-width: $md) {
+      margin-left: 0;
+    }
+  }
+
+  &_left-aside {
+    width: 17rem;
+    border-right: 1px solid #ededed;
+    @media (max-width: $lg) {
+      width: 16rem;
+    }
+    @media (max-width: $md) {
+      width: 100%;
       border-right: 0;
       border-bottom: 1px solid #ededed;
     }
   }
 
+  &_center {
+    width: calc(100% - 35rem - 2px);
+    @media (max-width: $lg) {
+      width: calc(100% - 32rem - 2px);
+    }
+    @media (max-width: $md) {
+      width: 100%;
+    }
+  }
+
   &_right-aside {
+    width: 18rem;
     border-left: 1px solid #ededed;
+    @media (max-width: $lg) {
+      width: 16rem;
+    }
     @media (max-width: $md) {
       border-left: 0;
     }
