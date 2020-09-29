@@ -23,14 +23,15 @@ This months should not participate in savings and prisonPopulationDiff calculati
 const ADDED_MONTHS = 5;
 
 /**
- * Function that transforms params and app state to chartData and stats
+ * Function that transforms params and app state to ouput, i.e. chart data and
+ * high-level statistics related to costs and prison population reduction.
  * @param {{
      newOffensePopulation: number
      revocationA: number
      revocationsTimescale: number
      savingsMap: {checkpoint: number savings: number}[]
      marginalCostPerInmate: number
-   }} params - params for chosen state taken from source file
+   }} params - params for chosen state taken from source file (`params.csv`)
  * @param {number} implementationPeriod
  * @param {number} projections
  * @param {number} changeInRevocations

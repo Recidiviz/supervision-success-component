@@ -16,15 +16,17 @@
 // =============================================================================
 const MONTHS_IN_YEAR = 12;
 /**
- * Function that calculates one month savings
+ * Function that calculates one month of dollar savings due to the modeled
+ * revocation reduction. This will return a negative number if there is an
+ * increase in costs due to an increase in revocations.
  * @param {number} initialRevocations - revocations at the start (when month = 0)
- * @param {number} newRevocations - revocations at given month
+ * @param {number} newRevocations - revocations at a given month
  * @param {{
  *   checkpoint: number
  *   savings: number
  * }[]} savingsMap - ordered list of checkpoints and associated savings
- * @param {number} marginalCostPerInmate
- * @returns {number} - one month savings
+ * @param {number} marginalCostPerInmate - the marginal cost per incarcerated person
+ * @returns {number} - one month of savings
  */
 function calcSavings(initialRevocations, newRevocations, savingsMap, marginalCostPerInmate) {
   const revocationsDiff = initialRevocations - newRevocations;

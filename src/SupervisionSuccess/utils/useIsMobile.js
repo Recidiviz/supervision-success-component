@@ -16,6 +16,12 @@
 // =============================================================================
 import { useEffect, useState } from "react";
 
+/**
+ * Function that returns whether or not the current client is mobile, i.e. has
+ * a screen resolution which is likely to be a mobile device. This is used to
+ * conditionally update the layout into a more mobile-friendly form.
+ * @returns {boolean} - whether or not the client is believed to be mobile
+ */
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
