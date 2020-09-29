@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
+
+/**
+ * Function that returns a suitable error message for describing the given list
+ * of missing fields (from `params.csv`) for the given state, to be used in
+ * logging, throwing errors, etc.
+ * @param {string} state - state with the missing fields
+ * @param {string[]} fields - list of the names of missing fields for the state
+ * @returns {string} - a suitable, readable error message
+ */
 function getMissingFieldsError(state, fields) {
   const isSingle = fields.length === 1;
 

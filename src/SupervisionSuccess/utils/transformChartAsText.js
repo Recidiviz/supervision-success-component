@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
+
+/**
+ * Function that returns a message for screen readers that describes the data
+ * in the revocations over time chart, for accessibility purposes.
+ * @param {Object[]} dataset - the dataset used to visualize data in the chart
+ * @returns {string} - a descriptive message to be used for accessibility
+ */
 const transformChartDataToText = (dataset) => {
   let result = `Initial: ${dataset[0]} people in prison.`;
   if (dataset[12]) result += ` After 1st year: ${dataset[12]}.`;

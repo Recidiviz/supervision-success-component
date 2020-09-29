@@ -17,16 +17,16 @@
 const { exp } = Math;
 
 /**
- * Function that calculates revocations
+ * Function that calculates revocation projections from the given inputs.
  * @param {number} month - Integer from 0 to Infinity that represents quantity
  *   of months since the start
- * @param {number} IP - implementationPeriod integer value of months
- * @param {number} RA - revocations A (param from spreadsheet)
- * @param {number} RT - revocations Timescale (param from spreadsheet)
- * @param {number} changeInRevocations - integer value of change percents
- * @const {number} RR - revocation reduction - as we store changeInRevocations
- *   as integer number of percents we need to divide it by 100 and multiple on
- *   -1 to transform  to revocation reduction that is used in calculations
+ * @param {number} IP - implementationPeriod - an integer value of months
+ * @param {number} RA - revocations A - (a parameter from the upstream spreadsheet)
+ * @param {number} RT - revocations Timescale - (a parameter from the upstream spreadsheet)
+ * @param {number} changeInRevocations - integer value of the percentage change in revocations
+ * @const {number} RR - revocation reduction - since we store changeInRevocations
+ *   as integer number, we need to divide it by 100 and multiply by
+ *   -1 to transform it to a revocation reduction that is used in calculations
  * @returns {number}
  */
 function calcRevocations(month, IP, RA, RT, changeInRevocations) {

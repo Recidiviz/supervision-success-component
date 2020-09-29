@@ -39,9 +39,11 @@ const Chart = ({ isError, data }) => {
       (acc, { month, baseline, totalPopulation }) => {
         const year = month / 12;
         const isYear = Number.isInteger(year);
+
         acc.chartData.datasets[0].data.push(Math.round(baseline));
         acc.chartData.datasets[1].data.push(Math.round(totalPopulation));
         acc.chartData.labels.push(isYear ? year : "");
+
         if (isYear && !isMobile) {
           acc.chartData.datasets[0].pointBackgroundColor.push(BASELINE_COLOR);
           acc.chartData.datasets[0].pointBorderColor.push(BASELINE_COLOR);

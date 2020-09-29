@@ -35,10 +35,12 @@ const SupervisionSuccess = ({ path }) => {
           const text = await response.text();
           throw new Error(ERROR_RESPONSE_NOT_OK(text));
         }
+
         const blob = await response.blob();
         if (blob.type.indexOf("text/csv") === -1) {
           throw new Error(ERROR_NOT_CSV_FETCHED);
         }
+
         const CSVString = await blob.text();
         const newParams = await deriveModelParamsFromCsvString(CSVString);
         setParams(newParams);
