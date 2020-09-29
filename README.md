@@ -71,30 +71,30 @@ An _example_ of a valid `params.csv` file can be found in [`params.csv`](/src/pa
 
 The first row of the file (the headers) contains revocation model parameters **in fixed order**.
 
-- \[A] `State`
-- \[B] `Data Year`
-- \[C] `Revocations Population [C&C input]`
-- \[D] `Population Fraction [C&C input]`
-- \[E] `Revocations Admissions [C&C input]`
-- \[F] `Admissions Fraction [C&C input]`
-- \[G] `total cost per inmate [input]`
-- \[H] `marginal cost per inmate [input]`
-- \[I] `checkpoint (number of fewer people incarcerated) [input]`
-- \[J] `associated savings [input]`
-- \[K] `checkpoint (number of fewer people incarcerated) [input]`
-- \[L] `associated savings [input]`
-- \[M] `checkpoint (number of fewer people incarcerated) [input]`
-- \[N] `associated savings [input]`
-- \[O] `checkpoint (number of fewer people incarcerated) [input]`
-- \[P] `associated savings [input]`
-- \[Q] `Total Population`
-- \[R] `New Offense Population`
-- \[S] `Total Admissions`
-- \[T] `New Offense Admissions`
-- \[U] `New Offense Avg Time Served in Months`
-- \[V] `Revocations Timescale`
-- \[W] `N A`
-- \[X] `R A`
+- `State`
+- `Data Year`
+- `Revocations Population [C&C input]`
+- `Population Fraction [C&C input]`
+- `Revocations Admissions [C&C input]`
+- `Admissions Fraction [C&C input]`
+- `total cost per inmate [input]`
+- `marginal cost per inmate [input]`
+- `checkpoint (number of fewer people incarcerated) [input]`
+- `associated savings [input]`
+- `checkpoint (number of fewer people incarcerated) [input]`
+- `associated savings [input]`
+- `checkpoint (number of fewer people incarcerated) [input]`
+- `associated savings [input]`
+- `checkpoint (number of fewer people incarcerated) [input]`
+- `associated savings [input]`
+- `Total Population`
+- `New Offense Population`
+- `Total Admissions`
+- `New Offense Admissions`
+- `New Offense Avg Time Served in Months`
+- `Revocations Timescale`
+- `N A`
+- `R A`
 
 Each row after the first row should correspond to a single state. There should not be multiple rows with the same `State` value. Each row should include the parameters necessary for accurately modeling revocations within that state.
 
