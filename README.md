@@ -1,5 +1,7 @@
 # Supervision Success
 
+[![Build Status](https://travis-ci.com/Recidiviz/supervision-success-component.svg?branch=master)](https://travis-ci.com/Recidiviz/supervision-success-component)
+
 [![Coverage Status](https://coveralls.io/repos/github/Recidiviz/supervision-success-component/badge.svg?branch=master)](https://coveralls.io/github/Recidiviz/supervision-success-component?branch=master)
 
 A React component powering a miniature web app for exploring the impact of success in supervision on the justice system at large
