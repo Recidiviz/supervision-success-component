@@ -49,7 +49,7 @@ const App = () => (
       <SupervisionSuccess path={params} />
     </section>
     <footer className="app_footer">
-      <h3 className="app_footer-heading">Our Methodology</h3>
+      <h3 className="app_footer-heading">Methodology</h3>
       <p className="app_footer-text">
         This model is meant to provide a simple but robust projection from changes to a states’
         revocation rate. At a given time, the prison population is captured as a continuous
