@@ -28,6 +28,7 @@ describe("ChangeInRevocations tests", () => {
   const mockState = "Texas";
   const mockFinalRevocations = 350;
   const mockChangeInRevocations = 50;
+  const mockThumbProps = { some: "prop" };
   const mockOnChangeInRevocationsChange = jest.fn();
   ReactSlider.mockReturnValue(null);
 
@@ -48,8 +49,6 @@ describe("ChangeInRevocations tests", () => {
   });
 
   it("should render thumb", () => {
-    const mockThumbProps = { some: "prop" };
-
     render(
       <ChangeInRevocations
         state={mockState}
@@ -66,8 +65,6 @@ describe("ChangeInRevocations tests", () => {
   });
 
   it("should render thumb without data if isError = true", () => {
-    const mockThumbProps = { some: "prop" };
-
     render(
       <ChangeInRevocations
         isError
@@ -86,7 +83,6 @@ describe("ChangeInRevocations tests", () => {
   });
 
   it("should be responsive", () => {
-    const mockThumbProps = { some: "prop" };
     useIsMobile.mockReturnValue(true);
     const { container } = render(
       <ChangeInRevocations
