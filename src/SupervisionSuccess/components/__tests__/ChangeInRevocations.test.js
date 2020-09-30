@@ -28,11 +28,13 @@ describe("ChangeInRevocations tests", () => {
   const mockState = "Texas";
   const mockFinalRevocations = 350;
   const mockChangeInRevocations = 50;
+  const mockThumbProps = { some: "prop" };
   const mockOnChangeInRevocationsChange = jest.fn();
   ReactSlider.mockReturnValue(null);
 
   beforeEach(() => {
     jest.clearAllMocks();
+    useIsMobile.mockReturnValue(false);
   });
 
   it("should render without error", () => {
@@ -47,9 +49,6 @@ describe("ChangeInRevocations tests", () => {
   });
 
   it("should render thumb", () => {
-    const mockThumbProps = { some: "prop" };
-    useIsMobile.mockReturnValue(false);
-
     render(
       <ChangeInRevocations
         state={mockState}
@@ -66,9 +65,6 @@ describe("ChangeInRevocations tests", () => {
   });
 
   it("should render thumb without data if isError = true", () => {
-    const mockThumbProps = { some: "prop" };
-    const mockThumbState = { valueNow: -40 };
-
     render(
       <ChangeInRevocations
         isError
@@ -80,9 +76,30 @@ describe("ChangeInRevocations tests", () => {
     );
 
     const { findAllByText, getByText } = render(
-      ReactSlider.mock.calls[0][0].renderThumb(mockThumbProps, mockThumbState)
+      ReactSlider.mock.calls[0][0].renderThumb(mockThumbProps)
     );
     expect(findAllByText("-")).resolves.toHaveLength(2);
     expect(getByText("Violations resulting in - incarceration")).toBeInTheDocument();
+  });
+
+  it("should be responsive", () => {
+    useIsMobile.mockReturnValue(true);
+    const { container } = render(
+      <ChangeInRevocations
+        state={mockState}
+        finalRevocations={mockFinalRevocations}
+        changeInRevocations={mockChangeInRevocations}
+        onChangeInRevocationsChange={mockOnChangeInRevocationsChange}
+      />
+    );
+    const { container: thumbContainer } = render(
+      ReactSlider.mock.calls[0][0].renderThumb(mockThumbProps)
+    );
+
+    expect(ReactSlider).toHaveBeenCalledTimes(1);
+    expect(ReactSlider.mock.calls[0][0].orientation).toBe("horizontal");
+    expect(container.querySelector(".revocations-slider_footer")).not.toBeNull();
+    expect(thumbContainer.querySelector(".revocations-slider_thumb")).not.toBeNull();
+    expect(thumbContainer.querySelector(".revocations-slider_thumb").childNodes.length).toBe(0);
   });
 });
