@@ -119,6 +119,7 @@ const Chart = ({ isError, data }) => {
         ],
       },
       tooltips: {
+        enabled: !isMobile,
         filter: ({ index }) => index % 12 === 0,
         intersect: false,
         mode: "index",
@@ -144,7 +145,7 @@ const Chart = ({ isError, data }) => {
 
   const drawLinePlugin = {
     afterDraw(chart) {
-      if (chart.tooltip._active && chart.tooltip._active.length) {
+      if (!isMobile && chart.tooltip._active && chart.tooltip._active.length) {
         const [firstPoint, secondPoint] = chart.controller.tooltip._active;
         if (firstPoint._index % 12 !== 0) return;
         const topY = Math.max(firstPoint._model.y, secondPoint._model.y);
