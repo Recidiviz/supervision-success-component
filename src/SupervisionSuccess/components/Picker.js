@@ -57,6 +57,7 @@ const customStyles = {
     width: "auto",
     right: 0,
     border: 0,
+    zIndex: 2,
   }),
   dropdownIndicator: (provided, state) => ({
     ...provided,
