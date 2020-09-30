@@ -35,7 +35,7 @@ That's it! We suggest installing a linting package for your preferred code edito
 
 To run tests wired up through react-scripts:
 
-`yarn test`
+`yarn test --coverage`
 
 Running tests this way will also write code coverage statistics to stdout and the `coverage` directory, which are reported to Coveralls.
 

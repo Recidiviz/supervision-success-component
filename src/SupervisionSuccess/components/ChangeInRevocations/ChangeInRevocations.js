@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import ReactSlider from "react-slider";
 import useIsMobile from "../../utils/useIsMobile";
@@ -30,21 +30,25 @@ const ChangeInRevocations = ({
 }) => {
   const [valueNow, setValueNow] = useState(changeInRevocations);
   const isMobile = useIsMobile();
+  const thumbContent = useMemo(
+    () => (
+      <>
+        <span className="revocations-slider_percent">{valueNow}%</span>
+        <span className="revocations-slider_hint">
+          <b className="revocations-slider_hint-count">{isError ? "-" : finalRevocations}</b>{" "}
+          Violations resulting in {isError ? "-" : state} incarceration
+        </span>
+      </>
+    ),
+    [valueNow, isError, finalRevocations, state]
+  );
   const renderThumb = useCallback(
     (props) => (
       <span {...props} className="revocations-slider_thumb">
-        {!isMobile && (
-          <>
-            <span className="revocations-slider_percent">{valueNow}%</span>
-            <span className="revocations-slider_hint">
-              <b className="revocations-slider_hint-count">{isError ? "-" : finalRevocations}</b>{" "}
-              Violations resulting in {isError ? "-" : state} incarceration
-            </span>
-          </>
-        )}
+        {!isMobile && thumbContent}
       </span>
     ),
-    [isMobile, valueNow, isError, finalRevocations, state]
+    [isMobile, thumbContent]
   );
 
   return (
@@ -65,15 +69,7 @@ const ChangeInRevocations = ({
         />
         <span className="revocations-slider_label">-100%</span>
       </div>
-      {isMobile && (
-        <div className="revocations-slider_footer">
-          <span className="revocations-slider_percent">{valueNow}%</span>
-          <span className="revocations-slider_hint">
-            <b className="revocations-slider_hint-count">{finalRevocations}</b> Violations resulting
-            in {state} incarceration
-          </span>
-        </div>
-      )}
+      {isMobile && <div className="revocations-slider_footer">{thumbContent}</div>}
     </div>
   );
 };
