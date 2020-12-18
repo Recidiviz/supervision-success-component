@@ -29,7 +29,8 @@ const ADDED_MONTHS = 5;
      newOffensePopulation: number
      revocationA: number
      revocationsTimescale: number
-     savingsMap: {checkpoint: number savings: number}[]
+     numberOfFacilities: number
+     stateWideCapacity: number
      marginalCostPerInmate: number
    }} params - params for chosen state taken from source file (`params.csv`)
  * @param {number} implementationPeriod
@@ -47,7 +48,9 @@ function produceProjections(params, implementationPeriod, projections, changeInR
     newOffensePopulation,
     revocationA,
     revocationsTimescale,
-    savingsMap,
+    totalCostPerInmate,
+    numberOfFacilities,
+    stateWideCapacity,
     marginalCostPerInmate,
   } = params;
 
@@ -70,12 +73,14 @@ function produceProjections(params, implementationPeriod, projections, changeInR
   const totalSavings = Array.from({ length: months }).reduce(
     (acc, _, month) =>
       acc +
-      calcSavings(
-        revocationsByMonth[0],
-        revocationsByMonth[month],
-        savingsMap,
-        marginalCostPerInmate
-      ),
+      calcSavings({
+        newRevocations: revocationsByMonth[month],
+        marginalCostPerInmate,
+        newOffensePopulation,
+        totalCostPerInmate,
+        numberOfFacilities,
+        stateWideCapacity,
+      }),
     0
   );
 

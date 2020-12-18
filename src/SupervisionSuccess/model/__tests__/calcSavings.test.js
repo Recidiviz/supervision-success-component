@@ -29,35 +29,76 @@ import {
 
 describe("calcSavings tests", () => {
   const { Alabama, Alaska, Texas } = params;
-  const ALSavingsMap = Alabama.savingsMap;
-  const AKSavingsMap = Alaska.savingsMap;
-  const TXSavingsMap = Texas.savingsMap;
-  const ALCost = Alabama.marginalCostPerInmate;
-  const AKCost = Alaska.marginalCostPerInmate;
-  const TXCost = Texas.marginalCostPerInmate;
+  const ALMarginalCost = Alabama.marginalCostPerInmate;
+  const AKMarginalCost = Alaska.marginalCostPerInmate;
+  const TXMarginalCost = Texas.marginalCostPerInmate;
+
+  const ALTotalCost = Alabama.totalCostPerInmate;
+  const AKTotalCost = Alaska.totalCostPerInmate;
+  const TXTotalCost = Texas.totalCostPerInmate;
+
+  const ALFacilities = Alabama.numberOfFacilities;
+  const AKFacilities = Alaska.numberOfFacilities;
+  const TXFacilities = Texas.numberOfFacilities;
+
+  const ALCapacity = Alabama.stateWideCapacity;
+  const AKCapacity = Alaska.stateWideCapacity;
+  const TXCapacity = Texas.stateWideCapacity;
+
+  const ALNewOffence = Alabama.newOffensePopulation;
+  const AKNewOffence = Alaska.newOffensePopulation;
+  const TXNewOffence = Texas.newOffensePopulation;
+
   const round = (number) => Number(number.toFixed(4));
 
-  it("should return correct savings with different revocations numbers", () => {
-    let totalSavings = 0;
-    mockALRevocationsByMonth.forEach((revocations, month) => {
-      totalSavings += calcSavings(mockALRevocationsByMonth[0], revocations, ALSavingsMap, ALCost);
-      expect(round(totalSavings)).toBe(mockALTotalSavingsByMonth[month]);
+  describe("should return correct savings with different revocations numbers", () => {
+    it("should return correct savings for AL", () => {
+      let totalSavings = 0;
+      mockALRevocationsByMonth.forEach((revocations, month) => {
+        totalSavings += calcSavings({
+          newRevocations: revocations,
+          numberOfFacilities: ALFacilities,
+          totalCostPerInmate: ALTotalCost,
+          marginalCostPerInmate: ALMarginalCost,
+          stateWideCapacity: ALCapacity,
+          newOffensePopulation: ALNewOffence,
+        });
+        expect(round(totalSavings)).toBe(mockALTotalSavingsByMonth[month]);
+      });
+    });
+
+    it("should return correct savings for AK", () => {
+      let totalSavings = 0;
+      mockAKRevocationsByMonth.forEach((revocations, month) => {
+        totalSavings += calcSavings({
+          newRevocations: revocations,
+          numberOfFacilities: AKFacilities,
+          totalCostPerInmate: AKTotalCost,
+          marginalCostPerInmate: AKMarginalCost,
+          stateWideCapacity: AKCapacity,
+          newOffensePopulation: AKNewOffence,
+        });
+        expect(round(totalSavings)).toBe(mockAKTotalSavingsByMonth[month]);
+      });
+    });
+
+    it("should return correct savings for TX", () => {
+      let totalSavings = 0;
+      mockTXRevocationsByMonth.forEach((revocations, month) => {
+        totalSavings += calcSavings({
+          newRevocations: revocations,
+          numberOfFacilities: TXFacilities,
+          totalCostPerInmate: TXTotalCost,
+          marginalCostPerInmate: TXMarginalCost,
+          stateWideCapacity: TXCapacity,
+          newOffensePopulation: TXNewOffence,
+        });
+        expect(round(totalSavings)).toBe(mockTXTotalSavingsByMonth[month]);
+      });
     });
   });
 
-  it("should return correct savings with different savings Map and cost", () => {
-    let totalSavings = 0;
-    mockAKRevocationsByMonth.forEach((revocations, month) => {
-      totalSavings += calcSavings(mockAKRevocationsByMonth[0], revocations, AKSavingsMap, AKCost);
-      expect(round(totalSavings)).toBe(mockAKTotalSavingsByMonth[month]);
-    });
-  });
-
-  it("should return correct savings with different savings Map and cost", () => {
-    let totalSavings = 0;
-    mockTXRevocationsByMonth.forEach((revocations, month) => {
-      totalSavings += calcSavings(mockTXRevocationsByMonth[0], revocations, TXSavingsMap, TXCost);
-      expect(round(totalSavings)).toBe(mockTXTotalSavingsByMonth[month]);
-    });
+  describe("should work with revocations increase as well", () => {
+    // TODO(49): Add tests on revocations increase when questions would be resolved
   });
 });
