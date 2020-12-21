@@ -36,17 +36,16 @@ function calcSavings({
   stateWideCapacity,
 }) {
   const totalPopulation = newOffensePopulation + newRevocations;
+  const populationDiff = stateWideCapacity - totalPopulation;
+  const averageCapacity = stateWideCapacity / numberOfFacilities;
+  const facilitiesDiff =
+    Math.floor(Math.abs(populationDiff / averageCapacity)) *
+    (totalPopulation > stateWideCapacity ? -1 : 1);
+  const restPopulation = populationDiff % averageCapacity;
 
-  const facilitiesDiffRatio = (1 - totalPopulation / stateWideCapacity) * numberOfFacilities;
+  const graduatedSavings = facilitiesDiff * averageCapacity * totalCostPerInmate;
 
-  const facilitiesDiff = Math.floor(facilitiesDiffRatio);
-  const restPopulation = facilitiesDiffRatio % 1;
-
-  const graduatedSavings =
-    facilitiesDiff * (stateWideCapacity / numberOfFacilities) * totalCostPerInmate;
-
-  const marginalSavings =
-    restPopulation * (stateWideCapacity / numberOfFacilities) * marginalCostPerInmate;
+  const marginalSavings = restPopulation * marginalCostPerInmate;
 
   return (graduatedSavings + marginalSavings) / MONTHS_IN_YEAR;
 }
