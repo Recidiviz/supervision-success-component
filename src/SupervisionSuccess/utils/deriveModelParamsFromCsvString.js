@@ -27,10 +27,9 @@ import getMissingFieldsError from "./getMissingFieldsError";
  *   revocationA: number
  *   revocationsTimescale: number
  *   marginalCostPerInmate: number
- *   savingsMap: {
- *     checkpoint: number
- *     savings: number
- *   }[]
+ *   totalCostPerInmate: number
+ *   numberOfFacilities: number
+ *   stateWideCapacity: number
  * }>>}
  */
 async function deriveModelParamsFromCsvString(string) {
@@ -45,14 +44,8 @@ async function deriveModelParamsFromCsvString(string) {
       "admissionsFraction",
       "totalCostPerInmate",
       "marginalCostPerInmate",
-      "checkpoint1",
-      "savings1",
-      "checkpoint2",
-      "savings2",
-      "checkpoint3",
-      "savings3",
-      "checkpoint4",
-      "savings4",
+      "numberOfFacilities",
+      "stateWideCapacity",
       "totalPopulation",
       "newOffensePopulation",
       "totalAdmissions",
@@ -78,14 +71,9 @@ async function deriveModelParamsFromCsvString(string) {
         revocationA,
         revocationsTimescale,
         marginalCostPerInmate,
-        checkpoint1,
-        savings1,
-        checkpoint2,
-        savings2,
-        checkpoint3,
-        savings3,
-        checkpoint4,
-        savings4,
+        totalCostPerInmate,
+        numberOfFacilities,
+        stateWideCapacity,
       }
     ) => {
       const requiredFields = {
@@ -95,14 +83,9 @@ async function deriveModelParamsFromCsvString(string) {
         revocationA,
         revocationsTimescale,
         marginalCostPerInmate,
-        checkpoint1,
-        savings1,
-        checkpoint2,
-        savings2,
-        checkpoint3,
-        savings3,
-        checkpoint4,
-        savings4,
+        totalCostPerInmate,
+        numberOfFacilities,
+        stateWideCapacity,
       };
       const missingFields = Object.keys(requiredFields).filter(
         (key) => typeof requiredFields[key] !== "string" || requiredFields[key].length === 0
@@ -112,13 +95,6 @@ async function deriveModelParamsFromCsvString(string) {
         throw new Error(getMissingFieldsError(state, missingFields));
       }
 
-      const savingsMap = [
-        { checkpoint: Number(checkpoint1), savings: Number(savings1) },
-        { checkpoint: Number(checkpoint2), savings: Number(savings2) },
-        { checkpoint: Number(checkpoint3), savings: Number(savings3) },
-        { checkpoint: Number(checkpoint4), savings: Number(savings4) },
-      ].sort((a, b) => b.checkpoint - a.checkpoint);
-
       return {
         ...params,
         [state]: {
@@ -127,7 +103,9 @@ async function deriveModelParamsFromCsvString(string) {
           revocationsTimescale: Number(revocationsTimescale),
           marginalCostPerInmate: Number(marginalCostPerInmate),
           year: Number(year),
-          savingsMap,
+          totalCostPerInmate: Number(totalCostPerInmate),
+          numberOfFacilities: Number(numberOfFacilities),
+          stateWideCapacity: Number(stateWideCapacity),
         },
       };
     },

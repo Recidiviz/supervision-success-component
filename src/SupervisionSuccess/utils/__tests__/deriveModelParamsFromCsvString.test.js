@@ -45,14 +45,9 @@ describe("deriveModelParamsFromCsvString tests", () => {
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
           marginalCostPerInmate: "0.001",
-          checkpoint2: "2240",
-          savings2: "40",
-          checkpoint1: "3360",
-          savings1: "60",
-          checkpoint3: "1680",
-          savings3: "30",
-          checkpoint4: "672",
-          savings4: "12",
+          totalCostPerInmate: "0.01785714286",
+          numberOfFacilities: "10",
+          stateWideCapacity: "33600",
         },
       ]),
     });
@@ -64,24 +59,9 @@ describe("deriveModelParamsFromCsvString tests", () => {
         revocationA: 131.7795242,
         marginalCostPerInmate: 0.001,
         year: 2017,
-        savingsMap: [
-          {
-            checkpoint: 3360,
-            savings: 60,
-          },
-          {
-            checkpoint: 2240,
-            savings: 40,
-          },
-          {
-            checkpoint: 1680,
-            savings: 30,
-          },
-          {
-            checkpoint: 672,
-            savings: 12,
-          },
-        ],
+        totalCostPerInmate: 0.01785714286,
+        numberOfFacilities: 10,
+        stateWideCapacity: 33600,
       },
     });
   });
@@ -95,14 +75,9 @@ describe("deriveModelParamsFromCsvString tests", () => {
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
           marginalCostPerInmate: "0.001",
-          checkpoint2: "2240",
-          savings2: "40",
-          checkpoint1: "3360",
-          savings1: "60",
-          checkpoint3: "1680",
-          savings3: "30",
-          checkpoint4: "672",
-          savings4: "12",
+          totalCostPerInmate: "0.01785714286",
+          numberOfFacilities: "10",
+          stateWideCapacity: "33600",
         },
       ]),
     });
@@ -117,14 +92,9 @@ describe("deriveModelParamsFromCsvString tests", () => {
     csv.mockReturnValue({
       fromString: jest.fn().mockResolvedValue([
         {
-          checkpoint2: "2240",
-          savings2: "40",
-          checkpoint1: "3360",
-          savings1: "60",
-          checkpoint3: "1680",
-          savings3: "30",
-          checkpoint4: "672",
-          savings4: "12",
+          totalCostPerInmate: "0.01785714286",
+          numberOfFacilities: "10",
+          stateWideCapacity: "33600",
         },
       ]),
     });
