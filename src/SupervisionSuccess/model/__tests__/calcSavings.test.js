@@ -19,9 +19,11 @@ import params from "../__mocks__/params.mock";
 import {
   mockAKRevocationsByMonth,
   mockALRevocationsByMonth,
+  mockIncreasingAKRevocationsByMonth,
   mockTXRevocationsByMonth,
 } from "../__mocks__/revocations.mock";
 import {
+  mockAKCostsByMonth,
   mockAKTotalSavingsByMonth,
   mockALTotalSavingsByMonth,
   mockTXTotalSavingsByMonth,
@@ -99,6 +101,19 @@ describe("calcSavings tests", () => {
   });
 
   describe("should work with revocations increase as well", () => {
-    // TODO(49): Add tests on revocations increase when questions would be resolved
+    it("should return correct costs for AK", () => {
+      let totalCosts = 0;
+      mockIncreasingAKRevocationsByMonth.forEach((revocations, month) => {
+        totalCosts += calcSavings({
+          newRevocations: revocations,
+          numberOfFacilities: AKFacilities,
+          totalCostPerInmate: AKTotalCost,
+          marginalCostPerInmate: AKMarginalCost,
+          stateWideCapacity: AKCapacity,
+          newOffensePopulation: AKNewOffence,
+        });
+        expect(round(totalCosts)).toBe(mockAKCostsByMonth[month]);
+      });
+    });
   });
 });
