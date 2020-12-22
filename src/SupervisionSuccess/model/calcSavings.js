@@ -21,10 +21,10 @@ const MONTHS_IN_YEAR = 12;
  * increase in costs due to an increase in revocations.
  * @param {number} newRevocations - revocations at a given month
  * @param {number} marginalCostPerInmate - the marginal cost per incarcerated person
- * @param {number} newOffensePopulation
+ * @param {number} newOffensePopulation - number of new offense incarcerations at a given month
  * @param {number} totalCostPerInmate - the total cost per incarcerated person
- * @param {number} numberOfFacilities - number of facilities for state
- * @param {number} stateWideCapacity - capacity of facilities
+ * @param {number} numberOfFacilities - the number of facilities in the state
+ * @param {number} stateWideCapacity - the total capacity of facilities across the state
  * @returns {number} - one month of savings
  */
 function calcSavings({
