@@ -68,5 +68,9 @@
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/__mocks__/styleMock.js"
     }
+  },
+  "resolutions": {
+    "ssri": "^8.0.1",
+    "is-svg": "^4.2.2"
   }
 }
