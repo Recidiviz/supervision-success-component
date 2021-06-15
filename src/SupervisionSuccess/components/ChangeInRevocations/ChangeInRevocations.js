@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import ReactSlider from "react-slider";
-import useIsMobile from "../../utils/useIsMobile";
+// import useIsMobile from "../../utils/useIsMobile";
 
 import "./ChangeInRevocations.scss";
 
@@ -29,7 +29,7 @@ const ChangeInRevocations = ({
   onChangeInRevocationsChange,
 }) => {
   const [valueNow, setValueNow] = useState(changeInRevocations);
-  const isMobile = useIsMobile();
+  // const isMobile = useIsMobile();
   const thumbContent = useMemo(
     () => (
       <>
@@ -42,34 +42,26 @@ const ChangeInRevocations = ({
     ),
     [valueNow, isError, finalRevocations, state]
   );
-  const renderThumb = useCallback(
-    (props) => (
-      <span {...props} className="revocations-slider_thumb">
-        {!isMobile && thumbContent}
-      </span>
-    ),
-    [isMobile, thumbContent]
-  );
+  const renderThumb = (props) => <span {...props} className="revocations-slider_thumb" />;
 
   return (
     <div className="revocations-slider">
       <span className="revocations-slider_title">Change in revocations</span>
+      <div className="revocations-slider_footer">{thumbContent}</div>
       <div className="revocations-slider_wrapper">
-        <span className="revocations-slider_label">+100%</span>
+        <span className="revocations-slider_label">+50%</span>
         <ReactSlider
-          orientation={isMobile ? "horizontal" : "vertical"}
-          min={-100}
-          max={100}
-          invert={!isMobile}
+          orientation="horizontal"
+          min={-50}
+          max={50}
           defaultValue={changeInRevocations}
           className="revocations-slider_track"
           renderThumb={renderThumb}
           onChange={setValueNow}
           onAfterChange={onChangeInRevocationsChange}
         />
-        <span className="revocations-slider_label">-100%</span>
+        <span className="revocations-slider_label">-50%</span>
       </div>
-      {isMobile && <div className="revocations-slider_footer">{thumbContent}</div>}
     </div>
   );
 };
