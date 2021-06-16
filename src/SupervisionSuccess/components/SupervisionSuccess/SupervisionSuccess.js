@@ -64,7 +64,7 @@ const SupervisionSuccessComponent = ({
         <ProjectionsPicker projections={projections} onProjectionsChange={onProjectionsChange} />
       </div>
     </header>
-    <div className="main_left-aside">
+    <section className="main_sliders">
       <ChangeInRevocations
         isError={isError}
         state={state}
@@ -72,7 +72,7 @@ const SupervisionSuccessComponent = ({
         changeInRevocations={changeInRevocations}
         onChangeInRevocationsChange={onChangeInRevocationsChange}
       />
-      <span className="main_left-aside--divider" />
+      <span className="main_sliders--divider" />
       <ChangeInRevocations
         isError={isError}
         state={state}
@@ -80,8 +80,8 @@ const SupervisionSuccessComponent = ({
         changeInRevocations={changeInRevocations}
         onChangeInRevocationsChange={onChangeInRevocationsChange}
       />
-    </div>
-    <aside className="main_right-aside">
+    </section>
+    <aside className="main_left-aside">
       <Outcomes isError={isError} prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
     </aside>
     <section className="main_center">

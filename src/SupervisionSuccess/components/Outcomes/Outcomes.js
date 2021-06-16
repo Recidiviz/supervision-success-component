@@ -36,7 +36,10 @@ const Outcomes = ({ isError, prisonPopulationDiff, savings }) => {
 
   return (
     <div className="outcomes">
-      <div className="outcomes_heading">Outcomes</div>
+      <div className="outcomes_heading">
+        Outcomes
+        <p>From 2019 baseline</p>
+      </div>
       <div className="outcomes_stats">
         <div className="outcomes_stat">
           <div className={`outcomes_stat-value ${prisonPopulationDiffIconClass}`}>

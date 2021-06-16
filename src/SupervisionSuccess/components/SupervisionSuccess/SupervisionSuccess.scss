@@ -59,7 +59,7 @@
     }
   }
 
-  &_left-aside {
+  &_sliders {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -81,20 +81,20 @@
   }
 
   &_center {
-    width: calc(100% - 20rem);
+    width: calc(100% - 24rem);
     @media (max-width: $lg) {
-      width: calc(100% - 18rem);
+      width: calc(100% - 22rem);
     }
     @media (max-width: $md) {
       width: 100%;
     }
   }
 
-  &_right-aside {
-    width: 18rem;
+  &_left-aside {
+    width: 20rem;
     border-right: 1px solid #ededed;
     @media (max-width: $lg) {
-      width: 16rem;
+      width: 18rem;
     }
     @media (max-width: $md) {
       border-right: 0;
