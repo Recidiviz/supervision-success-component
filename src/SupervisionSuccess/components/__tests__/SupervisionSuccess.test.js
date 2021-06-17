@@ -20,7 +20,7 @@ import { render } from "@testing-library/react";
 import StatePicker from "../StatePicker";
 import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
 import ProjectionsPicker from "../ProjectionsPicker";
-import ChangeInRevocations from "../ChangeInRevocations";
+import Slider from "../Slider";
 import Chart from "../Chart/Chart";
 import Outcomes from "../Outcomes";
 import SupervisionSuccessComponent from "../SupervisionSuccess";
@@ -28,7 +28,7 @@ import SupervisionSuccessComponent from "../SupervisionSuccess";
 jest.mock("../StatePicker");
 jest.mock("../ImplementationPeriodPicker");
 jest.mock("../ProjectionsPicker");
-jest.mock("../ChangeInRevocations");
+jest.mock("../Slider");
 jest.mock("../Chart/Chart");
 jest.mock("../Outcomes");
 
@@ -36,7 +36,7 @@ describe("SupervisionSuccessComponent tests", () => {
   StatePicker.mockReturnValue(null);
   ImplementationPeriodPicker.mockReturnValue(null);
   ProjectionsPicker.mockReturnValue(null);
-  ChangeInRevocations.mockReturnValue(null);
+  Slider.mockReturnValue(null);
   Chart.mockReturnValue(null);
   Outcomes.mockReturnValue(null);
 
