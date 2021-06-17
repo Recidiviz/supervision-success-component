@@ -20,7 +20,7 @@ import PropTypes from "prop-types";
 import StatePicker from "../StatePicker";
 import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
 import ProjectionsPicker from "../ProjectionsPicker";
-import ChangeInRevocations from "../ChangeInRevocations";
+import Slider from "../Slider";
 import Chart from "../Chart";
 import Outcomes from "../Outcomes";
 
@@ -65,20 +65,22 @@ const SupervisionSuccessComponent = ({
       </div>
     </header>
     <section className="main_sliders">
-      <ChangeInRevocations
+      <Slider
+        title="Change in revocations"
+        hint={`Violations resulting in ${isError ? "-" : state} incarceration`}
         isError={isError}
-        state={state}
-        finalRevocations={finalRevocations}
-        changeInRevocations={changeInRevocations}
-        onChangeInRevocationsChange={onChangeInRevocationsChange}
+        finalValue={finalRevocations}
+        changeValue={changeInRevocations}
+        onChangeValueChange={onChangeInRevocationsChange}
       />
       <span className="main_sliders--divider" />
-      <ChangeInRevocations
+      <Slider
+        title="Change in new admissions"
+        hint="New admissions to prison"
         isError={isError}
-        state={state}
-        finalRevocations={finalRevocations}
-        changeInRevocations={changeInRevocations}
-        onChangeInRevocationsChange={onChangeInRevocationsChange}
+        finalValue={0}
+        changeValue={0}
+        onChangeValueChange={() => null}
       />
     </section>
     <aside className="main_left-aside">
