@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 @import "../../variables";
-.revocations-slider {
+.slider {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -99,7 +99,7 @@
     }
   }
 
-  &_footer {
+  &_info {
     display: flex;
     flex-direction: row;
     align-items: center;
