@@ -20,7 +20,7 @@ import PropTypes from "prop-types";
 import StatePicker from "../StatePicker";
 import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
 import ProjectionsPicker from "../ProjectionsPicker";
-import ChangeInRevocations from "../ChangeInRevocations";
+import Slider from "../Slider";
 import Chart from "../Chart";
 import Outcomes from "../Outcomes";
 
@@ -64,21 +64,31 @@ const SupervisionSuccessComponent = ({
         <ProjectionsPicker projections={projections} onProjectionsChange={onProjectionsChange} />
       </div>
     </header>
-    <aside className="main_left-aside">
-      <ChangeInRevocations
+    <section className="main_sliders">
+      <Slider
+        title="Change in revocations"
+        hint={`Violations resulting in ${isError ? "-" : state} incarceration`}
         isError={isError}
-        state={state}
-        finalRevocations={finalRevocations}
-        changeInRevocations={changeInRevocations}
-        onChangeInRevocationsChange={onChangeInRevocationsChange}
+        finalValue={finalRevocations}
+        changeValue={changeInRevocations}
+        onChangeValueChange={onChangeInRevocationsChange}
       />
+      <span className="main_sliders--divider" />
+      <Slider
+        title="Change in new admissions"
+        hint="New admissions to prison"
+        isError={isError}
+        finalValue={0}
+        changeValue={0}
+        onChangeValueChange={() => null}
+      />
+    </section>
+    <aside className="main_left-aside">
+      <Outcomes isError={isError} prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
     </aside>
     <section className="main_center">
       <Chart isError={isError} data={chartData} />
     </section>
-    <aside className="main_right-aside">
-      <Outcomes isError={isError} prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
-    </aside>
   </section>
 );
 
