@@ -22,6 +22,7 @@ const { exp } = Math;
  *   of months since the start
  * @param {number} IP - implementationPeriod - an integer value of months
  * @param {number} RA - revocations A - (a parameter from the upstream spreadsheet)
+ * @param {number} RA0 - revocations Alpha 0 - (a parameter from the upstream spreadsheet)
  * @param {number} RT - revocations Timescale - (a parameter from the upstream spreadsheet)
  * @param {number} changeInRevocations - integer value of the percentage change in revocations
  * @const {number} RR - revocation reduction - since we store changeInRevocations
@@ -29,29 +30,31 @@ const { exp } = Math;
  *   -1 to transform it to a revocation reduction that is used in calculations
  * @returns {number}
  */
-function calcRevocations(month, IP, RA, RT, changeInRevocations) {
+function calcRevocations(month, IP, RA, RA0, RT, changeInRevocations) {
   const RR = (changeInRevocations / 100) * -1;
 
-  if (IP === 0) {
-    return RA * RT ** 2 * (1 - RR + RR * exp(-month / RT));
+  if (month <= 12) {
+    return RA * RT ** 2 * (1 - RA0 + RA0 * exp(-month / RT));
   }
 
-  if (month > IP) {
+  if (month <= IP) {
     return (
-      (RR * RT ** 2 * RA * exp(-IP / RT) +
-        RT ** 2 * RA +
-        RR * RT * RA * ((-IP / IP) * RT + RT ** 2 / IP) -
-        RR * RT * RA * (RT + RT ** 2 / IP) * exp(-IP / RT)) *
-        exp(-(month - IP) / RT) +
-      (1 - RR) * RT ** 2 * RA * (1 - exp((-month + IP) / RT))
+      RA *
+      RT ** 2 *
+      (RA0 * exp(-month / RT) +
+        (1 - (RR * month) / IP + (RR * RT) / IP - RA0 + (RA0 * month) / IP - (RA0 * RT) / IP) -
+        (RR - RA0) * (-12 / IP + RT / IP) * exp(-(month - 12) / RT))
     );
   }
 
   return (
-    RR * RT ** 2 * RA * exp(-month / RT) +
-    RT ** 2 * RA +
-    RR * RT * RA * ((-month / IP) * RT + RT ** 2 / IP) -
-    RR * RT * RA * (RT + RT ** 2 / IP) * exp(-month / RT)
+    exp(-(month - IP) / RT) *
+      (RA *
+        RT ** 2 *
+        (RA0 * exp(IP / RT) +
+          (1 - RR + (RR * RT) / IP - (RA0 * RT) / IP) -
+          (RR - RA0) * (-12 / IP + RT / IP) * exp(-(IP - 12) / RT))) +
+    RA * RT ** 2 * (1 - RR) * (1 - exp(-(month - IP) / RT))
   );
 }
 

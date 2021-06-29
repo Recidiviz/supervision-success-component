@@ -47,6 +47,7 @@ function produceProjections(params, implementationPeriod, projections, changeInR
   const {
     newOffensePopulation,
     revocationA,
+    RAlpha0,
     revocationsTimescale,
     totalCostPerInmate,
     numberOfFacilities,
@@ -61,8 +62,9 @@ function produceProjections(params, implementationPeriod, projections, changeInR
   }).map((revocations, month) =>
     calcRevocations(
       month,
-      implementationPeriod,
+      implementationPeriod + 12,
       revocationA,
+      RAlpha0,
       revocationsTimescale,
       changeInRevocations
     )
