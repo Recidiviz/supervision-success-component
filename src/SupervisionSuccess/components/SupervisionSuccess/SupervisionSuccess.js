@@ -34,13 +34,16 @@ const SupervisionSuccessComponent = ({
   implementationPeriod,
   projections,
   changeInRevocations,
+  changeInNewAdmissions,
   finalRevocations,
+  finalAdmissions,
   prisonPopulationDiff,
   savings,
   onStateChange,
   onImplementationPeriodChange,
   onProjectionsChange,
   onChangeInRevocationsChange,
+  onChangeInNewAdmissionsChange,
   chartData,
 }) => (
   <section className="main">
@@ -78,9 +81,9 @@ const SupervisionSuccessComponent = ({
         title="Change in new admissions"
         hint="New admissions to prison"
         isError={isError}
-        finalValue={0}
-        changeValue={0}
-        onChangeValueChange={() => null}
+        finalValue={finalAdmissions}
+        changeValue={changeInNewAdmissions}
+        onChangeValueChange={onChangeInNewAdmissionsChange}
       />
     </section>
     <aside className="main_left-aside">
@@ -104,13 +107,16 @@ SupervisionSuccessComponent.propTypes = {
   implementationPeriod: PropTypes.number.isRequired,
   projections: PropTypes.number.isRequired,
   changeInRevocations: PropTypes.number.isRequired,
+  changeInNewAdmissions: PropTypes.number.isRequired,
   finalRevocations: PropTypes.number.isRequired,
+  finalAdmissions: PropTypes.number.isRequired,
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
   onStateChange: PropTypes.func.isRequired,
   onImplementationPeriodChange: PropTypes.func.isRequired,
   onProjectionsChange: PropTypes.func.isRequired,
   onChangeInRevocationsChange: PropTypes.func.isRequired,
+  onChangeInNewAdmissionsChange: PropTypes.func.isRequired,
   chartData: PropTypes.arrayOf(
     PropTypes.shape({
       month: PropTypes.number,

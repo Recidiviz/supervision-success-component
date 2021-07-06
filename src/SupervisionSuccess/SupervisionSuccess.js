@@ -55,7 +55,6 @@ const SupervisionSuccess = ({ path }) => {
 
   if (params === null) return <LoadingScreen />;
 
-  console.log("🚀 ~ file: SupervisionSuccess.js ~ line 59 ~ SupervisionSuccess ~ params", params);
   return <SupervisionSuccessContainer isError={isError} params={params} />;
 };
 

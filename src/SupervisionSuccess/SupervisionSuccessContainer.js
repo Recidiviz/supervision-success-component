@@ -36,7 +36,11 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   );
   const [projections, setProjections] = useState(initialState.projections);
   const [changeInRevocations, setChangeInRevocations] = useState(initialState.changeInRevocations);
+  const [changeInNewAdmissions, setChangeInNewAdmissions] = useState(
+    initialState.changeInNewAdmissions
+  );
   const [finalRevocations, setFinalRevocations] = useState(0);
+  const [finalAdmissions, setFinalAdmissions] = useState(0);
   const [prisonPopulationDiff, setPrisonPopulationDiff] = useState(0);
   const [savings, setSavings] = useState(0);
   const [chartData, setChartData] = useState([]);
@@ -53,17 +57,21 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   const onChangeInRevocationsChange = useCallback((newChangeInRevocations) => {
     setChangeInRevocations(newChangeInRevocations);
   }, []);
+  const onChangeInNewAdmissionsChange = useCallback((newChangeInNewAdmissions) => {
+    setChangeInNewAdmissions(newChangeInNewAdmissions);
+  }, []);
 
   useEffect(() => {
     const valuesToPersist = JSON.stringify({
       implementationPeriod,
       projections,
       changeInRevocations,
+      changeInNewAdmissions,
       state,
     });
 
     window.localStorage.setItem(LS_PERSIST_KEY, valuesToPersist);
-  }, [state, implementationPeriod, projections, changeInRevocations]);
+  }, [state, implementationPeriod, projections, changeInRevocations, changeInNewAdmissions]);
 
   useEffect(() => {
     if (isError) return;
@@ -71,14 +79,24 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
       params[state],
       implementationPeriod,
       projections,
-      changeInRevocations
+      changeInRevocations,
+      changeInNewAdmissions
     );
     setChartData(data.chartData);
     setSavings(data.savings);
     setPrisonPopulationDiff(data.prisonPopulationDiff);
     setFinalRevocations(data.finalRevocations);
+    setFinalAdmissions(data.finalAdmissions);
     setYear(params[state].year);
-  }, [isError, params, state, implementationPeriod, projections, changeInRevocations]);
+  }, [
+    isError,
+    params,
+    state,
+    implementationPeriod,
+    projections,
+    changeInRevocations,
+    changeInNewAdmissions,
+  ]);
 
   return (
     <SupervisionSuccessComponent
@@ -89,13 +107,16 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
       implementationPeriod={implementationPeriod}
       projections={projections}
       changeInRevocations={changeInRevocations}
+      changeInNewAdmissions={changeInNewAdmissions}
       finalRevocations={finalRevocations}
+      finalAdmissions={finalAdmissions}
       prisonPopulationDiff={prisonPopulationDiff}
       savings={savings}
       onStateChange={onStateChange}
       onImplementationPeriodChange={onImplementationPeriodChange}
       onProjectionsChange={onProjectionsChange}
       onChangeInRevocationsChange={onChangeInRevocationsChange}
+      onChangeInNewAdmissionsChange={onChangeInNewAdmissionsChange}
       chartData={chartData}
     />
   );

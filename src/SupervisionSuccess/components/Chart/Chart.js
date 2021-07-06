@@ -37,18 +37,19 @@ const Chart = ({ isError, data }) => {
     if (isError) return { chartData: null, min: null, max: null };
     return data.reduce(
       (acc, { month, baseline, totalPopulation }) => {
-        const year = month / 12;
+        const startYear = 2019;
+        const year = month / 12 + startYear;
         const isYear = Number.isInteger(year);
 
-        acc.chartData.datasets[0].data.push(Math.round(baseline));
-        acc.chartData.datasets[1].data.push(Math.round(totalPopulation));
+        acc.chartData.datasets[0].data.push(Math.round(totalPopulation));
+        acc.chartData.datasets[1].data.push(Math.round(baseline));
         acc.chartData.labels.push(isYear ? year : "");
 
         if (isYear && !isMobile) {
-          acc.chartData.datasets[0].pointBackgroundColor.push(BASELINE_COLOR);
-          acc.chartData.datasets[0].pointBorderColor.push(BASELINE_COLOR);
-          acc.chartData.datasets[1].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
-          acc.chartData.datasets[1].pointBorderColor.push(TOTAL_POPULATION_COLOR);
+          acc.chartData.datasets[0].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
+          acc.chartData.datasets[0].pointBorderColor.push(TOTAL_POPULATION_COLOR);
+          acc.chartData.datasets[1].pointBackgroundColor.push(BASELINE_COLOR);
+          acc.chartData.datasets[1].pointBorderColor.push(BASELINE_COLOR);
         } else {
           acc.chartData.datasets[0].pointBackgroundColor.push(TRANSPARENT_COLOR);
           acc.chartData.datasets[0].pointBorderColor.push(TRANSPARENT_COLOR);
@@ -68,8 +69,8 @@ const Chart = ({ isError, data }) => {
               data: [],
               pointBackgroundColor: [],
               pointBorderColor: [],
-              borderColor: BASELINE_COLOR,
-              backgroundColor: BASELINE_COLOR,
+              borderColor: TOTAL_POPULATION_COLOR,
+              backgroundColor: TOTAL_POPULATION_COLOR,
               borderWidth: isMobile ? 1 : 2,
               fill: false,
             },
@@ -78,8 +79,8 @@ const Chart = ({ isError, data }) => {
               data: [],
               pointBackgroundColor: [],
               pointBorderColor: [],
-              borderColor: TOTAL_POPULATION_COLOR,
-              backgroundColor: TOTAL_POPULATION_COLOR,
+              borderColor: BASELINE_COLOR,
+              backgroundColor: BASELINE_COLOR,
               borderWidth: isMobile ? 1 : 2,
               fill: false,
             },

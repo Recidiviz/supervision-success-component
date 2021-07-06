@@ -51,7 +51,7 @@ function calcRevocations(month, IP, RA, RA0, RT, changeInRevocations) {
     exp(-(month - IP) / RT) *
       (RA *
         RT ** 2 *
-        (RA0 * exp(IP / RT) +
+        (RA0 * exp(-IP / RT) +
           (1 - RR + (RR * RT) / IP - (RA0 * RT) / IP) -
           (RR - RA0) * (-12 / IP + RT / IP) * exp(-(IP - 12) / RT))) +
     RA * RT ** 2 * (1 - RR) * (1 - exp(-(month - IP) / RT))
