@@ -31,6 +31,7 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   };
   const [year, setYear] = useState(0);
   const [state, setState] = useState(isError ? "" : initialState.state);
+  const [isNotAvailable2020, setIsNotAvailable2020] = useState(params[state].isNotAvailable2020);
   const [implementationPeriod, setImplementationPeriod] = useState(
     initialState.implementationPeriod
   );
@@ -88,6 +89,7 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
     setFinalRevocations(data.finalRevocations);
     setFinalAdmissions(data.finalAdmissions);
     setYear(params[state].year);
+    setIsNotAvailable2020(params[state].isNotAvailable2020);
   }, [
     isError,
     params,
@@ -101,6 +103,7 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   return (
     <SupervisionSuccessComponent
       isError={isError}
+      isNotAvailable2020={isNotAvailable2020}
       states={states}
       year={year}
       state={state}
@@ -140,6 +143,7 @@ SupervisionSuccessContainer.propTypes = {
       ),
       marginalCostPerInmate: PropTypes.number.isRequired,
       year: PropTypes.number.isRequired,
+      isNotAvailable2020: PropTypes.bool.isRequired,
     })
   ).isRequired,
   isError: PropTypes.bool,

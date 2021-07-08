@@ -23,6 +23,7 @@ import calcSavings from "./calcSavings";
 This months should not participate in savings and prisonPopulationDiff calculations
 */
 const ADDED_MONTHS = 5;
+const BASE_YEAR = 12;
 
 /**
  * Function that transforms params and app state to ouput, i.e. chart data and
@@ -66,8 +67,8 @@ function produceProjections(
     marginalCostPerInmate,
   } = params;
 
-  const months = projections * 12 + 1;
-  const totalIP = implementationPeriod + 12;
+  const months = BASE_YEAR + projections * 12 + 1;
+  const totalIP = BASE_YEAR + implementationPeriod;
 
   const revocationsByMonth = Array.from({
     length: months + ADDED_MONTHS,

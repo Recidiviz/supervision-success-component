@@ -31,19 +31,26 @@ export const TRANSPARENT_COLOR = "transparent";
 const TOOLTIP_BG_COLOR = "#091e32";
 export const CONNECTING_LINE_COLOR = "#07aded";
 
-const Chart = ({ isError, data }) => {
+const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
   const isMobile = useIsMobile();
   const { chartData, min, max } = useMemo(() => {
     if (isError) return { chartData: null, min: null, max: null };
     return data.reduce(
-      (acc, { month, baseline, totalPopulation }) => {
-        const startYear = 2019;
+      (acc, { month, baseline, totalPopulation }, index) => {
         const year = month / 12 + startYear;
         const isYear = Number.isInteger(year);
 
         acc.chartData.datasets[0].data.push(Math.round(totalPopulation));
         acc.chartData.datasets[1].data.push(Math.round(baseline));
         acc.chartData.labels.push(isYear ? year : "");
+
+        if (isNotAvailable2020 && index >= 13 && index <= 23) {
+          acc.chartData.datasets[0].data.pop();
+          acc.chartData.datasets[0].data.push(null);
+
+          acc.chartData.datasets[1].data.pop();
+          acc.chartData.datasets[1].data.push(null);
+        }
 
         if (isYear && !isMobile) {
           acc.chartData.datasets[0].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
@@ -65,7 +72,7 @@ const Chart = ({ isError, data }) => {
           labels: [],
           datasets: [
             {
-              label: "baseline",
+              label: "totalPopulation",
               data: [],
               pointBackgroundColor: [],
               pointBorderColor: [],
@@ -75,7 +82,7 @@ const Chart = ({ isError, data }) => {
               fill: false,
             },
             {
-              label: "totalPopulation",
+              label: "baseline",
               data: [],
               pointBackgroundColor: [],
               pointBorderColor: [],
@@ -90,7 +97,7 @@ const Chart = ({ isError, data }) => {
         max: -Infinity,
       }
     );
-  }, [isMobile, isError, data]);
+  }, [isMobile, startYear, isNotAvailable2020, isError, data]);
 
   const chartOptions = useMemo(
     () => ({
@@ -137,11 +144,15 @@ const Chart = ({ isError, data }) => {
             baseline && totalPopulation && `${totalPopulation.value - baseline.value} people`,
           label: () => null,
           footer: ([baseline]) =>
-            baseline && `${baseline.label} year${baseline.label === 1 ? "" : "s"}`,
+            baseline && baseline.label > startYear + 1
+              ? `${baseline.label - (startYear + 1)} year${
+                  baseline.label - (startYear + 1) === 1 ? "" : "s"
+                }`
+              : "",
         },
       },
     }),
-    [isMobile, min, max]
+    [isMobile, startYear, min, max]
   );
 
   const drawLinePlugin = {
@@ -168,6 +179,33 @@ const Chart = ({ isError, data }) => {
     },
   };
 
+  console.log(isNotAvailable2020);
+
+  const drawNoDataBackgroundPlugin = {
+    afterDraw: (chart) => {
+      const meta = chart.getDatasetMeta(1);
+      if (isNotAvailable2020 && meta.data.length) {
+        const { ctx, chartArea } = chart;
+        ctx.save();
+        ctx.globalCompositeOperation = "destination-over";
+        ctx.fillStyle = "#f0f0f0";
+        ctx.fillRect(
+          meta.data[12]._model.x,
+          chartArea.top,
+          meta.data[24]._model.x - meta.data[12]._model.x,
+          chartArea.bottom - chartArea.top
+        );
+
+        ctx.globalCompositeOperation = "source-over";
+        ctx.font = `${isMobile ? "12px" : "16px"} sans-serif`;
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#000";
+        ctx.fillText("No Data", meta.data[18]._model.x, chartArea.bottom - chartArea.top);
+        ctx.restore();
+      }
+    },
+  };
+
   return (
     <div className="chart">
       <div className="chart_heading">Total people in prison projected in years</div>
@@ -183,7 +221,7 @@ const Chart = ({ isError, data }) => {
           <Line
             data={chartData}
             options={chartOptions}
-            plugins={[drawLinePlugin]}
+            plugins={[drawLinePlugin, drawNoDataBackgroundPlugin]}
             width={560}
             height={isMobile ? 450 : 340}
           />
@@ -206,6 +244,8 @@ Chart.propTypes = {
       totalPopulation: PropTypes.number,
     })
   ).isRequired,
+  startYear: PropTypes.number.isRequired,
+  isNotAvailable2020: PropTypes.bool.isRequired,
 };
 
 export default Chart;

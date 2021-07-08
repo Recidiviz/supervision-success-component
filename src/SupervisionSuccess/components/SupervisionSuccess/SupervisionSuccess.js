@@ -28,6 +28,7 @@ import "./SupervisionSuccess.scss";
 
 const SupervisionSuccessComponent = ({
   isError,
+  isNotAvailable2020,
   states,
   year,
   state,
@@ -90,7 +91,12 @@ const SupervisionSuccessComponent = ({
       <Outcomes isError={isError} prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
     </aside>
     <section className="main_center">
-      <Chart isError={isError} data={chartData} />
+      <Chart
+        isError={isError}
+        data={chartData}
+        startYear={year}
+        isNotAvailable2020={isNotAvailable2020}
+      />
     </section>
   </section>
 );
@@ -101,6 +107,7 @@ SupervisionSuccessComponent.defaultProps = {
 
 SupervisionSuccessComponent.propTypes = {
   isError: PropTypes.bool,
+  isNotAvailable2020: PropTypes.bool.isRequired,
   states: PropTypes.arrayOf(PropTypes.string).isRequired,
   year: PropTypes.number.isRequired,
   state: PropTypes.string.isRequired,
