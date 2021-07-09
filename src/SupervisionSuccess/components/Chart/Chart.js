@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 /* eslint-disable no-underscore-dangle */
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 import transformChartDataToText from "../../utils/transformChartAsText";
@@ -33,6 +33,15 @@ export const CONNECTING_LINE_COLOR = "#07aded";
 
 const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
   const isMobile = useIsMobile();
+  const [redraw, setRedraw] = useState(false);
+
+  useEffect(() => {
+    setRedraw(true);
+    setTimeout(() => {
+      setRedraw(false);
+    }, 500);
+  }, [isNotAvailable2020]);
+
   const { chartData, min, max } = useMemo(() => {
     if (isError) return { chartData: null, min: null, max: null };
     return data.reduce(
@@ -179,8 +188,6 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
     },
   };
 
-  console.log(isNotAvailable2020);
-
   const drawNoDataBackgroundPlugin = {
     afterDraw: (chart) => {
       const meta = chart.getDatasetMeta(1);
@@ -224,6 +231,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
             plugins={[drawLinePlugin, drawNoDataBackgroundPlugin]}
             width={560}
             height={isMobile ? 450 : 340}
+            redraw={redraw}
           />
         )}
       </div>
