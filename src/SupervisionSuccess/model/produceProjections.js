@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
-import calcBaseline from "./calcBaseline";
-import calcNewOffense from "./calcNewOffense";
+import calcBaselines from "./calcBaselines";
+import calculateNewAdmissionsProjection from "./calculateNewAdmissionsProjection";
 import calcRevocations from "./calcRevocations";
 import calcSavings from "./calcSavings";
 
@@ -23,6 +23,8 @@ import calcSavings from "./calcSavings";
 This months should not participate in savings and prisonPopulationDiff calculations
 */
 const ADDED_MONTHS = 5;
+
+/* Number of months to add to the beginning of chart (because of the constant first year of the projection) */
 const BASE_YEAR = 12;
 
 /**
@@ -68,20 +70,27 @@ function produceProjections(
   } = params;
 
   const months = BASE_YEAR + projections * 12 + 1;
-  const totalIP = BASE_YEAR + implementationPeriod;
+  const actualImplementationPeriod = BASE_YEAR + implementationPeriod;
 
   const revocationsByMonth = Array.from({
     length: months + ADDED_MONTHS,
   }).map((revocations, month) =>
-    calcRevocations(month, totalIP, revocationA, RAlpha0, revocationsTimescale, changeInRevocations)
+    calcRevocations(
+      month,
+      actualImplementationPeriod,
+      revocationA,
+      RAlpha0,
+      revocationsTimescale,
+      changeInRevocations
+    )
   );
 
   const newOffenseByMonth = Array.from({
     length: months + ADDED_MONTHS,
   }).map((newOffense, month) =>
-    calcNewOffense(
+    calculateNewAdmissionsProjection(
       month,
-      totalIP,
+      actualImplementationPeriod,
       newOffenseA,
       newOffenseAvgTimeServedInMonths,
       NAlpha0,
@@ -92,9 +101,9 @@ function produceProjections(
   const baselineByMonth = Array.from({
     length: months + ADDED_MONTHS,
   }).map((baseline, month) =>
-    calcBaseline(
+    calcBaselines(
       month,
-      totalIP,
+      actualImplementationPeriod,
       revocationA,
       RAlpha0,
       revocationsTimescale,

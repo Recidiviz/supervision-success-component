@@ -31,7 +31,7 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   };
   const [year, setYear] = useState(0);
   const [state, setState] = useState(isError ? "" : initialState.state);
-  const [isNotAvailable2020, setIsNotAvailable2020] = useState(params[state].isNotAvailable2020);
+  const [isNotAvailable2020, setIsNotAvailable2020] = useState(false);
   const [implementationPeriod, setImplementationPeriod] = useState(
     initialState.implementationPeriod
   );

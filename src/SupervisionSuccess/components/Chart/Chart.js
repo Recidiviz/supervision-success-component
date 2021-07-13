@@ -51,14 +51,19 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
 
         acc.chartData.datasets[0].data.push(Math.round(totalPopulation));
         acc.chartData.datasets[1].data.push(Math.round(baseline));
-        acc.chartData.labels.push(isYear ? year : "");
+
+        if (year === 2020 && isNotAvailable2020) {
+          acc.chartData.labels.push(isYear ? [year, "No Data"] : "");
+        } else {
+          acc.chartData.labels.push(isYear ? year : "");
+        }
 
         if (isNotAvailable2020 && index >= 13 && index <= 23) {
           acc.chartData.datasets[0].data.pop();
-          acc.chartData.datasets[0].data.push(null);
+          acc.chartData.datasets[0].data.push(acc.chartData.datasets[0].data[index - 1]);
 
           acc.chartData.datasets[1].data.pop();
-          acc.chartData.datasets[1].data.push(null);
+          acc.chartData.datasets[1].data.push(acc.chartData.datasets[1].data[index - 1]);
         }
 
         if (isYear && !isMobile) {
@@ -149,7 +154,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
         xPadding: 20,
         yPadding: 10,
         callbacks: {
-          title: ([baseline, totalPopulation]) =>
+          title: ([totalPopulation, baseline]) =>
             baseline && totalPopulation && `${totalPopulation.value - baseline.value} people`,
           label: () => null,
           footer: ([baseline]) =>
@@ -193,22 +198,55 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
       const meta = chart.getDatasetMeta(1);
       if (isNotAvailable2020 && meta.data.length) {
         const { ctx, chartArea } = chart;
-        ctx.save();
-        ctx.globalCompositeOperation = "destination-over";
-        ctx.fillStyle = "#f0f0f0";
+        // ctx.globalCompositeOperation = "destination-over";
+
+        const patternCanvas = document.createElement("canvas");
+        const pctx = patternCanvas.getContext("2d", { antialias: true });
+        const color = "lightgray";
+
+        const CANVAS_SIDE_LENGTH = 15;
+        const WIDTH = CANVAS_SIDE_LENGTH;
+        const HEIGHT = CANVAS_SIDE_LENGTH;
+        const DIVISIONS = 10;
+
+        patternCanvas.width = WIDTH;
+        patternCanvas.height = HEIGHT;
+        pctx.fillStyle = color;
+
+        // Top line
+        pctx.beginPath();
+        pctx.moveTo(0, HEIGHT * (1 / DIVISIONS));
+        pctx.lineTo(WIDTH * (1 / DIVISIONS), 0);
+        pctx.lineTo(0, 0);
+        pctx.lineTo(0, HEIGHT * (1 / DIVISIONS));
+        pctx.fill();
+
+        // Middle line
+        pctx.beginPath();
+        pctx.moveTo(WIDTH, HEIGHT * (1 / DIVISIONS));
+        pctx.lineTo(WIDTH * (1 / DIVISIONS), HEIGHT);
+        pctx.lineTo(0, HEIGHT);
+        pctx.lineTo(0, HEIGHT * ((DIVISIONS - 1) / DIVISIONS));
+        pctx.lineTo(WIDTH * ((DIVISIONS - 1) / DIVISIONS), 0);
+        pctx.lineTo(WIDTH, 0);
+        pctx.lineTo(WIDTH, HEIGHT * (1 / DIVISIONS));
+        pctx.fill();
+
+        // Bottom line
+        pctx.beginPath();
+        pctx.moveTo(WIDTH, HEIGHT * ((DIVISIONS - 1) / DIVISIONS));
+        pctx.lineTo(WIDTH * ((DIVISIONS - 1) / DIVISIONS), HEIGHT);
+        pctx.lineTo(WIDTH, HEIGHT);
+        pctx.lineTo(WIDTH, HEIGHT * ((DIVISIONS - 1) / DIVISIONS));
+        pctx.fill();
+
+        ctx.fillStyle = ctx.createPattern(patternCanvas, "repeat");
         ctx.fillRect(
           meta.data[12]._model.x,
           chartArea.top,
           meta.data[24]._model.x - meta.data[12]._model.x,
           chartArea.bottom - chartArea.top
         );
-
-        ctx.globalCompositeOperation = "source-over";
-        ctx.font = `${isMobile ? "12px" : "16px"} sans-serif`;
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#000";
-        ctx.fillText("No Data", meta.data[18]._model.x, chartArea.bottom - chartArea.top);
-        ctx.restore();
       }
     },
   };

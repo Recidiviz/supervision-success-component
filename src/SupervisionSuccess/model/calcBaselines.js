@@ -17,7 +17,7 @@
 const { exp } = Math;
 
 /**
- * Function that calculates revocation projections from the given inputs.
+ * Function that calculates baselines projections from the given inputs.
  * @param {number} month - Integer from 0 to Infinity that represents quantity
  *   of months since the start
  * @param {number} IP - implementationPeriod - an integer value of months
@@ -31,7 +31,18 @@ const { exp } = Math;
  * @param {number} newOffensePopulation - number of new offense incarcerations at a given month
  * @returns {number}
  */
-function calcBaseline(month, IP, RA, RA0, RT, NA, NAvg, NA0, newRevocations, newOffensePopulation) {
+function calcBaselines(
+  month,
+  IP,
+  RA,
+  RA0,
+  RT,
+  NA,
+  NAvg,
+  NA0,
+  newRevocations,
+  newOffensePopulation
+) {
   let revocationsBaseline;
   let newOffenseBaseline;
 
@@ -85,4 +96,4 @@ function calcBaseline(month, IP, RA, RA0, RT, NA, NAvg, NA0, newRevocations, new
   return Math.round(revocationsBaseline + newOffenseBaseline);
 }
 
-export default calcBaseline;
+export default calcBaselines;

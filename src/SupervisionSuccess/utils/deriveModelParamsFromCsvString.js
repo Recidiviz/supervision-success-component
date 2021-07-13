@@ -114,7 +114,6 @@ async function deriveModelParamsFromCsvString(string) {
         ...params,
         [state]: {
           newOffensePopulation: Number(newOffensePopulation),
-          newOffensePopulation2020: Number(newOffensePopulation2020),
           newOffenseA: Number(newOffenseA),
           revocationA: Number(revocationA),
           NAlpha0: Number(NAlpha0),

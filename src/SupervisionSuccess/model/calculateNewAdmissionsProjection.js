@@ -17,7 +17,7 @@
 const { exp } = Math;
 
 /**
- * Function that calculates revocation projections from the given inputs.
+ * Function that calculates new admission projections from the given inputs.
  * @param {number} month - Integer from 0 to Infinity that represents quantity
  *   of months since the staNAvg
  * @param {number} IP - implementationPeriod - an integer value of months
@@ -30,7 +30,7 @@ const { exp } = Math;
  *   -1 to transform it to a new crime reduction that is used in calculations
  * @returns {number}
  */
-function calcNewOffense(month, IP, NA, NAvg, NA0, changeInNewAdmissions) {
+function calculateNewAdmissionsProjection(month, IP, NA, NAvg, NA0, changeInNewAdmissions) {
   const NCR = (changeInNewAdmissions / 100) * -1;
 
   if (month <= 12) {
@@ -63,4 +63,4 @@ function calcNewOffense(month, IP, NA, NAvg, NA0, changeInNewAdmissions) {
   );
 }
 
-export default calcNewOffense;
+export default calculateNewAdmissionsProjection;
