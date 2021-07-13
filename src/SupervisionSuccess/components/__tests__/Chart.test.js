@@ -39,6 +39,7 @@ describe("Chart tests", () => {
     { month: 3, baseline: 120, totalPopulation: 100 },
     { month: 4, baseline: 120, totalPopulation: 95 },
   ];
+  const startYear = 2019;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -46,33 +47,11 @@ describe("Chart tests", () => {
   });
 
   it("should successfully render chart", () => {
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     expect(Line.mock.calls[0][0].data).toStrictEqual({
-      labels: [0, "", "", "", ""],
+      labels: [2019, "", "", "", ""],
       datasets: [
-        {
-          label: "baseline",
-          data: [120, 120, 120, 120, 120],
-          pointBackgroundColor: [
-            BASELINE_COLOR,
-            TRANSPARENT_COLOR,
-            TRANSPARENT_COLOR,
-            TRANSPARENT_COLOR,
-            TRANSPARENT_COLOR,
-          ],
-          pointBorderColor: [
-            BASELINE_COLOR,
-            TRANSPARENT_COLOR,
-            TRANSPARENT_COLOR,
-            TRANSPARENT_COLOR,
-            TRANSPARENT_COLOR,
-          ],
-          borderWidth: 2,
-          borderColor: BASELINE_COLOR,
-          backgroundColor: BASELINE_COLOR,
-          fill: false,
-        },
         {
           label: "totalPopulation",
           data: [120, 112, 105, 100, 95],
@@ -93,6 +72,28 @@ describe("Chart tests", () => {
           borderWidth: 2,
           borderColor: TOTAL_POPULATION_COLOR,
           backgroundColor: TOTAL_POPULATION_COLOR,
+          fill: false,
+        },
+        {
+          label: "baseline",
+          data: [120, 120, 120, 120, 120],
+          pointBackgroundColor: [
+            BASELINE_COLOR,
+            TRANSPARENT_COLOR,
+            TRANSPARENT_COLOR,
+            TRANSPARENT_COLOR,
+            TRANSPARENT_COLOR,
+          ],
+          pointBorderColor: [
+            BASELINE_COLOR,
+            TRANSPARENT_COLOR,
+            TRANSPARENT_COLOR,
+            TRANSPARENT_COLOR,
+            TRANSPARENT_COLOR,
+          ],
+          borderWidth: 2,
+          borderColor: BASELINE_COLOR,
+          backgroundColor: BASELINE_COLOR,
           fill: false,
         },
       ],
@@ -134,17 +135,21 @@ describe("Chart tests", () => {
 
     expect(
       Line.mock.calls[0][0].options.tooltips.callbacks.title([{ value: 10 }, { value: 20 }])
-    ).toBe("10 people");
+    ).toBe("-10 people");
     expect(
       Line.mock.calls[0][0].options.tooltips.callbacks.title([{ value: 238 }, { value: 500 }])
-    ).toBe("262 people");
+    ).toBe("-262 people");
   });
 
   it("should show year in tooltips footer", () => {
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
-    expect(Line.mock.calls[0][0].options.tooltips.callbacks.footer([{ label: 1 }])).toBe("1 year");
-    expect(Line.mock.calls[0][0].options.tooltips.callbacks.footer([{ label: 2 }])).toBe("2 years");
+    expect(Line.mock.calls[0][0].options.tooltips.callbacks.footer([{ label: 2021 }])).toBe(
+      "1 year"
+    );
+    expect(Line.mock.calls[0][0].options.tooltips.callbacks.footer([{ label: 2022 }])).toBe(
+      "2 years"
+    );
   });
 
   it("should show labels in tooltip", () => {
