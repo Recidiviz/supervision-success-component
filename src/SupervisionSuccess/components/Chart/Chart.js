@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 /* eslint-disable no-underscore-dangle */
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 import transformChartDataToText from "../../utils/transformChartAsText";
@@ -31,24 +31,56 @@ export const TRANSPARENT_COLOR = "transparent";
 const TOOLTIP_BG_COLOR = "#091e32";
 export const CONNECTING_LINE_COLOR = "#07aded";
 
-const Chart = ({ isError, data }) => {
+const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
   const isMobile = useIsMobile();
+  const [redraw, setRedraw] = useState(false);
+
+  useEffect(() => {
+    setRedraw(true);
+    setTimeout(() => {
+      setRedraw(false);
+    }, 500);
+  }, [isNotAvailable2020]);
+
   const { chartData, min, max } = useMemo(() => {
     if (isError) return { chartData: null, min: null, max: null };
     return data.reduce(
-      (acc, { month, baseline, totalPopulation }) => {
-        const year = month / 12;
+      (acc, { month, baseline, totalPopulation }, index) => {
+        const year = month / 12 + startYear;
         const isYear = Number.isInteger(year);
 
-        acc.chartData.datasets[0].data.push(Math.round(baseline));
-        acc.chartData.datasets[1].data.push(Math.round(totalPopulation));
-        acc.chartData.labels.push(isYear ? year : "");
+        acc.chartData.datasets[0].data.push(Math.round(totalPopulation));
+        acc.chartData.datasets[1].data.push(Math.round(baseline));
+
+        if (year === 2020 && isNotAvailable2020) {
+          acc.chartData.labels.push(isYear ? [year, "No Data"] : "");
+        } else {
+          acc.chartData.labels.push(isYear ? year : "");
+        }
+
+        if (isNotAvailable2020) {
+          if (index >= 13 && index <= 17) {
+            acc.chartData.datasets[0].data.pop();
+            acc.chartData.datasets[0].data.push(acc.chartData.datasets[0].data[index - 1]);
+
+            acc.chartData.datasets[1].data.pop();
+            acc.chartData.datasets[1].data.push(acc.chartData.datasets[1].data[index - 1]);
+          }
+
+          if (index >= 18 && index <= 23) {
+            acc.chartData.datasets[0].data.pop();
+            acc.chartData.datasets[0].data.push(null);
+
+            acc.chartData.datasets[1].data.pop();
+            acc.chartData.datasets[1].data.push(null);
+          }
+        }
 
         if (isYear && !isMobile) {
-          acc.chartData.datasets[0].pointBackgroundColor.push(BASELINE_COLOR);
-          acc.chartData.datasets[0].pointBorderColor.push(BASELINE_COLOR);
-          acc.chartData.datasets[1].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
-          acc.chartData.datasets[1].pointBorderColor.push(TOTAL_POPULATION_COLOR);
+          acc.chartData.datasets[0].pointBackgroundColor.push(TOTAL_POPULATION_COLOR);
+          acc.chartData.datasets[0].pointBorderColor.push(TOTAL_POPULATION_COLOR);
+          acc.chartData.datasets[1].pointBackgroundColor.push(BASELINE_COLOR);
+          acc.chartData.datasets[1].pointBorderColor.push(BASELINE_COLOR);
         } else {
           acc.chartData.datasets[0].pointBackgroundColor.push(TRANSPARENT_COLOR);
           acc.chartData.datasets[0].pointBorderColor.push(TRANSPARENT_COLOR);
@@ -64,16 +96,6 @@ const Chart = ({ isError, data }) => {
           labels: [],
           datasets: [
             {
-              label: "baseline",
-              data: [],
-              pointBackgroundColor: [],
-              pointBorderColor: [],
-              borderColor: BASELINE_COLOR,
-              backgroundColor: BASELINE_COLOR,
-              borderWidth: isMobile ? 1 : 2,
-              fill: false,
-            },
-            {
               label: "totalPopulation",
               data: [],
               pointBackgroundColor: [],
@@ -82,6 +104,20 @@ const Chart = ({ isError, data }) => {
               backgroundColor: TOTAL_POPULATION_COLOR,
               borderWidth: isMobile ? 1 : 2,
               fill: false,
+              cubicInterpolationMode: "monotone",
+              tension: 0.4,
+            },
+            {
+              label: "baseline",
+              data: [],
+              pointBackgroundColor: [],
+              pointBorderColor: [],
+              borderColor: BASELINE_COLOR,
+              backgroundColor: BASELINE_COLOR,
+              borderWidth: isMobile ? 1 : 2,
+              fill: false,
+              cubicInterpolationMode: "monotone",
+              tension: 0.4,
             },
           ],
         },
@@ -89,10 +125,11 @@ const Chart = ({ isError, data }) => {
         max: -Infinity,
       }
     );
-  }, [isMobile, isError, data]);
+  }, [isMobile, startYear, isNotAvailable2020, isError, data]);
 
   const chartOptions = useMemo(
     () => ({
+      spanGaps: true,
       legend: {
         display: false,
       },
@@ -132,15 +169,19 @@ const Chart = ({ isError, data }) => {
         xPadding: 20,
         yPadding: 10,
         callbacks: {
-          title: ([baseline, totalPopulation]) =>
+          title: ([totalPopulation, baseline]) =>
             baseline && totalPopulation && `${totalPopulation.value - baseline.value} people`,
           label: () => null,
           footer: ([baseline]) =>
-            baseline && `${baseline.label} year${baseline.label === 1 ? "" : "s"}`,
+            baseline && baseline.label > startYear + 1
+              ? `${baseline.label - (startYear + 1)} year${
+                  baseline.label - (startYear + 1) === 1 ? "" : "s"
+                }`
+              : "",
         },
       },
     }),
-    [isMobile, min, max]
+    [isMobile, startYear, min, max]
   );
 
   const drawLinePlugin = {
@@ -167,6 +208,63 @@ const Chart = ({ isError, data }) => {
     },
   };
 
+  const drawNoDataBackgroundPlugin = {
+    beforeDraw: (chart) => {
+      const meta = chart.getDatasetMeta(1);
+      if (isNotAvailable2020 && meta.data.length) {
+        const { ctx, chartArea } = chart;
+
+        const patternCanvas = document.createElement("canvas");
+        const pctx = patternCanvas.getContext("2d", { antialias: true });
+        const color = "lightgray";
+
+        const CANVAS_SIDE_LENGTH = 15;
+        const WIDTH = CANVAS_SIDE_LENGTH;
+        const HEIGHT = CANVAS_SIDE_LENGTH;
+        const DIVISIONS = 10;
+
+        patternCanvas.width = WIDTH;
+        patternCanvas.height = HEIGHT;
+        pctx.fillStyle = color;
+
+        // Top line
+        pctx.beginPath();
+        pctx.moveTo(0, HEIGHT * (1 / DIVISIONS));
+        pctx.lineTo(WIDTH * (1 / DIVISIONS), 0);
+        pctx.lineTo(0, 0);
+        pctx.lineTo(0, HEIGHT * (1 / DIVISIONS));
+        pctx.fill();
+
+        // Middle line
+        pctx.beginPath();
+        pctx.moveTo(WIDTH, HEIGHT * (1 / DIVISIONS));
+        pctx.lineTo(WIDTH * (1 / DIVISIONS), HEIGHT);
+        pctx.lineTo(0, HEIGHT);
+        pctx.lineTo(0, HEIGHT * ((DIVISIONS - 1) / DIVISIONS));
+        pctx.lineTo(WIDTH * ((DIVISIONS - 1) / DIVISIONS), 0);
+        pctx.lineTo(WIDTH, 0);
+        pctx.lineTo(WIDTH, HEIGHT * (1 / DIVISIONS));
+        pctx.fill();
+
+        // Bottom line
+        pctx.beginPath();
+        pctx.moveTo(WIDTH, HEIGHT * ((DIVISIONS - 1) / DIVISIONS));
+        pctx.lineTo(WIDTH * ((DIVISIONS - 1) / DIVISIONS), HEIGHT);
+        pctx.lineTo(WIDTH, HEIGHT);
+        pctx.lineTo(WIDTH, HEIGHT * ((DIVISIONS - 1) / DIVISIONS));
+        pctx.fill();
+
+        ctx.fillStyle = ctx.createPattern(patternCanvas, "repeat");
+        ctx.fillRect(
+          meta.data[6]._model.x,
+          chartArea.top,
+          meta.data[24]._model.x - meta.data[12]._model.x,
+          chartArea.bottom - chartArea.top
+        );
+      }
+    },
+  };
+
   return (
     <div className="chart">
       <div className="chart_heading">Total people in prison projected in years</div>
@@ -182,9 +280,10 @@ const Chart = ({ isError, data }) => {
           <Line
             data={chartData}
             options={chartOptions}
-            plugins={[drawLinePlugin]}
+            plugins={[drawLinePlugin, drawNoDataBackgroundPlugin]}
             width={560}
             height={isMobile ? 450 : 340}
+            redraw={redraw}
           />
         )}
       </div>
@@ -205,6 +304,8 @@ Chart.propTypes = {
       totalPopulation: PropTypes.number,
     })
   ).isRequired,
+  startYear: PropTypes.number.isRequired,
+  isNotAvailable2020: PropTypes.bool.isRequired,
 };
 
 export default Chart;

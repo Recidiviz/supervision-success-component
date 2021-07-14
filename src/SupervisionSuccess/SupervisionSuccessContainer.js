@@ -31,12 +31,17 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   };
   const [year, setYear] = useState(0);
   const [state, setState] = useState(isError ? "" : initialState.state);
+  const [isNotAvailable2020, setIsNotAvailable2020] = useState(false);
   const [implementationPeriod, setImplementationPeriod] = useState(
     initialState.implementationPeriod
   );
   const [projections, setProjections] = useState(initialState.projections);
   const [changeInRevocations, setChangeInRevocations] = useState(initialState.changeInRevocations);
+  const [changeInNewAdmissions, setChangeInNewAdmissions] = useState(
+    initialState.changeInNewAdmissions
+  );
   const [finalRevocations, setFinalRevocations] = useState(0);
+  const [finalAdmissions, setFinalAdmissions] = useState(0);
   const [prisonPopulationDiff, setPrisonPopulationDiff] = useState(0);
   const [savings, setSavings] = useState(0);
   const [chartData, setChartData] = useState([]);
@@ -53,17 +58,21 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   const onChangeInRevocationsChange = useCallback((newChangeInRevocations) => {
     setChangeInRevocations(newChangeInRevocations);
   }, []);
+  const onChangeInNewAdmissionsChange = useCallback((newChangeInNewAdmissions) => {
+    setChangeInNewAdmissions(newChangeInNewAdmissions);
+  }, []);
 
   useEffect(() => {
     const valuesToPersist = JSON.stringify({
       implementationPeriod,
       projections,
       changeInRevocations,
+      changeInNewAdmissions,
       state,
     });
 
     window.localStorage.setItem(LS_PERSIST_KEY, valuesToPersist);
-  }, [state, implementationPeriod, projections, changeInRevocations]);
+  }, [state, implementationPeriod, projections, changeInRevocations, changeInNewAdmissions]);
 
   useEffect(() => {
     if (isError) return;
@@ -71,31 +80,46 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
       params[state],
       implementationPeriod,
       projections,
-      changeInRevocations
+      changeInRevocations,
+      changeInNewAdmissions
     );
     setChartData(data.chartData);
     setSavings(data.savings);
     setPrisonPopulationDiff(data.prisonPopulationDiff);
     setFinalRevocations(data.finalRevocations);
+    setFinalAdmissions(data.finalAdmissions);
     setYear(params[state].year);
-  }, [isError, params, state, implementationPeriod, projections, changeInRevocations]);
+    setIsNotAvailable2020(params[state].isNotAvailable2020);
+  }, [
+    isError,
+    params,
+    state,
+    implementationPeriod,
+    projections,
+    changeInRevocations,
+    changeInNewAdmissions,
+  ]);
 
   return (
     <SupervisionSuccessComponent
       isError={isError}
+      isNotAvailable2020={isNotAvailable2020}
       states={states}
       year={year}
       state={state}
       implementationPeriod={implementationPeriod}
       projections={projections}
       changeInRevocations={changeInRevocations}
+      changeInNewAdmissions={changeInNewAdmissions}
       finalRevocations={finalRevocations}
+      finalAdmissions={finalAdmissions}
       prisonPopulationDiff={prisonPopulationDiff}
       savings={savings}
       onStateChange={onStateChange}
       onImplementationPeriodChange={onImplementationPeriodChange}
       onProjectionsChange={onProjectionsChange}
       onChangeInRevocationsChange={onChangeInRevocationsChange}
+      onChangeInNewAdmissionsChange={onChangeInNewAdmissionsChange}
       chartData={chartData}
     />
   );
@@ -119,6 +143,7 @@ SupervisionSuccessContainer.propTypes = {
       ),
       marginalCostPerInmate: PropTypes.number.isRequired,
       year: PropTypes.number.isRequired,
+      isNotAvailable2020: PropTypes.bool.isRequired,
     })
   ).isRequired,
   isError: PropTypes.bool,

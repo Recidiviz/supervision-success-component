@@ -19,32 +19,28 @@ const MONTHS_IN_YEAR = 12;
  * Function that calculates one month of dollar savings due to the modeled
  * revocation reduction. This will return a negative number if there is an
  * increase in costs due to an increase in revocations.
- * @param {number} newRevocations - revocations at a given month
+ * @param {number} baseValue - base value from which savings are calculated
  * @param {number} marginalCostPerInmate - the marginal cost per incarcerated person
- * @param {number} newOffensePopulation - number of new offense incarcerations at a given month
  * @param {number} totalCostPerInmate - the total cost per incarcerated person
  * @param {number} numberOfFacilities - the number of facilities in the state
  * @param {number} stateWideCapacity - the total capacity of facilities across the state
  * @returns {number} - one month of savings
  */
 function calcSavings({
-  newRevocations,
+  baseValue,
   marginalCostPerInmate,
-  newOffensePopulation,
   totalCostPerInmate,
   numberOfFacilities,
   stateWideCapacity,
 }) {
-  const totalPopulation = newOffensePopulation + newRevocations;
-  const populationDiff = stateWideCapacity - totalPopulation;
+  const populationDiff = stateWideCapacity - baseValue;
   const averageCapacity = stateWideCapacity / numberOfFacilities;
   const facilitiesDiff =
     Math.floor(Math.abs(populationDiff / averageCapacity)) *
-    (totalPopulation > stateWideCapacity ? -1 : 1);
+    (baseValue > stateWideCapacity ? -1 : 1);
   const restPopulation = populationDiff % averageCapacity;
 
   const graduatedSavings = facilitiesDiff * averageCapacity * totalCostPerInmate;
-
   const marginalSavings = restPopulation * marginalCostPerInmate;
 
   return (graduatedSavings + marginalSavings) / MONTHS_IN_YEAR;

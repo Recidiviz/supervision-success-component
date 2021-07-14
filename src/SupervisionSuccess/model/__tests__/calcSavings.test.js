@@ -17,102 +17,71 @@
 import calcSavings from "../calcSavings";
 import params from "../__mocks__/params.mock";
 import {
-  mockAKRevocationsByMonth,
   mockALRevocationsByMonth,
-  mockIncreasingAKRevocationsByMonth,
-  mockTXRevocationsByMonth,
+  mockIncreasingALRevocationsByMonth,
 } from "../__mocks__/revocations.mock";
 import {
-  mockAKCostsByMonth,
-  mockAKTotalSavingsByMonth,
-  mockALTotalSavingsByMonth,
-  mockTXTotalSavingsByMonth,
+  mockALNewAdmissionsByMonth,
+  mockIncreasingALNewAdmissionsByMonth,
+} from "../__mocks__/newAdmissions.mock";
+import { mockALBaselineByMonth } from "../__mocks__/baselines.mock";
+import {
+  mockALTotalSavingsPolicyByMonth,
+  mockALTotalSavingsBaselineByMonth,
+  mockIncreasingALTotalSavingsPolicyByMonth,
 } from "../__mocks__/costs.mock";
 
 describe("calcSavings tests", () => {
-  const { Alabama, Alaska, Texas } = params;
+  const { Alabama } = params;
   const ALMarginalCost = Alabama.marginalCostPerInmate;
-  const AKMarginalCost = Alaska.marginalCostPerInmate;
-  const TXMarginalCost = Texas.marginalCostPerInmate;
-
   const ALTotalCost = Alabama.totalCostPerInmate;
-  const AKTotalCost = Alaska.totalCostPerInmate;
-  const TXTotalCost = Texas.totalCostPerInmate;
-
   const ALFacilities = Alabama.numberOfFacilities;
-  const AKFacilities = Alaska.numberOfFacilities;
-  const TXFacilities = Texas.numberOfFacilities;
-
   const ALCapacity = Alabama.stateWideCapacity;
-  const AKCapacity = Alaska.stateWideCapacity;
-  const TXCapacity = Texas.stateWideCapacity;
-
-  const ALNewOffence = Alabama.newOffensePopulation;
-  const AKNewOffence = Alaska.newOffensePopulation;
-  const TXNewOffence = Texas.newOffensePopulation;
 
   const round = (number) => Number(number.toFixed(4));
 
-  describe("should return correct savings with different revocations numbers", () => {
-    it("should return correct savings for AL", () => {
+  describe("should return correct savings with different base values", () => {
+    it("should return correct policy savings for AL", () => {
       let totalSavings = 0;
       mockALRevocationsByMonth.forEach((revocations, month) => {
         totalSavings += calcSavings({
-          newRevocations: revocations,
+          baseValue: revocations + mockALNewAdmissionsByMonth[month],
           numberOfFacilities: ALFacilities,
           totalCostPerInmate: ALTotalCost,
           marginalCostPerInmate: ALMarginalCost,
           stateWideCapacity: ALCapacity,
-          newOffensePopulation: ALNewOffence,
         });
-        expect(round(totalSavings)).toBe(mockALTotalSavingsByMonth[month]);
+        expect(round(totalSavings)).toBe(mockALTotalSavingsPolicyByMonth[month]);
       });
     });
 
-    it("should return correct savings for AK", () => {
+    it("should return correct baseline savings for AL", () => {
       let totalSavings = 0;
-      mockAKRevocationsByMonth.forEach((revocations, month) => {
+      mockALBaselineByMonth.forEach((baselines, month) => {
         totalSavings += calcSavings({
-          newRevocations: revocations,
-          numberOfFacilities: AKFacilities,
-          totalCostPerInmate: AKTotalCost,
-          marginalCostPerInmate: AKMarginalCost,
-          stateWideCapacity: AKCapacity,
-          newOffensePopulation: AKNewOffence,
+          baseValue: baselines,
+          numberOfFacilities: ALFacilities,
+          totalCostPerInmate: ALTotalCost,
+          marginalCostPerInmate: ALMarginalCost,
+          stateWideCapacity: ALCapacity,
         });
-        expect(round(totalSavings)).toBe(mockAKTotalSavingsByMonth[month]);
-      });
-    });
-
-    it("should return correct savings for TX", () => {
-      let totalSavings = 0;
-      mockTXRevocationsByMonth.forEach((revocations, month) => {
-        totalSavings += calcSavings({
-          newRevocations: revocations,
-          numberOfFacilities: TXFacilities,
-          totalCostPerInmate: TXTotalCost,
-          marginalCostPerInmate: TXMarginalCost,
-          stateWideCapacity: TXCapacity,
-          newOffensePopulation: TXNewOffence,
-        });
-        expect(round(totalSavings)).toBe(mockTXTotalSavingsByMonth[month]);
+        expect(round(totalSavings)).toBe(mockALTotalSavingsBaselineByMonth[month]);
       });
     });
   });
 
-  describe("should work with revocations increase as well", () => {
-    it("should return correct costs for AK", () => {
+  describe("should work with base value increase as well", () => {
+    it("should return correct policy costs for AL", () => {
       let totalCosts = 0;
-      mockIncreasingAKRevocationsByMonth.forEach((revocations, month) => {
+      mockIncreasingALRevocationsByMonth.forEach((revocations, month) => {
         totalCosts += calcSavings({
-          newRevocations: revocations,
-          numberOfFacilities: AKFacilities,
-          totalCostPerInmate: AKTotalCost,
-          marginalCostPerInmate: AKMarginalCost,
-          stateWideCapacity: AKCapacity,
-          newOffensePopulation: AKNewOffence,
+          baseValue: revocations + mockIncreasingALNewAdmissionsByMonth[month],
+          numberOfFacilities: ALFacilities,
+          totalCostPerInmate: ALTotalCost,
+          marginalCostPerInmate: ALMarginalCost,
+          stateWideCapacity: ALCapacity,
         });
-        expect(round(totalCosts)).toBe(mockAKCostsByMonth[month]);
+        expect(round(totalCosts)).toBe(mockIncreasingALTotalSavingsPolicyByMonth[month]);
       });
     });
   });

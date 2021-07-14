@@ -38,7 +38,7 @@ describe("SupervisionSuccessContainer tests", () => {
   const mockPrisonPopulationDiff = "some diff";
   const mockProjections = "some projections";
   const mockChangeInRevocations = "some change in revo";
-  const mockYear = 2017;
+  const mockYear = 2019;
 
   beforeAll(() => {
     produceProjections.mockReturnValue({

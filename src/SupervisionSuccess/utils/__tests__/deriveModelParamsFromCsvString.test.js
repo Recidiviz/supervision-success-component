@@ -40,14 +40,21 @@ describe("deriveModelParamsFromCsvString tests", () => {
       fromString: jest.fn().mockResolvedValue([
         {
           state: "Alabama",
-          year: "2017",
           newOffensePopulation: "32928",
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
+          newOffenseA: "14.64216936",
+          NAlpha0: "1.810459121",
+          RAlpha0: "0.4067641022",
+          newOffenseAvgTimeServedInMonths: "47.42201064",
           marginalCostPerInmate: "0.001",
           totalCostPerInmate: "0.01785714286",
           numberOfFacilities: "10",
           stateWideCapacity: "33600",
+          revocationsPopulation2020: "400",
+          populationFraction2020: "0.02",
+          totalPopulation2020: "20000",
+          newOffensePopulation2020: "19600",
         },
       ]),
     });
@@ -57,8 +64,55 @@ describe("deriveModelParamsFromCsvString tests", () => {
         newOffensePopulation: 32928,
         revocationsTimescale: 2.258190983,
         revocationA: 131.7795242,
+        newOffenseA: 14.64216936,
+        NAlpha0: 1.810459121,
+        RAlpha0: 0.4067641022,
+        isNotAvailable2020: false,
+        newOffenseAvgTimeServedInMonths: 47.42201064,
         marginalCostPerInmate: 0.001,
-        year: 2017,
+        year: 2019,
+        totalCostPerInmate: 0.01785714286,
+        numberOfFacilities: 10,
+        stateWideCapacity: 33600,
+      },
+    });
+  });
+
+  it("should put isNotAvailable2020 flag if at least one 2020 data is not available in csv", () => {
+    csv.mockReturnValue({
+      fromString: jest.fn().mockResolvedValue([
+        {
+          state: "Alabama",
+          newOffensePopulation: "32928",
+          revocationsTimescale: "2.258190983",
+          revocationA: "131.7795242",
+          newOffenseA: "14.64216936",
+          NAlpha0: "1.810459121",
+          RAlpha0: "0.4067641022",
+          newOffenseAvgTimeServedInMonths: "47.42201064",
+          marginalCostPerInmate: "0.001",
+          totalCostPerInmate: "0.01785714286",
+          numberOfFacilities: "10",
+          stateWideCapacity: "33600",
+          revocationsPopulation2020: "400",
+          populationFraction2020: "0.02",
+          totalPopulation2020: null,
+        },
+      ]),
+    });
+
+    expect(deriveModelParamsFromCsvString(mockString)).resolves.toStrictEqual({
+      Alabama: {
+        newOffensePopulation: 32928,
+        revocationsTimescale: 2.258190983,
+        revocationA: 131.7795242,
+        newOffenseA: 14.64216936,
+        NAlpha0: 1.810459121,
+        RAlpha0: 0.4067641022,
+        isNotAvailable2020: true,
+        newOffenseAvgTimeServedInMonths: 47.42201064,
+        marginalCostPerInmate: 0.001,
+        year: 2019,
         totalCostPerInmate: 0.01785714286,
         numberOfFacilities: 10,
         stateWideCapacity: 33600,
@@ -70,10 +124,13 @@ describe("deriveModelParamsFromCsvString tests", () => {
     csv.mockReturnValue({
       fromString: jest.fn().mockResolvedValue([
         {
-          year: "2017",
           newOffensePopulation: "32928",
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
+          newOffenseA: "14.64216936",
+          NAlpha0: "1.810459121",
+          RAlpha0: "0.4067641022",
+          newOffenseAvgTimeServedInMonths: "47.42201064",
           marginalCostPerInmate: "0.001",
           totalCostPerInmate: "0.01785714286",
           numberOfFacilities: "10",
@@ -104,9 +161,12 @@ describe("deriveModelParamsFromCsvString tests", () => {
     );
     expect(getMissingFieldsError).toHaveBeenCalledWith(undefined, [
       "state",
-      "year",
       "newOffensePopulation",
+      "newOffenseA",
       "revocationA",
+      "NAlpha0",
+      "RAlpha0",
+      "newOffenseAvgTimeServedInMonths",
       "revocationsTimescale",
       "marginalCostPerInmate",
     ]);

@@ -18,47 +18,48 @@ import calcRevocations from "../calcRevocations";
 import params from "../__mocks__/params.mock";
 
 describe("calcRevocations tests", () => {
-  const { Alabama, Alaska, Texas } = params;
+  const BASE_YEAR = 12;
+  const { Alabama } = params;
   const RA = Alabama.revocationA;
   const RT = Alabama.revocationsTimescale;
+  const RA0 = Alabama.RAlpha0;
   const round = (number) => Number(number.toFixed(4));
 
   it("should return correct revocations with different months", () => {
-    expect(round(calcRevocations(0, 6, RA, RT, -30))).toBe(672);
-    expect(round(calcRevocations(1, 6, RA, RT, -30))).toBe(665.547);
-    expect(round(calcRevocations(9, 6, RA, RT, -30))).toBe(489.0874);
-    expect(round(calcRevocations(14, 6, RA, RT, -30))).toBe(472.4415);
+    expect(round(calcRevocations(0, 3 + BASE_YEAR, RA, RA0, RT, -40))).toBe(672);
+    expect(round(calcRevocations(1, 3 + BASE_YEAR, RA, RA0, RT, -40))).toBe(574.2011);
+    expect(round(calcRevocations(9, 3 + BASE_YEAR, RA, RA0, RT, -40))).toBe(403.7342);
+    expect(round(calcRevocations(14, 3 + BASE_YEAR, RA, RA0, RT, -40))).toBe(401.55);
   });
 
   it("should return correct revocations with different implementationPeriod", () => {
-    expect(round(calcRevocations(5, 3, RA, RT, -30))).toBe(516.41);
-    expect(round(calcRevocations(5, 9, RA, RT, -30))).toBe(605.0575);
-    expect(round(calcRevocations(7, 12, RA, RT, -30))).toBe(590.6283);
-    expect(round(calcRevocations(6, 0, RA, RT, -70))).toBe(234.6027);
-    expect(round(calcRevocations(0, 0, RA, RT, -70))).toBe(672);
+    expect(round(calcRevocations(15, 3 + BASE_YEAR, RA, RA0, RT, -30))).toBe(447.6134);
+    expect(round(calcRevocations(15, 9 + BASE_YEAR, RA, RA0, RT, -30))).toBe(433.727);
+    expect(round(calcRevocations(7, 12 + BASE_YEAR, RA, RA0, RT, -30))).toBe(410.9707);
+    expect(round(calcRevocations(6, 0 + BASE_YEAR, RA, RA0, RT, -40))).toBe(417.8321);
+    expect(round(calcRevocations(0, 0 + BASE_YEAR, RA, RA0, RT, -40))).toBe(672);
   });
 
   it("should return correct revocations with different params", () => {
-    const AlaskaRA = Alaska.revocationA;
-    const AlaskaRT = Alaska.revocationsTimescale;
-    const TexasRA = Texas.revocationA;
-    const TexasRT = Texas.revocationsTimescale;
-    expect(round(calcRevocations(0, 1, AlaskaRA, AlaskaRT, -30))).toBe(1099);
-    expect(round(calcRevocations(7, 1, AlaskaRA, AlaskaRT, -40))).toBe(699.0063);
-    expect(round(calcRevocations(0, 12, TexasRA, TexasRT, -30))).toBe(22940);
-    expect(round(calcRevocations(6, 12, TexasRA, TexasRT, -30))).toBe(22013.5847);
-    expect(round(calcRevocations(17, 12, TexasRA, TexasRT, -30))).toBe(18248.5668);
+    const mockRA = 63.87488609;
+    const mockRA0 = 1.103815534;
+    const mockRT = 5.076329992;
+    expect(round(calcRevocations(0, 1 + BASE_YEAR, mockRA, mockRA0, mockRT, -30))).toBe(1646);
+    expect(round(calcRevocations(7, 1 + BASE_YEAR, mockRA, mockRA0, mockRT, -40))).toBe(286.6884);
+    expect(round(calcRevocations(0, 12 + BASE_YEAR, mockRA, mockRA0, mockRT, -30))).toBe(1646);
+    expect(round(calcRevocations(6, 12 + BASE_YEAR, mockRA, mockRA0, mockRT, -30))).toBe(386.3172);
+    expect(round(calcRevocations(17, 12 + BASE_YEAR, mockRA, mockRA0, mockRT, -30))).toBe(407.7242);
   });
 
   it("should return correct revocations with different changeInRevocations", () => {
-    expect(round(calcRevocations(0, 6, RA, RT, -100))).toBe(672);
-    expect(round(calcRevocations(8, 6, RA, RT, -100))).toBe(96.9947);
-    expect(round(calcRevocations(1, 6, RA, RT, -50))).toBe(661.245);
-    expect(round(calcRevocations(5, 6, RA, RT, -1))).toBe(668.6529);
-    expect(round(calcRevocations(6, 6, RA, RT, 0))).toBe(672);
-    expect(round(calcRevocations(9, 6, RA, RT, 1))).toBe(678.0971);
-    expect(round(calcRevocations(14, 6, RA, RT, 50))).toBe(1004.5975);
-    expect(round(calcRevocations(14, 6, RA, RT, 99))).toBe(1330.543);
-    expect(round(calcRevocations(4, 6, RA, RT, 100))).toBe(910.1056);
+    expect(round(calcRevocations(0, 6 + BASE_YEAR, RA, RA0, RT, -50))).toBe(672);
+    expect(round(calcRevocations(8, 6 + BASE_YEAR, RA, RA0, RT, -50))).toBe(406.5641);
+    expect(round(calcRevocations(1, 6 + BASE_YEAR, RA, RA0, RT, -50))).toBe(574.2011);
+    expect(round(calcRevocations(5, 6 + BASE_YEAR, RA, RA0, RT, -1))).toBe(428.5162);
+    expect(round(calcRevocations(6, 6 + BASE_YEAR, RA, RA0, RT, 0))).toBe(417.8321);
+    expect(round(calcRevocations(9, 6 + BASE_YEAR, RA, RA0, RT, 1))).toBe(403.7342);
+    expect(round(calcRevocations(14, 6 + BASE_YEAR, RA, RA0, RT, 30))).toBe(603.0111);
+    expect(round(calcRevocations(14, 6 + BASE_YEAR, RA, RA0, RT, 40))).toBe(631.847);
+    expect(round(calcRevocations(4, 6 + BASE_YEAR, RA, RA0, RT, 50))).toBe(445.1524);
   });
 });

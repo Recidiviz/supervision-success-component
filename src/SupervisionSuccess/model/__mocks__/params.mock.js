@@ -16,17 +16,21 @@
 // =============================================================================
 const params = {
   Alabama: {
-    year: 2017,
+    year: 2019,
     newOffensePopulation: 32928,
     revocationsTimescale: 2.258190983,
     revocationA: 131.7795242,
+    newOffenseA: 14.64216936,
+    NAlpha0: 1.810459121,
+    RAlpha0: 0.4067641022,
+    newOffenseAvgTimeServedInMonths: 47.42201064,
     marginalCostPerInmate: 0.001,
     totalCostPerInmate: 0.01785714286,
     numberOfFacilities: 10,
     stateWideCapacity: 33600,
   },
   Alaska: {
-    year: 2017,
+    year: 2019,
     newOffensePopulation: 3297,
     revocationsTimescale: 2.694177732,
     revocationA: 151.4067397,
@@ -36,7 +40,7 @@ const params = {
     stateWideCapacity: 4396,
   },
   Texas: {
-    year: 2017,
+    year: 2019,
     newOffensePopulation: 120435,
     revocationsTimescale: 9.037426133,
     revocationA: 280.8690545,
