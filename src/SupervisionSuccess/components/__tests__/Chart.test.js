@@ -73,6 +73,8 @@ describe("Chart tests", () => {
           borderColor: TOTAL_POPULATION_COLOR,
           backgroundColor: TOTAL_POPULATION_COLOR,
           fill: false,
+          cubicInterpolationMode: "monotone",
+          tension: 0.4,
         },
         {
           label: "baseline",
@@ -95,6 +97,8 @@ describe("Chart tests", () => {
           borderColor: BASELINE_COLOR,
           backgroundColor: BASELINE_COLOR,
           fill: false,
+          cubicInterpolationMode: "monotone",
+          tension: 0.4,
         },
       ],
     });

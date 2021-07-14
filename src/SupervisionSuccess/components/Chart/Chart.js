@@ -58,12 +58,22 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
           acc.chartData.labels.push(isYear ? year : "");
         }
 
-        if (isNotAvailable2020 && index >= 13 && index <= 23) {
-          acc.chartData.datasets[0].data.pop();
-          acc.chartData.datasets[0].data.push(acc.chartData.datasets[0].data[index - 1]);
+        if (isNotAvailable2020) {
+          if (index >= 13 && index <= 17) {
+            acc.chartData.datasets[0].data.pop();
+            acc.chartData.datasets[0].data.push(acc.chartData.datasets[0].data[index - 1]);
 
-          acc.chartData.datasets[1].data.pop();
-          acc.chartData.datasets[1].data.push(acc.chartData.datasets[1].data[index - 1]);
+            acc.chartData.datasets[1].data.pop();
+            acc.chartData.datasets[1].data.push(acc.chartData.datasets[1].data[index - 1]);
+          }
+
+          if (index >= 18 && index <= 23) {
+            acc.chartData.datasets[0].data.pop();
+            acc.chartData.datasets[0].data.push(null);
+
+            acc.chartData.datasets[1].data.pop();
+            acc.chartData.datasets[1].data.push(null);
+          }
         }
 
         if (isYear && !isMobile) {
@@ -94,6 +104,8 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
               backgroundColor: TOTAL_POPULATION_COLOR,
               borderWidth: isMobile ? 1 : 2,
               fill: false,
+              cubicInterpolationMode: "monotone",
+              tension: 0.4,
             },
             {
               label: "baseline",
@@ -104,6 +116,8 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
               backgroundColor: BASELINE_COLOR,
               borderWidth: isMobile ? 1 : 2,
               fill: false,
+              cubicInterpolationMode: "monotone",
+              tension: 0.4,
             },
           ],
         },
@@ -115,6 +129,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
 
   const chartOptions = useMemo(
     () => ({
+      spanGaps: true,
       legend: {
         display: false,
       },
@@ -194,11 +209,10 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
   };
 
   const drawNoDataBackgroundPlugin = {
-    afterDraw: (chart) => {
+    beforeDraw: (chart) => {
       const meta = chart.getDatasetMeta(1);
       if (isNotAvailable2020 && meta.data.length) {
         const { ctx, chartArea } = chart;
-        // ctx.globalCompositeOperation = "destination-over";
 
         const patternCanvas = document.createElement("canvas");
         const pctx = patternCanvas.getContext("2d", { antialias: true });
@@ -242,7 +256,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
 
         ctx.fillStyle = ctx.createPattern(patternCanvas, "repeat");
         ctx.fillRect(
-          meta.data[12]._model.x,
+          meta.data[6]._model.x,
           chartArea.top,
           meta.data[24]._model.x - meta.data[12]._model.x,
           chartArea.bottom - chartArea.top
