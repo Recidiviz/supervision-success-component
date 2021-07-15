@@ -98,6 +98,58 @@ function produceProjections(
     )
   );
 
+  const maxRevocationsByMonth = Array.from({
+    length: months + ADDED_MONTHS,
+  }).map((revocations, month) =>
+    calcRevocations(
+      month,
+      actualImplementationPeriod,
+      revocationA,
+      RAlpha0,
+      revocationsTimescale,
+      50
+    )
+  );
+
+  const minRevocationsByMonth = Array.from({
+    length: months + ADDED_MONTHS,
+  }).map((revocations, month) =>
+    calcRevocations(
+      month,
+      actualImplementationPeriod,
+      revocationA,
+      RAlpha0,
+      revocationsTimescale,
+      -50
+    )
+  );
+
+  const maxNewOffenseByMonth = Array.from({
+    length: months + ADDED_MONTHS,
+  }).map((newOffense, month) =>
+    calculateNewAdmissionsProjection(
+      month,
+      actualImplementationPeriod,
+      newOffenseA,
+      newOffenseAvgTimeServedInMonths,
+      NAlpha0,
+      50
+    )
+  );
+
+  const minNewOffenseByMonth = Array.from({
+    length: months + ADDED_MONTHS,
+  }).map((newOffense, month) =>
+    calculateNewAdmissionsProjection(
+      month,
+      actualImplementationPeriod,
+      newOffenseA,
+      newOffenseAvgTimeServedInMonths,
+      NAlpha0,
+      -50
+    )
+  );
+
   const baselineByMonth = Array.from({
     length: months + ADDED_MONTHS,
   }).map((baseline, month) =>
@@ -147,6 +199,8 @@ function produceProjections(
     month,
     baseline: baselineByMonth[month],
     totalPopulation: newOffenseByMonth[month] + revocationsByMonth[month],
+    max: Math.max.apply(null, maxRevocationsByMonth) + Math.max.apply(null, maxNewOffenseByMonth),
+    min: Math.min.apply(null, minRevocationsByMonth) + Math.min.apply(null, minNewOffenseByMonth),
   }));
 
   return {
