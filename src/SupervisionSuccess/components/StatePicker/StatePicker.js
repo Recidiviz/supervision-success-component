@@ -20,7 +20,7 @@ import Picker from "../Picker";
 
 import "./StatePicker.scss";
 
-const StatePicker = ({ isError, states, year, state, onStateChange }) => {
+const StatePicker = ({ isError, states, year, state, onStateChange, isNotAvailable2020 }) => {
   const options = isError
     ? [{ label: "-", value: "-" }]
     : states.map((item) => ({
@@ -47,6 +47,7 @@ const StatePicker = ({ isError, states, year, state, onStateChange }) => {
       />
       <span className="state-picker_hint">
         Based on {isError ? "-" : state} data from {isError ? "-" : year}
+        {!isNotAvailable2020 && !isError && ", 2020"}
       </span>
     </div>
   );
@@ -62,6 +63,7 @@ StatePicker.propTypes = {
   state: PropTypes.string.isRequired,
   onStateChange: PropTypes.func.isRequired,
   isError: PropTypes.bool,
+  isNotAvailable2020: PropTypes.bool.isRequired,
 };
 
 export default StatePicker;
