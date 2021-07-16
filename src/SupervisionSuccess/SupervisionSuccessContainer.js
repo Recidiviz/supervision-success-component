@@ -19,6 +19,7 @@ import PropTypes from "prop-types";
 
 import SupervisionSuccessComponent from "./components/SupervisionSuccess";
 import produceProjections from "./model/produceProjections";
+import calcOutcomesProportions from "./model/calcOutcomesProportions";
 import { DEFAULT_STATE, LS_PERSIST_KEY } from "./constants";
 
 const SupervisionSuccessContainer = ({ params, isError }) => {
@@ -43,6 +44,8 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   const [finalRevocations, setFinalRevocations] = useState(0);
   const [finalAdmissions, setFinalAdmissions] = useState(0);
   const [prisonPopulationDiff, setPrisonPopulationDiff] = useState(0);
+  const [revocationsProportion, setRevocationsProportion] = useState(0);
+  const [admissionsProportion, setAdmissionsProportion] = useState(0);
   const [savings, setSavings] = useState(0);
   const [chartData, setChartData] = useState([]);
 
@@ -83,11 +86,25 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
       changeInRevocations,
       changeInNewAdmissions
     );
+
+    const baseData = produceProjections(params[state], implementationPeriod, projections, 0, 0);
+
+    const proportions = calcOutcomesProportions(
+      finalRevocations,
+      finalAdmissions,
+      changeInRevocations,
+      changeInNewAdmissions,
+      prisonPopulationDiff,
+      baseData.finalRevocations,
+      baseData.finalAdmissions
+    );
     setChartData(data.chartData);
     setSavings(data.savings);
     setPrisonPopulationDiff(data.prisonPopulationDiff);
     setFinalRevocations(data.finalRevocations);
     setFinalAdmissions(data.finalAdmissions);
+    setRevocationsProportion(proportions.revocationsProportion);
+    setAdmissionsProportion(proportions.admissionsProportion);
     setYear(params[state].year);
     setIsNotAvailable2020(params[state].isNotAvailable2020);
   }, [
@@ -98,6 +115,9 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
     projections,
     changeInRevocations,
     changeInNewAdmissions,
+    finalAdmissions,
+    finalRevocations,
+    prisonPopulationDiff,
   ]);
 
   return (
@@ -113,6 +133,8 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
       changeInNewAdmissions={changeInNewAdmissions}
       finalRevocations={finalRevocations}
       finalAdmissions={finalAdmissions}
+      revocationsProportion={revocationsProportion}
+      admissionsProportion={admissionsProportion}
       prisonPopulationDiff={prisonPopulationDiff}
       savings={savings}
       onStateChange={onStateChange}
