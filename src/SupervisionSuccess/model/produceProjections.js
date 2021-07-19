@@ -18,6 +18,7 @@ import calcBaselines from "./calcBaselines";
 import calculateNewAdmissionsProjection from "./calculateNewAdmissionsProjection";
 import calcRevocations from "./calcRevocations";
 import calcSavings from "./calcSavings";
+import { MAX_CHANGE, MIN_CHANGE } from "../constants";
 
 /* Number of months to add to the end of chart (chart need to be continued and overflow block),
 This months should not participate in savings and prisonPopulationDiff calculations
@@ -72,31 +73,43 @@ function produceProjections(
   const months = BASE_YEAR + projections * 12 + 1;
   const actualImplementationPeriod = BASE_YEAR + implementationPeriod;
 
-  const revocationsByMonth = Array.from({
-    length: months + ADDED_MONTHS,
-  }).map((revocations, month) =>
-    calcRevocations(
-      month,
-      actualImplementationPeriod,
-      revocationA,
-      RAlpha0,
-      revocationsTimescale,
-      changeInRevocations
-    )
-  );
+  const calculateRevocationsByMonth = (length, revocationChange) => {
+    return Array.from({
+      length: length + ADDED_MONTHS,
+    }).map((revocations, month) =>
+      calcRevocations(
+        month,
+        actualImplementationPeriod,
+        revocationA,
+        RAlpha0,
+        revocationsTimescale,
+        revocationChange
+      )
+    );
+  };
 
-  const newOffenseByMonth = Array.from({
-    length: months + ADDED_MONTHS,
-  }).map((newOffense, month) =>
-    calculateNewAdmissionsProjection(
-      month,
-      actualImplementationPeriod,
-      newOffenseA,
-      newOffenseAvgTimeServedInMonths,
-      NAlpha0,
-      changeInNewAdmissions
-    )
-  );
+  const revocationsByMonth = calculateRevocationsByMonth(months, changeInRevocations);
+  const maxRevocationsByMonth = calculateRevocationsByMonth(months, MAX_CHANGE);
+  const minRevocationsByMonth = calculateRevocationsByMonth(months, MIN_CHANGE);
+
+  const calculateNewAdmissionsByMonth = (length, newAdmissionsChange) => {
+    return Array.from({
+      length: length + ADDED_MONTHS,
+    }).map((newOffense, month) =>
+      calculateNewAdmissionsProjection(
+        month,
+        actualImplementationPeriod,
+        newOffenseA,
+        newOffenseAvgTimeServedInMonths,
+        NAlpha0,
+        newAdmissionsChange
+      )
+    );
+  };
+
+  const newAdmissionsByMonth = calculateNewAdmissionsByMonth(months, changeInNewAdmissions);
+  const maxNewAdmissionsByMonth = calculateNewAdmissionsByMonth(months, MAX_CHANGE);
+  const minNewAdmissionsByMonth = calculateNewAdmissionsByMonth(months, MIN_CHANGE);
 
   const baselineByMonth = Array.from({
     length: months + ADDED_MONTHS,
@@ -111,7 +124,7 @@ function produceProjections(
       newOffenseAvgTimeServedInMonths,
       NAlpha0,
       revocationsByMonth[month],
-      newOffenseByMonth[month]
+      newAdmissionsByMonth[month]
     )
   );
 
@@ -119,7 +132,7 @@ function produceProjections(
     (acc, _, month) =>
       acc +
       calcSavings({
-        baseValue: revocationsByMonth[month] + newOffenseByMonth[month],
+        baseValue: revocationsByMonth[month] + newAdmissionsByMonth[month],
         marginalCostPerInmate,
         totalCostPerInmate,
         numberOfFacilities,
@@ -143,10 +156,17 @@ function produceProjections(
 
   const totalSavings = totalSavingsPolicy - totalSavingsBaseline;
 
+  const maxChange =
+    Math.max.apply(null, maxRevocationsByMonth) + Math.max.apply(null, maxNewAdmissionsByMonth);
+  const minChange =
+    Math.min.apply(null, minRevocationsByMonth) + Math.min.apply(null, minNewAdmissionsByMonth);
+
   const chartData = Array.from({ length: months + ADDED_MONTHS }).map((item, month) => ({
     month,
     baseline: baselineByMonth[month],
-    totalPopulation: newOffenseByMonth[month] + revocationsByMonth[month],
+    totalPopulation: newAdmissionsByMonth[month] + revocationsByMonth[month],
+    max: maxChange > minChange ? maxChange : minChange,
+    min: minChange < maxChange ? minChange : maxChange,
   }));
 
   return {
@@ -155,7 +175,7 @@ function produceProjections(
     prisonPopulationDiff:
       Math.round(chartData[months - 1].totalPopulation) - chartData[months - 1].baseline,
     finalRevocations: Math.round(revocationsByMonth[months - 1]),
-    finalAdmissions: Math.round(newOffenseByMonth[months - 1]),
+    finalAdmissions: Math.round(newAdmissionsByMonth[months - 1]),
   };
 }
 

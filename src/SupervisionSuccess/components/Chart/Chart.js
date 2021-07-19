@@ -24,7 +24,6 @@ import useIsMobile from "../../utils/useIsMobile";
 import "./Chart.scss";
 
 const VERTICAL_OFFSET = 0.05;
-const Y_AXIS_OFFSET = 3;
 export const BASELINE_COLOR = "#ee3007";
 export const TOTAL_POPULATION_COLOR = "#2b649c";
 export const TRANSPARENT_COLOR = "transparent";
@@ -42,10 +41,10 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
     }, 500);
   }, [isNotAvailable2020]);
 
-  const { chartData, min, max } = useMemo(() => {
-    if (isError) return { chartData: null, min: null, max: null };
+  const { chartData, minY, maxY } = useMemo(() => {
+    if (isError) return { chartData: null, minY: null, maxY: null };
     return data.reduce(
-      (acc, { month, baseline, totalPopulation }, index) => {
+      (acc, { month, baseline, totalPopulation, max, min }, index) => {
         const year = month / 12 + startYear;
         const isYear = Number.isInteger(year);
 
@@ -87,8 +86,8 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
           acc.chartData.datasets[1].pointBackgroundColor.push(TRANSPARENT_COLOR);
           acc.chartData.datasets[1].pointBorderColor.push(TRANSPARENT_COLOR);
         }
-        acc.max = Math.round(Math.max(baseline, totalPopulation, acc.max));
-        acc.min = Math.round(Math.min(baseline, totalPopulation, acc.min));
+        acc.maxY = Math.round(max);
+        acc.minY = Math.round(min);
         return acc;
       },
       {
@@ -141,8 +140,8 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
               padding: 20,
               fontSize: isMobile ? 12 : 16,
               precision: 0,
-              suggestedMax: min === max ? max + Y_AXIS_OFFSET : max + (max - min) * VERTICAL_OFFSET,
-              suggestedMin: min === max ? max - Y_AXIS_OFFSET : min - (max - min) * VERTICAL_OFFSET,
+              suggestedMax: maxY + (maxY - minY) * VERTICAL_OFFSET,
+              suggestedMin: minY - (maxY - minY) * VERTICAL_OFFSET,
               maxTicksLimit: 7,
               callback: (value) => value.toLocaleString(),
             },
@@ -181,7 +180,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
         },
       },
     }),
-    [isMobile, startYear, min, max]
+    [isMobile, startYear, minY, maxY]
   );
 
   const drawLinePlugin = {
@@ -293,6 +292,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
 
 Chart.defaultProps = {
   isError: false,
+  isNotAvailable2020: false,
 };
 
 Chart.propTypes = {
@@ -302,10 +302,12 @@ Chart.propTypes = {
       month: PropTypes.number,
       baseline: PropTypes.number,
       totalPopulation: PropTypes.number,
+      max: PropTypes.number,
+      min: PropTypes.number,
     })
   ).isRequired,
   startYear: PropTypes.number.isRequired,
-  isNotAvailable2020: PropTypes.bool.isRequired,
+  isNotAvailable2020: PropTypes.bool,
 };
 
 export default Chart;

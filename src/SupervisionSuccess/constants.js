@@ -21,9 +21,11 @@ export const ERROR_NOT_CSV_FETCHED =
 export const ERROR_NO_ROWS =
   "Parser didn't find any data rows, check the documentation in the readme to see the requirements for file formatting";
 export const LS_PERSIST_KEY = "persistedValues";
+export const MAX_CHANGE = 50;
+export const MIN_CHANGE = -50;
 export const DEFAULT_STATE = {
   implementationPeriod: 6,
   projections: 5,
-  changeInRevocations: -50,
-  changeInNewAdmissions: -50,
+  changeInRevocations: MIN_CHANGE,
+  changeInNewAdmissions: MIN_CHANGE,
 };

@@ -106,7 +106,7 @@ describe("Chart tests", () => {
 
   it("should be responsive", () => {
     useIsMobile.mockReturnValue(true);
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     expect(Line.mock.calls[0][0].data).toMatchObject({
       datasets: [
@@ -126,7 +126,7 @@ describe("Chart tests", () => {
   });
 
   it("should show every 12'th tooltip", () => {
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     expect(Line.mock.calls[0][0].options.tooltips.filter({ index: 0 })).toBe(true);
     expect(Line.mock.calls[0][0].options.tooltips.filter({ index: 12 })).toBe(true);
@@ -135,7 +135,7 @@ describe("Chart tests", () => {
   });
 
   it("should show diff in people in tooltips title", () => {
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     expect(
       Line.mock.calls[0][0].options.tooltips.callbacks.title([{ value: 10 }, { value: 20 }])
@@ -157,7 +157,7 @@ describe("Chart tests", () => {
   });
 
   it("should show labels in tooltip", () => {
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     expect(Line.mock.calls[0][0].options.tooltips.callbacks.label()).toBe(null);
   });
@@ -194,7 +194,7 @@ describe("Chart tests", () => {
         restore: jest.fn(),
       },
     };
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     const drawLinePlugin = Line.mock.calls[0][0].plugins[0];
     drawLinePlugin.afterDraw(mockChart);
@@ -214,7 +214,7 @@ describe("Chart tests", () => {
     const mockChart = {
       tooltip: { _active: [] },
     };
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     const drawLinePlugin = Line.mock.calls[0][0].plugins[0];
 
@@ -242,7 +242,7 @@ describe("Chart tests", () => {
       tooltip: { _active: ["some tooltip"] },
       controller: { tooltip: { _active: [mockFirstPoint, mockSecondPoint] } },
     };
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     const drawLinePlugin = Line.mock.calls[0][0].plugins[0];
 
@@ -271,7 +271,7 @@ describe("Chart tests", () => {
       controller: { tooltip: { _active: [mockFirstPoint, mockSecondPoint] } },
     };
 
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     const drawLinePlugin = Line.mock.calls[0][0].plugins[0];
 
@@ -279,13 +279,13 @@ describe("Chart tests", () => {
   });
 
   it("should not render chart if isError = true", () => {
-    render(<Chart isError data={[]} />);
+    render(<Chart isError data={[]} startYear={startYear} />);
 
     expect(Line).toHaveBeenCalledTimes(0);
   });
 
   it("should format y axis", () => {
-    render(<Chart data={mockData} />);
+    render(<Chart data={mockData} startYear={startYear} />);
 
     expect(Line.mock.calls[0][0].options.scales.yAxes[0].ticks.callback(140299588)).toBe(
       "140,299,588"
