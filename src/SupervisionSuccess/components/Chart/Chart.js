@@ -24,7 +24,6 @@ import useIsMobile from "../../utils/useIsMobile";
 import "./Chart.scss";
 
 const VERTICAL_OFFSET = 0.05;
-const Y_AXIS_OFFSET = 1000;
 export const BASELINE_COLOR = "#ee3007";
 export const TOTAL_POPULATION_COLOR = "#2b649c";
 export const TRANSPARENT_COLOR = "transparent";
@@ -141,10 +140,8 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
               padding: 20,
               fontSize: isMobile ? 12 : 16,
               precision: 0,
-              suggestedMax:
-                maxY > minY ? maxY + (maxY - minY) * VERTICAL_OFFSET : minY + Y_AXIS_OFFSET,
-              suggestedMin:
-                maxY > minY ? minY - (maxY - minY) * VERTICAL_OFFSET : maxY - Y_AXIS_OFFSET,
+              suggestedMax: maxY + (maxY - minY) * VERTICAL_OFFSET,
+              suggestedMin: minY - (maxY - minY) * VERTICAL_OFFSET,
               maxTicksLimit: 7,
               callback: (value) => value.toLocaleString(),
             },

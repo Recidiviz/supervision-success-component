@@ -156,14 +156,17 @@ function produceProjections(
 
   const totalSavings = totalSavingsPolicy - totalSavingsBaseline;
 
+  const maxChange =
+    Math.max.apply(null, maxRevocationsByMonth) + Math.max.apply(null, maxNewAdmissionsByMonth);
+  const minChange =
+    Math.min.apply(null, minRevocationsByMonth) + Math.min.apply(null, minNewAdmissionsByMonth);
+
   const chartData = Array.from({ length: months + ADDED_MONTHS }).map((item, month) => ({
     month,
     baseline: baselineByMonth[month],
     totalPopulation: newAdmissionsByMonth[month] + revocationsByMonth[month],
-    max:
-      Math.max.apply(null, maxRevocationsByMonth) + Math.max.apply(null, maxNewAdmissionsByMonth),
-    min:
-      Math.min.apply(null, minRevocationsByMonth) + Math.min.apply(null, minNewAdmissionsByMonth),
+    max: maxChange > minChange ? maxChange : minChange,
+    min: minChange < maxChange ? minChange : maxChange,
   }));
 
   return {
