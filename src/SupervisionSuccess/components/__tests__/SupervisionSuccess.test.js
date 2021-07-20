@@ -44,18 +44,22 @@ describe("SupervisionSuccessComponent tests", () => {
     render(
       <SupervisionSuccessComponent
         isError
-        year={2017}
+        year={2019}
+        isNotAvailable2020={false}
         finalRevocations={12000}
+        finalAdmissions={36000}
         state="some state"
         onStateChange={jest.fn()}
         states={[]}
         changeInRevocations={40}
+        changeInNewAdmissions={40}
         onProjectionsChange={jest.fn()}
         onImplementationPeriodChange={jest.fn()}
         prisonPopulationDiff={42}
         chartData={[]}
         implementationPeriod={32}
         onChangeInRevocationsChange={jest.fn()}
+        onChangeInNewAdmissionsChange={jest.fn()}
         projections={3}
         savings={24}
       />

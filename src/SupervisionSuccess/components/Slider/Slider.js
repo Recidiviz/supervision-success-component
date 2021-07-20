@@ -17,6 +17,7 @@
 import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import ReactSlider from "react-slider";
+import { MAX_CHANGE, MIN_CHANGE } from "../../constants";
 
 import "./Slider.scss";
 
@@ -40,18 +41,18 @@ const Slider = ({ title, hint, isError, finalValue, changeValue, onChangeValueCh
       <span className="slider_title">{title}</span>
       <div className="slider_info">{thumbContent}</div>
       <div className="slider_wrapper">
-        <span className="slider_label">+50%</span>
+        <span className="slider_label">+{MAX_CHANGE}%</span>
         <ReactSlider
           orientation="horizontal"
-          min={-50}
-          max={50}
+          min={MIN_CHANGE}
+          max={MAX_CHANGE}
           defaultValue={changeValue}
           className="slider_track"
           renderThumb={renderThumb}
           onChange={setValueNow}
           onAfterChange={onChangeValueChange}
         />
-        <span className="slider_label">-50%</span>
+        <span className="slider_label">{MIN_CHANGE}%</span>
       </div>
     </div>
   );

@@ -58,6 +58,7 @@ const SupervisionSuccessComponent = ({
           states={states}
           state={state}
           onStateChange={onStateChange}
+          isNotAvailable2020={isNotAvailable2020}
         />
       </div>
       <div className="main_header-implementation-period">

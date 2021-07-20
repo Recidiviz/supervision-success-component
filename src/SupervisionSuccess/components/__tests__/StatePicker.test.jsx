@@ -25,7 +25,7 @@ jest.mock("../Picker");
 describe("StatePicker tests", () => {
   const mockState1 = "Texas";
   const mockState2 = "Alabama";
-  const mockYear = 2017;
+  const mockYear = 2019;
   const mockStates = [mockState1, mockState2];
   const mockOnStateChange = jest.fn();
 
@@ -42,10 +42,40 @@ describe("StatePicker tests", () => {
         states={mockStates}
         state={mockState1}
         onStateChange={mockOnStateChange}
+        isNotAvailable2020={false}
       />
     );
 
-    expect(getByText("Based on Texas data from 2017")).toBeInTheDocument();
+    expect(getByText("Based on Texas data from 2019, 2020")).toBeInTheDocument();
+    expect(Picker).toBeCalled();
+
+    Picker.mock.calls[0][0].onChange({ value: mockState2 });
+
+    expect(mockOnStateChange).toHaveBeenCalledWith(mockState2);
+    expect(Picker.mock.calls[0][0].options).toStrictEqual([
+      {
+        label: "Texas",
+        value: "Texas",
+      },
+      {
+        label: "Alabama",
+        value: "Alabama",
+      },
+    ]);
+  });
+
+  it("should not render 2020 if 2020 data is not available", () => {
+    const { getByText } = render(
+      <StatePicker
+        year={mockYear}
+        states={mockStates}
+        state={mockState1}
+        onStateChange={mockOnStateChange}
+        isNotAvailable2020
+      />
+    );
+
+    expect(getByText("Based on Texas data from 2019")).toBeInTheDocument();
     expect(Picker).toBeCalled();
 
     Picker.mock.calls[0][0].onChange({ value: mockState2 });
@@ -71,6 +101,7 @@ describe("StatePicker tests", () => {
         states={mockStates}
         state={mockState1}
         onStateChange={mockOnStateChange}
+        isNotAvailable2020
       />
     );
 

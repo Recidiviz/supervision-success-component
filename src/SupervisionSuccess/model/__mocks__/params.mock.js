@@ -17,6 +17,7 @@
 const params = {
   Alabama: {
     year: 2019,
+    isNotAvailable2020: false,
     newOffensePopulation: 32928,
     revocationsTimescale: 2.258190983,
     revocationA: 131.7795242,
