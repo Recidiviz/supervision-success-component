@@ -17,10 +17,17 @@
 
 /**
  * Function that calculates outcome proportions from the given inputs.
+ * @param {number} finalRevocations - integer value of revocations with applied changeInRevocations value
+ * @param {number} finalAdmissions - integer value of new admissions with applied changeInNewAdmissions value
  * @param {number} changeInRevocations - integer value of the percentage change in revocations
  * @param {number} changeInNewAdmissions - integer value of the percentage change in new admissions
  * @const {number} prisonPopulationDiff - total difference of people in prison
- * @returns {number}
+ * @param {number} baseRevocations - integer value of revocations with zero changeInRevocations value
+ * @const {number} baseAdmissions - integer value of change in new admissions with zero changeInNewAdmissions value
+ * @returns {{
+ *   revocationsProportion: number,
+ *   admissionsProportion: number,
+ * }}
  */
 function calcOutcomesProportions(
   finalRevocations,
@@ -45,7 +52,15 @@ function calcOutcomesProportions(
     admissionsProportion = Math.abs(
       Math.round((Math.abs(baseAdmissions - finalAdmissions) / prisonPopulationDiff) * 100)
     );
-  } else if (Math.abs(changeInRevocations) > Math.abs(changeInNewAdmissions)) {
+
+    if (revocationsProportion === 0) {
+      revocationsProportion = null;
+    } else if (admissionsProportion === 0) {
+      admissionsProportion = null;
+    }
+  } else if (
+    Math.abs(baseRevocations - finalRevocations) > Math.abs(baseAdmissions - finalAdmissions)
+  ) {
     revocationsProportion = 100;
     admissionsProportion = null;
   } else {

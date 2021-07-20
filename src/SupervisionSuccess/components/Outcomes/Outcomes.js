@@ -40,7 +40,6 @@ const Outcomes = ({
     if (savings < 0) return ["Increased costs", "outcomes_stat-icon-up"];
     return ["No change in cost", ""];
   })();
-
   return (
     <div className="outcomes">
       <div className="outcomes_heading">
@@ -53,12 +52,12 @@ const Outcomes = ({
             {isError ? "-" : Math.abs(prisonPopulationDiff)}
           </div>
           <div className="outcomes_stat-key">{prisonPopulationDiffText}</div>
-          <div className="outcomes_stat-proportion">
-            Revocations: {revocationsProportion || "-"}%
-          </div>
-          <div className="outcomes_stat-proportion">
-            New Admissions: {admissionsProportion || "-"}%
-          </div>
+          {revocationsProportion && (
+            <div className="outcomes_stat-proportion">Revocations: {revocationsProportion}%</div>
+          )}
+          {admissionsProportion && (
+            <div className="outcomes_stat-proportion">New Admissions: {admissionsProportion}%</div>
+          )}
         </div>
         <div className="outcomes_stat">
           <div className={`outcomes_stat-value ${savingsIconClass}`}>
