@@ -64,12 +64,12 @@ const Outcomes = ({
             {isError ? "-" : prettifySavings(savings)}
           </div>
           <div className="outcomes_stat-key">{savingsText}</div>
-          <div className="outcomes_stat-proportion">
-            Revocations: {revocationsProportion || "-"}%
-          </div>
-          <div className="outcomes_stat-proportion">
-            New Admissions: {admissionsProportion || "-"}%
-          </div>
+          {revocationsProportion && (
+            <div className="outcomes_stat-proportion">Revocations: {revocationsProportion}%</div>
+          )}
+          {admissionsProportion && (
+            <div className="outcomes_stat-proportion">New Admissions: {admissionsProportion}%</div>
+          )}
         </div>
       </div>
     </div>
