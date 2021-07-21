@@ -17,6 +17,8 @@
 
 /**
  * Function that calculates outcome proportions from the given inputs.
+ * This determines what proportion of a change in outcomes (for both population size and cost)
+ * is attributable to the modeled changes in revocations versus new admissions.
  * @param {number} finalRevocations - integer value of revocations with applied changeInRevocations value
  * @param {number} finalAdmissions - integer value of new admissions with applied changeInNewAdmissions value
  * @param {number} changeInRevocations - integer value of the percentage change in revocations
@@ -62,6 +64,12 @@ function calcOutcomesProportions(
     Math.abs(baseRevocations - finalRevocations) > Math.abs(baseAdmissions - finalAdmissions)
   ) {
     revocationsProportion = 100;
+    admissionsProportion = null;
+  } else if (
+    Math.abs(baseRevocations - finalRevocations) === 0 &&
+    Math.abs(baseAdmissions - finalAdmissions) === 0
+  ) {
+    revocationsProportion = null;
     admissionsProportion = null;
   } else {
     revocationsProportion = null;
