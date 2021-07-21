@@ -38,6 +38,8 @@ const SupervisionSuccessComponent = ({
   changeInNewAdmissions,
   finalRevocations,
   finalAdmissions,
+  revocationsProportion,
+  admissionsProportion,
   prisonPopulationDiff,
   savings,
   onStateChange,
@@ -89,7 +91,14 @@ const SupervisionSuccessComponent = ({
       />
     </section>
     <aside className="main_left-aside">
-      <Outcomes isError={isError} prisonPopulationDiff={prisonPopulationDiff} savings={savings} />
+      <Outcomes
+        isError={isError}
+        prisonPopulationDiff={prisonPopulationDiff}
+        savings={savings}
+        year={year}
+        revocationsProportion={revocationsProportion}
+        admissionsProportion={admissionsProportion}
+      />
     </aside>
     <section className="main_center">
       <Chart
@@ -104,6 +113,8 @@ const SupervisionSuccessComponent = ({
 
 SupervisionSuccessComponent.defaultProps = {
   isError: false,
+  revocationsProportion: null,
+  admissionsProportion: null,
 };
 
 SupervisionSuccessComponent.propTypes = {
@@ -118,6 +129,8 @@ SupervisionSuccessComponent.propTypes = {
   changeInNewAdmissions: PropTypes.number.isRequired,
   finalRevocations: PropTypes.number.isRequired,
   finalAdmissions: PropTypes.number.isRequired,
+  revocationsProportion: PropTypes.number,
+  admissionsProportion: PropTypes.number,
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
   onStateChange: PropTypes.func.isRequired,

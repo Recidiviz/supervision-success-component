@@ -21,7 +21,14 @@ import prettifySavings from "../../utils/prettifySavings";
 
 import "./Outcomes.scss";
 
-const Outcomes = ({ isError, prisonPopulationDiff, savings }) => {
+const Outcomes = ({
+  isError,
+  revocationsProportion,
+  admissionsProportion,
+  prisonPopulationDiff,
+  savings,
+  year,
+}) => {
   const [prisonPopulationDiffText, prisonPopulationDiffIconClass] = (() => {
     if (prisonPopulationDiff < 0) return ["Fewer people in prison", "outcomes_stat-icon-down"];
     if (prisonPopulationDiff > 0) return ["More people in prison", "outcomes_stat-icon-up"];
@@ -33,12 +40,11 @@ const Outcomes = ({ isError, prisonPopulationDiff, savings }) => {
     if (savings < 0) return ["Increased costs", "outcomes_stat-icon-up"];
     return ["No change in cost", ""];
   })();
-
   return (
     <div className="outcomes">
       <div className="outcomes_heading">
         Outcomes
-        <p>From 2019 baseline</p>
+        <p>From {year} baseline</p>
       </div>
       <div className="outcomes_stats">
         <div className="outcomes_stat">
@@ -46,12 +52,24 @@ const Outcomes = ({ isError, prisonPopulationDiff, savings }) => {
             {isError ? "-" : Math.abs(prisonPopulationDiff)}
           </div>
           <div className="outcomes_stat-key">{prisonPopulationDiffText}</div>
+          {revocationsProportion && (
+            <div className="outcomes_stat-proportion">Revocations: {revocationsProportion}%</div>
+          )}
+          {admissionsProportion && (
+            <div className="outcomes_stat-proportion">New Admissions: {admissionsProportion}%</div>
+          )}
         </div>
         <div className="outcomes_stat">
           <div className={`outcomes_stat-value ${savingsIconClass}`}>
             {isError ? "-" : prettifySavings(savings)}
           </div>
           <div className="outcomes_stat-key">{savingsText}</div>
+          {revocationsProportion && (
+            <div className="outcomes_stat-proportion">Revocations: {revocationsProportion}%</div>
+          )}
+          {admissionsProportion && (
+            <div className="outcomes_stat-proportion">New Admissions: {admissionsProportion}%</div>
+          )}
         </div>
       </div>
     </div>
@@ -60,12 +78,17 @@ const Outcomes = ({ isError, prisonPopulationDiff, savings }) => {
 
 Outcomes.defaultProps = {
   isError: false,
+  revocationsProportion: null,
+  admissionsProportion: null,
 };
 
 Outcomes.propTypes = {
+  revocationsProportion: PropTypes.number,
+  admissionsProportion: PropTypes.number,
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
   isError: PropTypes.bool,
+  year: PropTypes.number.isRequired,
 };
 
 export default Outcomes;
