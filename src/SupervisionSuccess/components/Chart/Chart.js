@@ -20,6 +20,7 @@ import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 import transformChartDataToText from "../../utils/transformChartAsText";
 import useIsMobile from "../../utils/useIsMobile";
+import formatNumber from "../../utils/formatNumber";
 
 import "./Chart.scss";
 
@@ -169,7 +170,9 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
         yPadding: 10,
         callbacks: {
           title: ([totalPopulation, baseline]) =>
-            baseline && totalPopulation && `${totalPopulation.value - baseline.value} people`,
+            baseline &&
+            totalPopulation &&
+            `${formatNumber(totalPopulation.value - baseline.value)} people`,
           label: () => null,
           footer: ([baseline]) =>
             baseline && baseline.label > startYear + 1
@@ -277,6 +280,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
       >
         {isError ? null : (
           <Line
+            aria-label="Total people in prison projected in years chart"
             data={chartData}
             options={chartOptions}
             plugins={[drawLinePlugin, drawNoDataBackgroundPlugin]}

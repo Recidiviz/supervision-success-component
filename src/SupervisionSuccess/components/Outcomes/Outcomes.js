@@ -18,6 +18,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import prettifySavings from "../../utils/prettifySavings";
+import formatNumber from "../../utils/formatNumber";
 
 import "./Outcomes.scss";
 
@@ -49,28 +50,24 @@ const Outcomes = ({
       <div className="outcomes_stats">
         <div className="outcomes_stat">
           <div className={`outcomes_stat-value ${prisonPopulationDiffIconClass}`}>
-            {isError ? "-" : Math.abs(prisonPopulationDiff)}
+            {isError ? "-" : formatNumber(prisonPopulationDiff, true)}
           </div>
           <div className="outcomes_stat-key">{prisonPopulationDiffText}</div>
-          {revocationsProportion && (
-            <div className="outcomes_stat-proportion">Revocations: {revocationsProportion}%</div>
-          )}
-          {admissionsProportion && (
-            <div className="outcomes_stat-proportion">New Admissions: {admissionsProportion}%</div>
-          )}
         </div>
         <div className="outcomes_stat">
           <div className={`outcomes_stat-value ${savingsIconClass}`}>
             {isError ? "-" : prettifySavings(savings)}
           </div>
           <div className="outcomes_stat-key">{savingsText}</div>
-          {revocationsProportion && (
-            <div className="outcomes_stat-proportion">Revocations: {revocationsProportion}%</div>
-          )}
-          {admissionsProportion && (
-            <div className="outcomes_stat-proportion">New Admissions: {admissionsProportion}%</div>
-          )}
         </div>
+        {revocationsProportion && (
+          <div className="outcomes_stat-proportion">From Revocations: {revocationsProportion}%</div>
+        )}
+        {admissionsProportion && (
+          <div className="outcomes_stat-proportion">
+            From New Admissions: {admissionsProportion}%
+          </div>
+        )}
       </div>
     </div>
   );
