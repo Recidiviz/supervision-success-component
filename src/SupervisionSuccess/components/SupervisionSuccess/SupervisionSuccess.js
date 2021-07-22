@@ -73,8 +73,9 @@ const SupervisionSuccessComponent = ({
     </header>
     <section className="main_sliders">
       <Slider
+        aria-label="Revocations slider"
         title="Change in revocations"
-        hint={`Violations resulting in ${isError ? "-" : state} incarceration`}
+        hint="violations resulting in incarceration"
         isError={isError}
         finalValue={finalRevocations}
         changeValue={changeInRevocations}
@@ -82,8 +83,9 @@ const SupervisionSuccessComponent = ({
       />
       <span className="main_sliders--divider" />
       <Slider
+        aria-label="New admissions slider"
         title="Change in new admissions"
-        hint="New admissions to prison"
+        hint="new admissions to prison"
         isError={isError}
         finalValue={finalAdmissions}
         changeValue={changeInNewAdmissions}
