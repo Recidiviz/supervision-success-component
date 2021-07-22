@@ -39,6 +39,7 @@ const StatePicker = ({ isError, states, year, state, onStateChange, isNotAvailab
       <span className="state-picker_label">Choose state</span>
       <Picker
         className="state-picker_picker"
+        aria-label="State picker"
         menuLabel="States"
         isLarge
         defaultValue={options.find((item) => item.value === state)}

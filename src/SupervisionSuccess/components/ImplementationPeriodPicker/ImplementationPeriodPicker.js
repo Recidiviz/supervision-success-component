@@ -48,6 +48,7 @@ const ImplementationPeriodPicker = ({ implementationPeriod, onImplementationPeri
       <span className="implementation-period-picker_label">Implementation period</span>
       <Picker
         className="implementation-period-picker_picker"
+        aria-label="Implementation period picker"
         menuLabel="Months"
         defaultValue={currentOption}
         options={options}
