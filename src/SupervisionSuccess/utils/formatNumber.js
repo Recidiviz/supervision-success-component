@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
+/**
+ * Function that formats numbers to integers and returns absolute number if needed
+ * @param {number} number - any incoming value
+ * @param {boolean} isAbsolute - absolute flag
+ * @returns {string} - formatted number
+ * 1245.52 -> "1246"
+ * 55.592  -> "56"
+ * -6.29305 -> "6"
+ */
 const formatNumber = (number, isAbsolute = false) => {
   let formattedNumber = number;
   if (isAbsolute) {

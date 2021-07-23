@@ -35,7 +35,9 @@ const Slider = ({ title, hint, isError, finalValue, changeValue, onChangeValueCh
     ),
     [valueNow, isError, finalValue, hint]
   );
-  const renderThumb = (props) => <span {...props} className="slider_thumb" />;
+  const renderThumb = (props) => (
+    <span {...props} aria-label="Slider thumb" className="slider_thumb" />
+  );
 
   return (
     <div className="slider">

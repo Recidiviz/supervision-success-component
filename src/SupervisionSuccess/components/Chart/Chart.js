@@ -151,7 +151,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
         xAxes: [
           {
             gridLines: false,
-            ticks: { fontSize: isMobile ? 12 : 16, padding: 20, minRotation: 0, maxRotation: 0 },
+            ticks: { fontSize: isMobile ? 10 : 16, padding: 20, minRotation: 0, maxRotation: 0 },
           },
         ],
       },
