@@ -51,6 +51,7 @@
     }
     @media (max-width: $md) {
       padding-left: 1rem;
+      margin-bottom: 3rem;
     }
   }
 
@@ -86,7 +87,6 @@
   &_stat-proportion {
     margin-top: 0.25rem;
     @media (max-width: $md) {
-      margin-bottom: 3rem;
       margin-top: 0;
     }
   }
