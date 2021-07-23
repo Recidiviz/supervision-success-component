@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,19 +15,21 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 /**
- * Function that prettifies savings number to rounded money-like string
- * @param {number} savings - number of savings(in millions)
- * @returns {string} - rounded string representation of savings
- * 1245.52 -> "$1246M"
- * 55.592  -> "56M"
- * 6.29305 -> "6M"
- * 0.68958 -> "690k"
+ * Function that formats numbers to integers and returns absolute number if needed
+ * @param {number} number - any incoming value
+ * @param {boolean} isAbsolute - absolute flag
+ * @returns {string} - formatted number
+ * 1245.52 -> "1246"
+ * 55.592  -> "56"
+ * -6.29305 -> "6"
  */
-function prettifySavings(savings) {
-  const absSavings = Math.abs(savings);
-  if (absSavings < 1) return `$${absSavings.toFixed(3) * 1000}k`;
+const formatNumber = (number, isAbsolute = false) => {
+  let formattedNumber = number;
+  if (isAbsolute) {
+    formattedNumber = Math.abs(formattedNumber);
+  }
 
-  return `$${Math.round(absSavings)}M`;
-}
+  return Math.round(formattedNumber).toLocaleString("en-US");
+};
 
-export default prettifySavings;
+export default formatNumber;

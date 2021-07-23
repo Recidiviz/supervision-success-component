@@ -18,6 +18,7 @@ import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import ReactSlider from "react-slider";
 import { MAX_CHANGE, MIN_CHANGE } from "../../constants";
+import formatNumber from "../../utils/formatNumber";
 
 import "./Slider.scss";
 
@@ -28,13 +29,15 @@ const Slider = ({ title, hint, isError, finalValue, changeValue, onChangeValueCh
       <>
         <span className="slider_percent">{valueNow}%</span>
         <span className="slider_hint">
-          <b className="slider_hint-count">{isError ? "-" : finalValue}</b> {hint}
+          <b className="slider_hint-count">{isError ? "-" : formatNumber(finalValue)}</b> {hint}
         </span>
       </>
     ),
     [valueNow, isError, finalValue, hint]
   );
-  const renderThumb = (props) => <span {...props} className="slider_thumb" />;
+  const renderThumb = (props) => (
+    <span {...props} aria-label="Slider thumb" className="slider_thumb" />
+  );
 
   return (
     <div className="slider">

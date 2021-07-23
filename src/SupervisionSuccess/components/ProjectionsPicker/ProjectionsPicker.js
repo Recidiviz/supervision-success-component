@@ -48,6 +48,7 @@ const ProjectionsPicker = ({ projections, onProjectionsChange }) => {
       <span className="projections-picker_label">Projections</span>
       <Picker
         className="projections-picker_picker"
+        aria-label="Projections picker"
         menuLabel="Years"
         defaultValue={currentOption}
         options={options}
