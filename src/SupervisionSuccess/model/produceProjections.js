@@ -171,7 +171,7 @@ function produceProjections(
 
   return {
     chartData,
-    savings: Number(totalSavings.toFixed(6)),
+    savings: totalSavings > 0.0001 || totalSavings < 0 ? Number(totalSavings.toFixed(6)) : 0,
     prisonPopulationDiff:
       Math.round(chartData[months - 1].totalPopulation) - chartData[months - 1].baseline,
     finalRevocations: Math.round(revocationsByMonth[months - 1]),
