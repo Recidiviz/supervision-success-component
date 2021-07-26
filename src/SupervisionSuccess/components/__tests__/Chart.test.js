@@ -121,7 +121,7 @@ describe("Chart tests", () => {
 
     expect(Line.mock.calls[0][0].options).toMatchObject({
       scales: { yAxes: [{ ticks: { fontSize: 12 } }] },
-      tooltips: { enabled: false },
+      tooltips: { enabled: true },
     });
   });
 
