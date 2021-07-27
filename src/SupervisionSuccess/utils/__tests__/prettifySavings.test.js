@@ -26,4 +26,8 @@ describe("prettifySavings tests", () => {
     expect(prettifySavings(-0.4125216)).toBe("$413k");
     expect(prettifySavings(0.5500000001)).toBe("$550k");
   });
+
+  it("should return zero when number is 0", () => {
+    expect(prettifySavings(0)).toBe("$0");
+  });
 });
