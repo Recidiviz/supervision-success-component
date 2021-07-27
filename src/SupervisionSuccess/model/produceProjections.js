@@ -156,10 +156,6 @@ function produceProjections(
 
   const totalSavings = totalSavingsPolicy - totalSavingsBaseline;
 
-  // if ((totalSavings < 0.0005 && totalSavings > 0) || (totalSavings < 0 && totalSavings > -0.0005)) {
-  //   totalSavings = 0;
-  // }
-
   const maxChange =
     Math.max.apply(null, maxRevocationsByMonth) + Math.max.apply(null, maxNewAdmissionsByMonth);
   const minChange =
