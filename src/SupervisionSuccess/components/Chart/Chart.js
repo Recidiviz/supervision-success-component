@@ -156,7 +156,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
         ],
       },
       tooltips: {
-        enabled: true,
+        enabled: !isMobile, // Disables tooltips on mobile because touch screens make interaction inconsistent
         filter: ({ index }) => index % 12 === 0,
         intersect: false,
         mode: "index",

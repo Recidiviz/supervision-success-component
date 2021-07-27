@@ -156,6 +156,10 @@ function produceProjections(
 
   const totalSavings = totalSavingsPolicy - totalSavingsBaseline;
 
+  // if ((totalSavings < 0.0005 && totalSavings > 0) || (totalSavings < 0 && totalSavings > -0.0005)) {
+  //   totalSavings = 0;
+  // }
+
   const maxChange =
     Math.max.apply(null, maxRevocationsByMonth) + Math.max.apply(null, maxNewAdmissionsByMonth);
   const minChange =
@@ -171,7 +175,7 @@ function produceProjections(
 
   return {
     chartData,
-    savings: totalSavings > 0.0001 || totalSavings < 0 ? Number(totalSavings.toFixed(6)) : 0,
+    savings: Number(totalSavings.toFixed(3)),
     prisonPopulationDiff:
       Math.round(chartData[months - 1].totalPopulation) - chartData[months - 1].baseline,
     finalRevocations: Math.round(revocationsByMonth[months - 1]),
