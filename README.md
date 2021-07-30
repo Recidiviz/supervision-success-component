@@ -92,6 +92,8 @@ The first row of the file (the headers) contains revocation model parameters **i
 - `Revocations Timescale`
 - `N A`
 - `R A`
+- `N Alpha_0`
+- `R Alpha_0`
 
 Each row after the first row should correspond to a single state. There should not be multiple rows with the same `State` value. Each row should include the parameters necessary for accurately modeling revocations within that state.
 
