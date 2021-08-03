@@ -27,7 +27,7 @@ function prettifySavings(savings) {
   const absSavings = Math.abs(savings);
   if (absSavings === 0) return `$0`;
   if (absSavings < 1) return `$${absSavings.toFixed(3) * 1000}k`;
-  if (absSavings >= 1000) return `$${(absSavings / 1000).toFixed(2)}B`;
+  if (absSavings >= 1000) return `$${(absSavings / 1000).toFixed(1)}B`;
 
   return `$${Math.round(absSavings)}M`;
 }
