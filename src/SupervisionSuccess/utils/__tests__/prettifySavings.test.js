@@ -18,7 +18,7 @@ import prettifySavings from "../prettifySavings";
 
 describe("prettifySavings tests", () => {
   it("should return integer when number in [-∞; ∞]", () => {
-    expect(prettifySavings(1005.3525235235235)).toBe("$1005M");
+    expect(prettifySavings(1005.3525235235235)).toBe("$1.0B");
     expect(prettifySavings(100.924)).toBe("$101M");
   });
 
