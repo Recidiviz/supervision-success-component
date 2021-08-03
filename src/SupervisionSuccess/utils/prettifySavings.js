@@ -18,7 +18,7 @@
  * Function that prettifies savings number to rounded money-like string
  * @param {number} savings - number of savings(in millions)
  * @returns {string} - rounded string representation of savings
- * 1245.52 -> "$1246M"
+ * 1245.52 -> "$1.25B"
  * 55.592  -> "56M"
  * 6.29305 -> "6M"
  * 0.68958 -> "690k"
@@ -27,6 +27,7 @@ function prettifySavings(savings) {
   const absSavings = Math.abs(savings);
   if (absSavings === 0) return `$0`;
   if (absSavings < 1) return `$${absSavings.toFixed(3) * 1000}k`;
+  if (absSavings >= 1000) return `$${(absSavings / 1000).toFixed(2)}B`;
 
   return `$${Math.round(absSavings)}M`;
 }
