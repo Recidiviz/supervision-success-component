@@ -72,32 +72,29 @@ An _example_ of a valid `params.csv` file can be found in [`params.csv`](/src/pa
 The first row of the file (the headers) contains revocation model parameters **in fixed order**.
 
 - `State`
-- `Data Year`
-- `Revocations Population [C&C input]`
-- `Population Fraction [C&C input]`
-- `Revocations Admissions [C&C input]`
-- `Admissions Fraction [C&C input]`
+- `Revocations Population 2019 [C&C input]`
+- `Population Fraction 2019 [C&C input]`
+- `Revocations Admissions 2019 [C&C input]`
+- `Admissions Fraction 2019 [C&C input]`
+- `Revocations Population 2020 [C&C input] *If no data, enter same numbers as 2019*`
+- `Population Fraction 2020 [C&C input] *If no data, enter same numbers as 2019*`
 - `total cost per inmate [input]`
 - `marginal cost per inmate [input]`
 - `Number of facilities [input]`
-- `State-wide capacity [input]`
-- `Total Population`
-- `New Offense Population`
+- `state-wide capacity`
+- `Total Population 2019`
+- `Total Population 2020`
+- `New Offense Population 2019`
+- `New Offense Population 2020`
 - `Total Admissions`
 - `New Offense Admissions`
 - `New Offense Avg Time Served in Months`
 - `Revocations Timescale`
 - `N A`
 - `R A`
+- `N Alpha_0`
+- `R Alpha_0`
 
 Each row after the first row should correspond to a single state. There should not be multiple rows with the same `State` value. Each row should include the parameters necessary for accurately modeling revocations within that state.
 
-Example of valid model parameters are presented below.
-
-**Note:** these are formatted as a table in Markdown for readability, but these tables are not valid CSV and the exact formatting should be provided as described above.
-
-| State   | Data Year | Revocations Population \[C&C input] | Population Fraction \[C&C input] | Revocations Admissions \[C&C input] | Admissions Fraction \[C&C input] | total cost per inmate \[input] | marginal cost per inmate \[input] | Number of facilities \[input] | State-wide capacity \[input] | Total Population | New Offense Population | Total Admissions | New Offense Admissions | New Offense Avg Time Served in Months | Revocations Timescale | N A         | R A         |
-| ------- | --------- | ----------------------------------- | -------------------------------- | ----------------------------------- | -------------------------------- | ------------------------------ | --------------------------------- | ----------------------------- | ---------------------------- | ---------------- | ---------------------- | ---------------- | ---------------------- | ------------------------------------- | --------------------- | ----------- | ----------- |
-| Alabama | 2017      | 672                                 | 0.02                             | 3571                                | 0.3                              | 0.01785714286                  | 0.001                             | 10                            | 33600                        | 33600            | 32928                  | 11903.33333      | 8332.333333            | 47.42201064                           | 2.258190983           | 14.64216936 | 131.7795242 |
-| Alaska  | 2017      | 1099                                | 0.25                             | 4895                                | 0.17                             | 0.07279344859                  | 0.001                             | 10                            | 4396                         | 4396             | 3297                   | 28794.11765      | 23899.11765            | 1.655458607                           | 2.694177732           | 1203.046171 | 151.4067397 |
-| Texas   | 2017      | 22940                               | 0.16                             | 30460                               | 0.47                             | 0.02262423714                  | 0.001                             | 20                            | 143375                       | 143375           | 120435                 | 64808.51064      | 34348.51064            | 42.07518676                           | 9.037426133           | 68.03002213 | 280.8690545 |
+Example of valid model parameters are included in the example file stored in [`params.csv`](/src/params.csv).
