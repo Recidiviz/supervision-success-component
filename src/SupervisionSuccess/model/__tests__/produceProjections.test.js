@@ -34,6 +34,9 @@ describe("produceProjections tests", () => {
     let j = 0;
     let k = 0;
     let h = 0;
+    // Note: because we're mocking out these actual projection calculations,
+    // any assumptions in produceProjections.js that rely on the actual behavior
+    // of the projection calculations may be invalidated. Tread lightly.
     calcRevocations.mockImplementation(() => {
       return i++;
     });

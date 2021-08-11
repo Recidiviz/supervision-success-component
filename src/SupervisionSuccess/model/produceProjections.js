@@ -165,6 +165,11 @@ function produceProjections(
     month,
     baseline: baselineByMonth[month],
     totalPopulation: newAdmissionsByMonth[month] + revocationsByMonth[month],
+    // It should be impossible in practice for minChange to be greater than maxChange, since they are
+    // calculated by running the projection model with the largest negative and largest positive
+    // changes relative to baseline, respectively. But, to be extra defensive and ensure downstream
+    // charting logic doesn't explode, we ensure that we report the larger of the two numbers as max
+    // and the smaller as min.
     max: maxChange > minChange ? maxChange : minChange,
     min: minChange < maxChange ? minChange : maxChange,
   }));
