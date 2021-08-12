@@ -106,7 +106,7 @@ const SupervisionSuccessComponent = ({
       <Chart
         isError={isError}
         data={chartData}
-        startYear={year}
+        dataYear={year}
         isNotAvailable2020={isNotAvailable2020}
       />
     </section>

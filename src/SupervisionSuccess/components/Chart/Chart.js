@@ -31,9 +31,10 @@ export const TRANSPARENT_COLOR = "transparent";
 const TOOLTIP_BG_COLOR = "#091e32";
 export const CONNECTING_LINE_COLOR = "#07aded";
 
-const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
+const Chart = ({ isError, data, dataYear, isNotAvailable2020 }) => {
   const isMobile = useIsMobile();
   const [redraw, setRedraw] = useState(false);
+  const startYear = 2019;
 
   useEffect(() => {
     setRedraw(true);
@@ -46,7 +47,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
     if (isError) return { chartData: null, minY: null, maxY: null };
     return data.reduce(
       (acc, { month, baseline, totalPopulation, max, min }, index) => {
-        const year = month / 12 + 2019;
+        const year = month / 12 + startYear;
         const isYear = Number.isInteger(year);
 
         acc.chartData.datasets[0].data.push(Math.round(totalPopulation));
@@ -59,7 +60,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
         }
 
         acc.chartData.labels.shift();
-        acc.chartData.labels.unshift(startYear);
+        acc.chartData.labels.unshift(dataYear);
 
         if (isNotAvailable2020) {
           if (index >= 13 && index <= 17) {
@@ -128,7 +129,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
         max: -Infinity,
       }
     );
-  }, [isMobile, startYear, isNotAvailable2020, isError, data]);
+  }, [isError, data, isMobile, isNotAvailable2020, dataYear]);
 
   const chartOptions = useMemo(
     () => ({
@@ -313,7 +314,7 @@ Chart.propTypes = {
       min: PropTypes.number,
     })
   ).isRequired,
-  startYear: PropTypes.number.isRequired,
+  dataYear: PropTypes.number.isRequired,
   isNotAvailable2020: PropTypes.bool,
 };
 
