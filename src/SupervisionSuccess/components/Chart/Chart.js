@@ -46,7 +46,7 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
     if (isError) return { chartData: null, minY: null, maxY: null };
     return data.reduce(
       (acc, { month, baseline, totalPopulation, max, min }, index) => {
-        const year = month / 12 + startYear;
+        const year = month / 12 + 2019;
         const isYear = Number.isInteger(year);
 
         acc.chartData.datasets[0].data.push(Math.round(totalPopulation));
@@ -57,6 +57,9 @@ const Chart = ({ isError, data, startYear, isNotAvailable2020 }) => {
         } else {
           acc.chartData.labels.push(isYear ? year : "");
         }
+
+        acc.chartData.labels.shift();
+        acc.chartData.labels.unshift(startYear);
 
         if (isNotAvailable2020) {
           if (index >= 13 && index <= 17) {

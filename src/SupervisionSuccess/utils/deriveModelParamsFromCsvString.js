@@ -37,6 +37,7 @@ async function deriveModelParamsFromCsvString(string) {
     noheader: false,
     headers: [
       "state",
+      "year",
       "revocationsPopulation",
       "populationFraction",
       "revocationsAdmissions",
@@ -71,6 +72,7 @@ async function deriveModelParamsFromCsvString(string) {
       params,
       {
         state,
+        year,
         newOffensePopulation,
         newOffenseA,
         revocationA,
@@ -90,6 +92,7 @@ async function deriveModelParamsFromCsvString(string) {
     ) => {
       const requiredFields = {
         state,
+        year,
         newOffensePopulation,
         newOffenseA,
         revocationA,
@@ -121,7 +124,7 @@ async function deriveModelParamsFromCsvString(string) {
           newOffenseAvgTimeServedInMonths: Number(newOffenseAvgTimeServedInMonths),
           revocationsTimescale: Number(revocationsTimescale),
           marginalCostPerInmate: Number(marginalCostPerInmate),
-          year: 2019,
+          year: Number(year),
           isNotAvailable2020:
             !newOffensePopulation2020 ||
             !totalPopulation2020 ||

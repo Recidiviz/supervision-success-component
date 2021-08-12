@@ -40,6 +40,7 @@ describe("Chart tests", () => {
     { month: 4, baseline: 120, totalPopulation: 95 },
   ];
   const startYear = 2019;
+  const alternativeStartYear = 2017;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -290,5 +291,11 @@ describe("Chart tests", () => {
     expect(Line.mock.calls[0][0].options.scales.yAxes[0].ticks.callback(140299588)).toBe(
       "140,299,588"
     );
+  });
+
+  it("should render alternative start year if provided", () => {
+    render(<Chart data={mockData} startYear={alternativeStartYear} />);
+
+    expect(Line.mock.calls[0][0].data.labels[0]).toBe(2017);
   });
 });

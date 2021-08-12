@@ -40,6 +40,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
       fromString: jest.fn().mockResolvedValue([
         {
           state: "Alabama",
+          year: "2019",
           newOffensePopulation: "32928",
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
@@ -83,6 +84,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
       fromString: jest.fn().mockResolvedValue([
         {
           state: "Alabama",
+          year: "2019",
           newOffensePopulation: "32928",
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
@@ -124,6 +126,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
     csv.mockReturnValue({
       fromString: jest.fn().mockResolvedValue([
         {
+          year: "2019",
           newOffensePopulation: "32928",
           revocationsTimescale: "2.258190983",
           revocationA: "131.7795242",
@@ -161,6 +164,7 @@ describe("deriveModelParamsFromCsvString tests", () => {
     );
     expect(getMissingFieldsError).toHaveBeenCalledWith(undefined, [
       "state",
+      "year",
       "newOffensePopulation",
       "newOffenseA",
       "revocationA",
