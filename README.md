@@ -72,6 +72,7 @@ An _example_ of a valid `params.csv` file can be found in [`params.csv`](/src/pa
 The first row of the file (the headers) contains revocation model parameters **in fixed order**.
 
 - `State`
+- `Data Year`
 - `Revocations Population 2019 [C&C input]`
 - `Population Fraction 2019 [C&C input]`
 - `Revocations Admissions 2019 [C&C input]`
