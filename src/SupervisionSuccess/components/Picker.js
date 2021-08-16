@@ -55,7 +55,6 @@ const customStyles = {
     ...provided,
     whiteSpace: "nowrap",
     width: "auto",
-    right: 0,
     border: 0,
     zIndex: 2,
   }),
