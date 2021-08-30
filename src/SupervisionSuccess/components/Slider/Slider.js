@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import ReactSlider from "react-slider";
 import { MAX_CHANGE, MIN_CHANGE } from "../../constants";
@@ -24,6 +24,11 @@ import "./Slider.scss";
 
 const Slider = ({ title, hint, isError, finalValue, changeValue, onChangeValueChange }) => {
   const [valueNow, setValueNow] = useState(changeValue);
+
+  useEffect(() => {
+    setValueNow(changeValue);
+  }, [changeValue]);
+
   const thumbContent = useMemo(
     () => (
       <>
@@ -49,6 +54,7 @@ const Slider = ({ title, hint, isError, finalValue, changeValue, onChangeValueCh
           orientation="horizontal"
           min={MIN_CHANGE}
           max={MAX_CHANGE}
+          value={valueNow}
           defaultValue={changeValue}
           className="slider_track"
           renderThumb={renderThumb}
