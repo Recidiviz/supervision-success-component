@@ -148,7 +148,7 @@ const Chart = ({ isError, data, dataYear, isNotAvailable2020 }) => {
               suggestedMax: maxY + (maxY - minY) * VERTICAL_OFFSET,
               suggestedMin: minY - (maxY - minY) * VERTICAL_OFFSET,
               maxTicksLimit: 7,
-              callback: (value) => value.toLocaleString(),
+              callback: (value) => value.toLocaleString("en-US"),
             },
           },
         ],

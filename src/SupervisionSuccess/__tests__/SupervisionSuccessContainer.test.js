@@ -69,7 +69,7 @@ describe("SupervisionSuccessContainer tests", () => {
     render(<SupervisionSuccessContainer params={params} />);
 
     expect(produceProjections).toBeCalled();
-    expect(SupervisionSuccessComponent).toHaveBeenCalledTimes(3);
+    expect(SupervisionSuccessComponent).toHaveBeenCalledTimes(2);
     expect(SupervisionSuccessComponent.mock.calls[1][0]).toMatchObject({
       savings: mockSavings,
       chartData: mockChartData,
@@ -96,7 +96,7 @@ describe("SupervisionSuccessContainer tests", () => {
         mockImplementationPeriod
       );
     });
-    expect(SupervisionSuccessComponent.mock.calls[3][0].implementationPeriod).toBe(
+    expect(SupervisionSuccessComponent.mock.calls[2][0].implementationPeriod).toBe(
       mockImplementationPeriod
     );
   });
@@ -107,7 +107,7 @@ describe("SupervisionSuccessContainer tests", () => {
     act(() => {
       SupervisionSuccessComponent.mock.calls[0][0].onProjectionsChange(mockProjections);
     });
-    expect(SupervisionSuccessComponent.mock.calls[3][0].projections).toBe(mockProjections);
+    expect(SupervisionSuccessComponent.mock.calls[2][0].projections).toBe(mockProjections);
   });
 
   it("should change changeInRevocations", () => {
@@ -118,7 +118,7 @@ describe("SupervisionSuccessContainer tests", () => {
         mockChangeInRevocations
       );
     });
-    expect(SupervisionSuccessComponent.mock.calls[3][0].changeInRevocations).toBe(
+    expect(SupervisionSuccessComponent.mock.calls[2][0].changeInRevocations).toBe(
       mockChangeInRevocations
     );
   });
