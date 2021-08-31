@@ -298,4 +298,11 @@ describe("Chart tests", () => {
 
     expect(Line.mock.calls[0][0].data.labels[0]).toBe(2017);
   });
+
+  it("should render chart legend", () => {
+    const { getByText } = render(<Chart data={mockData} dataYear={dataYear} />);
+
+    expect(getByText("Return to baseline")).toBeInTheDocument();
+    expect(getByText("With changes")).toBeInTheDocument();
+  });
 });

@@ -28,7 +28,7 @@ const Outcomes = ({
   admissionsProportion,
   prisonPopulationDiff,
   savings,
-  year,
+  projections,
 }) => {
   const [prisonPopulationDiffText, prisonPopulationDiffIconClass] = (() => {
     if (prisonPopulationDiff < 0) return ["Fewer people in prison", "outcomes_stat-icon-down"];
@@ -44,8 +44,7 @@ const Outcomes = ({
   return (
     <div className="outcomes">
       <div className="outcomes_heading">
-        Outcomes
-        <p>From {year} baseline</p>
+        Outcomes over {projections} year{projections > 1 && "s"}
       </div>
       <div className="outcomes_stats">
         <div className="outcomes_stat">
@@ -85,7 +84,7 @@ Outcomes.propTypes = {
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
   isError: PropTypes.bool,
-  year: PropTypes.number.isRequired,
+  projections: PropTypes.number.isRequired,
 };
 
 export default Outcomes;

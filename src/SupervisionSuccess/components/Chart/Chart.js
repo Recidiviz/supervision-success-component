@@ -273,7 +273,13 @@ const Chart = ({ isError, data, dataYear, isNotAvailable2020 }) => {
 
   return (
     <div className="chart">
-      <div className="chart_heading">Total people in prison projected in years</div>
+      <div className="chart_heading">
+        Total people in prison projected in years
+        <div className="chart_legend">
+          <span>Return to baseline</span>
+          <span>With changes</span>
+        </div>
+      </div>
       <div
         className="chart_chart"
         tabIndex={-1}

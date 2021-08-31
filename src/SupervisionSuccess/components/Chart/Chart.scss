@@ -31,7 +31,30 @@
     font-size: 1rem;
     @media (max-width: $md) {
       padding-left: 1rem;
-      max-width: 12.5rem;
+    }
+  }
+
+  &_legend {
+    float: right;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    @media (max-width: $md) {
+      float: none;
+      margin-top: 1rem;
+    }
+
+    span {
+      margin-right: 1rem;
+    }
+
+    :first-child::after {
+      content: " \25CF";
+      color: #ee3007;
+    }
+    :last-child::after {
+      content: " \25CF";
+      color: #2b649c;
     }
   }
 

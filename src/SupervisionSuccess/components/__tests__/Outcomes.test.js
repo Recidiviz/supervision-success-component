@@ -26,7 +26,9 @@ describe("Outcomes tests", () => {
   prettifySavings.mockImplementation((v) => v);
 
   it("Should render positive results", () => {
-    const { getByText } = render(<Outcomes savings={15} prisonPopulationDiff={-300} />);
+    const { getByText } = render(
+      <Outcomes savings={15} prisonPopulationDiff={-300} projections={1} />
+    );
 
     expect(getByText("Fewer people in prison")).toBeInTheDocument();
     expect(getByText("Reduced costs")).toBeInTheDocument();
@@ -35,7 +37,9 @@ describe("Outcomes tests", () => {
   });
 
   it("Should render negative results", () => {
-    const { getByText } = render(<Outcomes savings={-15} prisonPopulationDiff={1} />);
+    const { getByText } = render(
+      <Outcomes savings={-15} prisonPopulationDiff={1} projections={1} />
+    );
 
     expect(getByText("More people in prison")).toBeInTheDocument();
     expect(getByText("Increased costs")).toBeInTheDocument();
@@ -44,15 +48,25 @@ describe("Outcomes tests", () => {
   });
 
   it("Should render neutral results", () => {
-    const { getByText } = render(<Outcomes savings={0} prisonPopulationDiff={0} />);
+    const { getByText } = render(<Outcomes savings={0} prisonPopulationDiff={0} projections={1} />);
 
     expect(getByText("No change in population")).toBeInTheDocument();
     expect(getByText("No change in cost")).toBeInTheDocument();
   });
 
   it("Should render '-' if isError = true", () => {
-    const { findAllByText } = render(<Outcomes isError savings={0} prisonPopulationDiff={0} />);
+    const { findAllByText } = render(
+      <Outcomes isError savings={0} prisonPopulationDiff={0} projections={1} />
+    );
 
     expect(findAllByText("-")).resolves.toHaveLength(2);
+  });
+
+  it("Should render correct heading", () => {
+    const { getByText } = render(
+      <Outcomes isError savings={0} prisonPopulationDiff={0} projections={1} />
+    );
+
+    expect(getByText("Outcomes over 1 year")).toBeInTheDocument();
   });
 });

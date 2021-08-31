@@ -75,6 +75,7 @@ const SupervisionSuccessComponent = ({
       <Slider
         aria-label="Revocations slider"
         title="Change in revocations"
+        subtitle={`from ${year} baseline`}
         hint="violations resulting in incarceration"
         isError={isError}
         finalValue={finalRevocations}
@@ -85,6 +86,7 @@ const SupervisionSuccessComponent = ({
       <Slider
         aria-label="New admissions slider"
         title="Change in new admissions"
+        subtitle={`from ${year} baseline`}
         hint="new admissions to prison"
         isError={isError}
         finalValue={finalAdmissions}
@@ -97,7 +99,7 @@ const SupervisionSuccessComponent = ({
         isError={isError}
         prisonPopulationDiff={prisonPopulationDiff}
         savings={savings}
-        year={year}
+        projections={projections}
         revocationsProportion={revocationsProportion}
         admissionsProportion={admissionsProportion}
       />
