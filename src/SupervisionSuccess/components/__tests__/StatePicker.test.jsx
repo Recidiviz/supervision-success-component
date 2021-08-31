@@ -46,7 +46,15 @@ describe("StatePicker tests", () => {
       />
     );
 
-    expect(getByText("Based on Texas data from 2019, 2020")).toBeInTheDocument();
+    expect(
+      getByText((content, node) => {
+        const hasText = (node) => node.textContent === "Based on Texas data from 2019, 2020";
+        const nodeHasText = hasText(node);
+        const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
+
+        return nodeHasText && childrenDontHaveText;
+      })
+    ).toBeInTheDocument();
     expect(Picker).toBeCalled();
 
     Picker.mock.calls[0][0].onChange({ value: mockState2 });
@@ -75,7 +83,15 @@ describe("StatePicker tests", () => {
       />
     );
 
-    expect(getByText("Based on Texas data from 2019")).toBeInTheDocument();
+    expect(
+      getByText((content, node) => {
+        const hasText = (node) => node.textContent === "Based on Texas data from 2019";
+        const nodeHasText = hasText(node);
+        const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
+
+        return nodeHasText && childrenDontHaveText;
+      })
+    ).toBeInTheDocument();
     expect(Picker).toBeCalled();
 
     Picker.mock.calls[0][0].onChange({ value: mockState2 });
@@ -112,6 +128,14 @@ describe("StatePicker tests", () => {
         value: "-",
       },
     ]);
-    expect(getByText("Based on - data from -")).toBeInTheDocument();
+    expect(
+      getByText((content, node) => {
+        const hasText = (node) => node.textContent === "Based on - from -";
+        const nodeHasText = hasText(node);
+        const childrenDontHaveText = Array.from(node.children).every((child) => !hasText(child));
+
+        return nodeHasText && childrenDontHaveText;
+      })
+    ).toBeInTheDocument();
   });
 });
