@@ -22,7 +22,15 @@ import formatNumber from "../../utils/formatNumber";
 
 import "./Slider.scss";
 
-const Slider = ({ title, hint, isError, finalValue, changeValue, onChangeValueChange }) => {
+const Slider = ({
+  title,
+  subtitle,
+  hint,
+  isError,
+  finalValue,
+  changeValue,
+  onChangeValueChange,
+}) => {
   const [valueNow, setValueNow] = useState(changeValue);
 
   useEffect(() => {
@@ -46,7 +54,10 @@ const Slider = ({ title, hint, isError, finalValue, changeValue, onChangeValueCh
 
   return (
     <div className="slider">
-      <span className="slider_title">{title}</span>
+      <span className="slider_title">
+        {title} <span className="slider_subtitle">{subtitle}</span>
+      </span>
+
       <div className="slider_info">{thumbContent}</div>
       <div className="slider_wrapper">
         <span className="slider_label">+{MAX_CHANGE}%</span>
@@ -73,6 +84,7 @@ Slider.defaultProps = {
 
 Slider.propTypes = {
   title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
   hint: PropTypes.string.isRequired,
   onChangeValueChange: PropTypes.func.isRequired,
   changeValue: PropTypes.number.isRequired,
