@@ -17,6 +17,7 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Picker from "../Picker";
+import { STATE_CODES } from "../../constants";
 
 import "./StatePicker.scss";
 
@@ -34,6 +35,8 @@ const StatePicker = ({ isError, states, year, state, onStateChange, isNotAvailab
     [onStateChange]
   );
 
+  const stateCode = Object.keys(STATE_CODES).find((key) => STATE_CODES[key] === state);
+
   return (
     <div className="state-picker">
       <span className="state-picker_label">Choose state</span>
@@ -47,7 +50,20 @@ const StatePicker = ({ isError, states, year, state, onStateChange, isNotAvailab
         onChange={onChange}
       />
       <span className="state-picker_hint">
-        Based on {isError ? "-" : state} data from {isError ? "-" : year}
+        Based on{" "}
+        {isError ? (
+          "-"
+        ) : (
+          <a
+            className="state-picker_link"
+            href={`https://csgjusticecenter.org/publications/confined-costly/?usState=${stateCode}#primary`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {state} data
+          </a>
+        )}{" "}
+        from {isError ? "-" : year}
         {!isNotAvailable2020 && !isError && ", 2020"}
       </span>
     </div>

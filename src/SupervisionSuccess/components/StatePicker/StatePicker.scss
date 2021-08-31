@@ -37,6 +37,12 @@
     }
   }
 
+  &_link {
+    color: #126ea2;
+    text-decoration: none;
+    border-bottom: 1px solid #126ea2;
+  }
+
   &_picker {
     margin-bottom: 0.5rem;
   }
