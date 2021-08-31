@@ -26,6 +26,6 @@ export const MIN_CHANGE = -50;
 export const DEFAULT_STATE = {
   implementationPeriod: 6,
   projections: 5,
-  changeInRevocations: MIN_CHANGE,
-  changeInNewAdmissions: MIN_CHANGE,
+  changeInRevocations: 0,
+  changeInNewAdmissions: 0,
 };

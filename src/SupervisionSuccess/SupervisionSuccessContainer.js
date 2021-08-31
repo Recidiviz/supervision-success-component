@@ -51,6 +51,8 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
 
   const onStateChange = useCallback((newState) => {
     setState(newState);
+    setChangeInNewAdmissions(DEFAULT_STATE.changeInNewAdmissions);
+    setChangeInRevocations(DEFAULT_STATE.changeInRevocations);
   }, []);
   const onImplementationPeriodChange = useCallback((newImplPeriod) => {
     setImplementationPeriod(newImplPeriod);
