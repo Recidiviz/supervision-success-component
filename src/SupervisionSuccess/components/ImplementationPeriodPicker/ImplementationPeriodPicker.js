@@ -50,8 +50,8 @@ const ImplementationPeriodPicker = ({ implementationPeriod, onImplementationPeri
           Implementation period
         </span>
         <div className="implementation-period-picker_tooltip">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Condimentum hendrerit amet, dolor
-          non quam sagittis.
+          The transition time frame over which changes might take effect. The model will phase in
+          the outcomes gradually over the implementation period.
         </div>
       </div>
 
