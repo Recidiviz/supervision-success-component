@@ -53,4 +53,15 @@ describe("ImplementationPeriodPicker tests", () => {
       `${mockLabel} months`
     );
   });
+
+  it("should successfully render tooltip", () => {
+    const { container } = render(
+      <ImplementationPeriodPicker
+        onImplementationPeriodChange={mockOnImplementationPeriodChange}
+        implementationPeriod={mockImplementationPeriod}
+      />
+    );
+
+    expect(container.querySelector(".implementation-period-picker_tooltip")).toBeInTheDocument();
+  });
 });

@@ -45,7 +45,16 @@ const ImplementationPeriodPicker = ({ implementationPeriod, onImplementationPeri
 
   return (
     <div className="implementation-period-picker">
-      <span className="implementation-period-picker_label">Implementation period</span>
+      <div className="implementation-period-picker_tooltip-box">
+        <span className="implementation-period-picker_label" role="button" tabIndex={0}>
+          Implementation period
+        </span>
+        <div className="implementation-period-picker_tooltip">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Condimentum hendrerit amet, dolor
+          non quam sagittis.
+        </div>
+      </div>
+
       <Picker
         className="implementation-period-picker_picker"
         aria-label="Implementation period picker"
