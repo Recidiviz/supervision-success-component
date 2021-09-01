@@ -25,12 +25,54 @@
     padding: 1.5rem 1rem;
   }
 
+  &_tooltip-box {
+    position: relative;
+  }
+
   &_label {
     font-size: 1rem;
     line-height: 1.1;
     letter-spacing: -0.005em;
+    cursor: default;
+    &:hover ~ .implementation-period-picker_tooltip,
+    &:focus ~ .implementation-period-picker_tooltip {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.2s;
+    }
     @media (max-width: $md) {
       margin-bottom: 0.5rem;
+    }
+  }
+
+  &_tooltip {
+    visibility: hidden;
+    position: absolute;
+    right: 11rem;
+    top: -0.5rem;
+    z-index: 2;
+    padding: 0.75rem;
+    width: 14.75rem;
+    background-color: #082249;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    color: #ffffff;
+    font-size: 0.8125rem;
+    line-height: 1.5675;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    transition: opacity 0.2s, visibility 0.2s;
+    transition-delay: 0.2s;
+    @media (max-width: $md) {
+      left: 11rem;
+    }
+    @media (max-width: $sm) {
+      left: 0;
+      top: -5.75rem;
+    }
+    &:hover {
+      visibility: visible;
+      opacity: 1;
     }
   }
 }
