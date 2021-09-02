@@ -49,11 +49,21 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   const [savings, setSavings] = useState(0);
   const [chartData, setChartData] = useState([]);
 
-  const onStateChange = useCallback((newState) => {
-    setState(newState);
+  const onReset = useCallback(() => {
     setChangeInNewAdmissions(DEFAULT_STATE.changeInNewAdmissions);
     setChangeInRevocations(DEFAULT_STATE.changeInRevocations);
   }, []);
+  const onMaintain2020Levels = useCallback(() => {
+    setChangeInRevocations(-21);
+    setChangeInNewAdmissions(-14);
+  }, []);
+  const onStateChange = useCallback(
+    (newState) => {
+      setState(newState);
+      onReset();
+    },
+    [onReset]
+  );
   const onImplementationPeriodChange = useCallback((newImplPeriod) => {
     setImplementationPeriod(newImplPeriod);
   }, []);
@@ -139,6 +149,8 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
       admissionsProportion={admissionsProportion}
       prisonPopulationDiff={prisonPopulationDiff}
       savings={savings}
+      onReset={onReset}
+      onMaintain2020Levels={onMaintain2020Levels}
       onStateChange={onStateChange}
       onImplementationPeriodChange={onImplementationPeriodChange}
       onProjectionsChange={onProjectionsChange}

@@ -17,6 +17,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Banner from "../Banner";
 import StatePicker from "../StatePicker";
 import ImplementationPeriodPicker from "../ImplementationPeriodPicker";
 import ProjectionsPicker from "../ProjectionsPicker";
@@ -42,6 +43,8 @@ const SupervisionSuccessComponent = ({
   admissionsProportion,
   prisonPopulationDiff,
   savings,
+  onReset,
+  onMaintain2020Levels,
   onStateChange,
   onImplementationPeriodChange,
   onProjectionsChange,
@@ -50,6 +53,16 @@ const SupervisionSuccessComponent = ({
   chartData,
 }) => (
   <section className="main">
+    <section className="main_banner">
+      <Banner
+        isNotAvailable2020={isNotAvailable2020}
+        year={year}
+        changeInNewAdmissions={changeInNewAdmissions}
+        changeInRevocations={changeInRevocations}
+        onReset={onReset}
+        onMaintain2020Levels={onMaintain2020Levels}
+      />
+    </section>
     <header className="main_header">
       <div className="main_header-state">
         <StatePicker
@@ -137,6 +150,8 @@ SupervisionSuccessComponent.propTypes = {
   admissionsProportion: PropTypes.number,
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
+  onReset: PropTypes.func.isRequired,
+  onMaintain2020Levels: PropTypes.func.isRequired,
   onStateChange: PropTypes.func.isRequired,
   onImplementationPeriodChange: PropTypes.func.isRequired,
   onProjectionsChange: PropTypes.func.isRequired,
