@@ -26,6 +26,19 @@
     flex-direction: column;
   }
 
+  &_banner {
+    width: 100%;
+    padding: 2rem 3.5rem;
+    border-bottom: 1px solid #ededed;
+    @media (max-width: $lg) {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+    @media (max-width: $md) {
+      padding: 1.5rem 0;
+    }
+  }
+
   &_header {
     width: 100%;
     display: flex;

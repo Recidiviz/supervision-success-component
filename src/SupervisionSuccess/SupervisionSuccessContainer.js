@@ -20,7 +20,12 @@ import PropTypes from "prop-types";
 import SupervisionSuccessComponent from "./components/SupervisionSuccess";
 import produceProjections from "./model/produceProjections";
 import calcOutcomesProportions from "./model/calcOutcomesProportions";
-import { DEFAULT_STATE, LS_PERSIST_KEY } from "./constants";
+import {
+  CHANGE_IN_NEW_ADMISSIONS_2020,
+  CHANGE_IN_REVOCATIONS_2020,
+  DEFAULT_STATE,
+  LS_PERSIST_KEY,
+} from "./constants";
 
 const SupervisionSuccessContainer = ({ params, isError }) => {
   const states = Object.keys(params);
@@ -49,11 +54,21 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
   const [savings, setSavings] = useState(0);
   const [chartData, setChartData] = useState([]);
 
-  const onStateChange = useCallback((newState) => {
-    setState(newState);
+  const onReset = useCallback(() => {
     setChangeInNewAdmissions(DEFAULT_STATE.changeInNewAdmissions);
     setChangeInRevocations(DEFAULT_STATE.changeInRevocations);
   }, []);
+  const onMaintain2020Levels = useCallback(() => {
+    setChangeInRevocations(CHANGE_IN_REVOCATIONS_2020);
+    setChangeInNewAdmissions(CHANGE_IN_NEW_ADMISSIONS_2020);
+  }, []);
+  const onStateChange = useCallback(
+    (newState) => {
+      setState(newState);
+      onReset();
+    },
+    [onReset]
+  );
   const onImplementationPeriodChange = useCallback((newImplPeriod) => {
     setImplementationPeriod(newImplPeriod);
   }, []);
@@ -139,6 +154,8 @@ const SupervisionSuccessContainer = ({ params, isError }) => {
       admissionsProportion={admissionsProportion}
       prisonPopulationDiff={prisonPopulationDiff}
       savings={savings}
+      onReset={onReset}
+      onMaintain2020Levels={onMaintain2020Levels}
       onStateChange={onStateChange}
       onImplementationPeriodChange={onImplementationPeriodChange}
       onProjectionsChange={onProjectionsChange}

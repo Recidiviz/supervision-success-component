@@ -23,6 +23,8 @@ export const ERROR_NO_ROWS =
 export const LS_PERSIST_KEY = "persistedValues";
 export const MAX_CHANGE = 50;
 export const MIN_CHANGE = -50;
+export const CHANGE_IN_REVOCATIONS_2020 = -21;
+export const CHANGE_IN_NEW_ADMISSIONS_2020 = -14;
 export const DEFAULT_STATE = {
   implementationPeriod: 6,
   projections: 5,
