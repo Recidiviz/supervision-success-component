@@ -16,6 +16,7 @@
 // =============================================================================
 import React from "react";
 import PropTypes from "prop-types";
+import { CHANGE_IN_NEW_ADMISSIONS_2020, CHANGE_IN_REVOCATIONS_2020 } from "../../constants";
 
 import "./Banner.scss";
 
@@ -28,7 +29,7 @@ const Banner = ({
   onMaintain2020Levels,
 }) => {
   return (
-    <>
+    <div className="banner">
       {isNotAvailable2020 ? (
         <>
           This model estimates the change in prison population if supervision revocations and new
@@ -55,14 +56,17 @@ const Banner = ({
           <button
             className="banner-button"
             type="button"
-            disabled={changeInRevocations === -21 && changeInNewAdmissions === -14}
+            disabled={
+              changeInRevocations === CHANGE_IN_REVOCATIONS_2020 &&
+              changeInNewAdmissions === CHANGE_IN_NEW_ADMISSIONS_2020
+            }
             onClick={onMaintain2020Levels}
           >
             Maintain 2020 levels
           </button>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
