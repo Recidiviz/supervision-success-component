@@ -52,7 +52,7 @@ describe("Banner tests", () => {
 
     expect(
       getByText(
-        "This model estimates the change in prison population over time if supervision revocations and new admissions return to 2019 levels. To estimate the outcome of maintaining 2020 levels, set revocations to -21% and new admissions to -14%."
+        "This model estimates the change in prison population over time if supervision revocations and new admissions return to 2019 levels. Use the button below to model the outcomes of maintaining 2020 levels, or use the sliders to test out other scenarios."
       )
     ).toBeInTheDocument();
     expect(getByText("Maintain 2020 levels")).toBeInTheDocument();

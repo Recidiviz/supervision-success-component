@@ -39,8 +39,8 @@ const Banner = ({
       ) : (
         <>
           This model estimates the change in prison population over time if supervision revocations
-          and new admissions return to {year} levels. Use the button below to model the outcomes 
-          of maintaining 2020 levels, or use the sliders to test out other scenarios.
+          and new admissions return to {year} levels. Use the button below to model the outcomes of
+          maintaining 2020 levels, or use the sliders to test out other scenarios.
         </>
       )}
       <div>
