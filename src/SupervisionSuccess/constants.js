@@ -26,7 +26,7 @@ export const MIN_CHANGE = -50;
 export const CHANGE_IN_REVOCATIONS_2020 = -21;
 export const CHANGE_IN_NEW_ADMISSIONS_2020 = -14;
 export const DEFAULT_STATE = {
-  implementationPeriod: 6,
+  implementationPeriod: 0,
   projections: 5,
   changeInRevocations: 0,
   changeInNewAdmissions: 0,
