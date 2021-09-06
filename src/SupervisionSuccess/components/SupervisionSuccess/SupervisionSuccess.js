@@ -44,7 +44,6 @@ const SupervisionSuccessComponent = ({
   prisonPopulationDiff,
   savings,
   onReset,
-  onMaintain2020Levels,
   onStateChange,
   onImplementationPeriodChange,
   onProjectionsChange,
@@ -55,12 +54,10 @@ const SupervisionSuccessComponent = ({
   <section className="main">
     <section className="main_banner">
       <Banner
-        isNotAvailable2020={isNotAvailable2020}
         year={year}
         changeInNewAdmissions={changeInNewAdmissions}
         changeInRevocations={changeInRevocations}
         onReset={onReset}
-        onMaintain2020Levels={onMaintain2020Levels}
       />
     </section>
     <header className="main_header">
@@ -151,7 +148,6 @@ SupervisionSuccessComponent.propTypes = {
   prisonPopulationDiff: PropTypes.number.isRequired,
   savings: PropTypes.number.isRequired,
   onReset: PropTypes.func.isRequired,
-  onMaintain2020Levels: PropTypes.func.isRequired,
   onStateChange: PropTypes.func.isRequired,
   onImplementationPeriodChange: PropTypes.func.isRequired,
   onProjectionsChange: PropTypes.func.isRequired,
