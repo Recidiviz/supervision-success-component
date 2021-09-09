@@ -23,88 +23,45 @@ describe("Banner tests", () => {
   const mockChangeInRevocations = 42;
   const mockChangeInNewAdmissions = -42;
   const mockoOnReset = jest.fn();
-  const mockOnMaintain2020Levels = jest.fn();
 
   it("should successfully render", () => {
     render(
       <Banner
-        isNotAvailable2020={false}
         year={mockYear}
         changeInRevocations={mockChangeInRevocations}
         changeInNewAdmissions={mockChangeInNewAdmissions}
         onReset={mockoOnReset}
-        onMaintain2020Levels={mockOnMaintain2020Levels}
       />
     );
   });
 
-  it("should successfully render w/ 2020 data", () => {
+  it("should successfully render banner text", () => {
     const { getByText } = render(
       <Banner
-        isNotAvailable2020={false}
         year={mockYear}
         changeInRevocations={mockChangeInRevocations}
         changeInNewAdmissions={mockChangeInNewAdmissions}
         onReset={mockoOnReset}
-        onMaintain2020Levels={mockOnMaintain2020Levels}
       />
     );
 
     expect(
       getByText(
-        "This model estimates the change in prison population over time if supervision revocations and new admissions return to 2019 levels. Use the button below to model the outcomes of maintaining 2020 levels, or use the sliders to test out other scenarios."
+        "This model estimates the change in prison population over time if supervision revocations and new admissions return to 2019 levels. Use the sliders below to model the outcomes of maintaining 2020 levels, or to test out other scenarios."
       )
     ).toBeInTheDocument();
-    expect(getByText("Maintain 2020 levels")).toBeInTheDocument();
-  });
-
-  it("should successfully render w/o 2020 data", () => {
-    const { getByText, queryByText } = render(
-      <Banner
-        isNotAvailable2020
-        year={mockYear}
-        changeInRevocations={mockChangeInRevocations}
-        changeInNewAdmissions={mockChangeInNewAdmissions}
-        onReset={mockoOnReset}
-        onMaintain2020Levels={mockOnMaintain2020Levels}
-      />
-    );
-
-    expect(
-      getByText(
-        "This model estimates the change in prison population if supervision revocations and new admissions return to 2019 levels. Use the sliders to see the effect of changing the parole and probation revocations or new admissions levels moving forward."
-      )
-    ).toBeInTheDocument();
-    expect(queryByText("Maintain 2020 levels")).not.toBeInTheDocument();
   });
 
   it("should successfully disable `Reset` button if changes are 0", () => {
     const { getByText } = render(
       <Banner
-        isNotAvailable2020={false}
         year={mockYear}
         changeInRevocations={0}
         changeInNewAdmissions={0}
         onReset={mockoOnReset}
-        onMaintain2020Levels={mockOnMaintain2020Levels}
       />
     );
 
     expect(getByText("Reset")).toBeDisabled();
-  });
-
-  it("should successfully disable `Maintain 2020 levels` button under certain conditions", () => {
-    const { getByText } = render(
-      <Banner
-        isNotAvailable2020={false}
-        year={mockYear}
-        changeInRevocations={-21}
-        changeInNewAdmissions={-14}
-        onReset={mockoOnReset}
-        onMaintain2020Levels={mockOnMaintain2020Levels}
-      />
-    );
-
-    expect(getByText("Maintain 2020 levels")).toBeDisabled();
   });
 });

@@ -16,33 +16,15 @@
 // =============================================================================
 import React from "react";
 import PropTypes from "prop-types";
-import { CHANGE_IN_NEW_ADMISSIONS_2020, CHANGE_IN_REVOCATIONS_2020 } from "../../constants";
 
 import "./Banner.scss";
 
-const Banner = ({
-  isNotAvailable2020,
-  year,
-  changeInRevocations,
-  changeInNewAdmissions,
-  onReset,
-  onMaintain2020Levels,
-}) => {
+const Banner = ({ year, changeInRevocations, changeInNewAdmissions, onReset }) => {
   return (
     <div className="banner">
-      {isNotAvailable2020 ? (
-        <>
-          This model estimates the change in prison population if supervision revocations and new
-          admissions return to {year} levels. Use the sliders to see the effect of changing the
-          parole and probation revocations or new admissions levels moving forward.
-        </>
-      ) : (
-        <>
-          This model estimates the change in prison population over time if supervision revocations
-          and new admissions return to {year} levels. Use the button below to model the outcomes of
-          maintaining 2020 levels, or use the sliders to test out other scenarios.
-        </>
-      )}
+      This model estimates the change in prison population over time if supervision revocations and
+      new admissions return to {year} levels. Use the sliders below to model the outcomes of
+      maintaining 2020 levels, or to test out other scenarios.
       <div>
         <button
           className="banner-button"
@@ -52,31 +34,16 @@ const Banner = ({
         >
           Reset
         </button>
-        {!isNotAvailable2020 && (
-          <button
-            className="banner-button"
-            type="button"
-            disabled={
-              changeInRevocations === CHANGE_IN_REVOCATIONS_2020 &&
-              changeInNewAdmissions === CHANGE_IN_NEW_ADMISSIONS_2020
-            }
-            onClick={onMaintain2020Levels}
-          >
-            Maintain 2020 levels
-          </button>
-        )}
       </div>
     </div>
   );
 };
 
 Banner.propTypes = {
-  isNotAvailable2020: PropTypes.bool.isRequired,
   year: PropTypes.number.isRequired,
   changeInRevocations: PropTypes.number.isRequired,
   changeInNewAdmissions: PropTypes.number.isRequired,
   onReset: PropTypes.func.isRequired,
-  onMaintain2020Levels: PropTypes.func.isRequired,
 };
 
 export default Banner;
