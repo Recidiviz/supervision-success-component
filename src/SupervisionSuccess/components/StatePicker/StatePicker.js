@@ -56,7 +56,7 @@ const StatePicker = ({ isError, states, year, state, onStateChange, isNotAvailab
         ) : (
           <a
             className="state-picker_link"
-            href={`https://csgjusticecenter.org/publications/confined-costly/?usState=${stateCode}#primary`}
+            href={`https://csgjusticecenter.org/publications/more-community-less-confinement/50-state-reports/?usState=${stateCode}`}
             target="_blank"
             rel="noopener noreferrer"
           >
