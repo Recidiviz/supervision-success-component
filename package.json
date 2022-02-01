@@ -10,6 +10,8 @@
     "blob-polyfill": "^4.0.20200601",
     "chart.js": "^2.9.4",
     "csvtojson": "^2.0.10",
+    "immer": "^9.0.6",
+    "is-svg": "^4.2.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
@@ -19,6 +21,7 @@
     "react-select": "^3.1.0",
     "react-slider": "^1.0.9",
     "react-spinners": "^0.9.0",
+    "sockjs": "^0.3.20",
     "url-parse": "^1.4.3"
   },
   "devDependencies": {
@@ -77,6 +80,7 @@
     "immer": "^9.0.6",
     "nth-check": "^2.0.1",
     "object-path": "^0.11.6",
+    "eslint-plugin-import": "2.22.1",
     "**/glob-parent": "^5.1.2",
     "**/normalize-url": "^4.5.1"
   }
