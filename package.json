@@ -17,7 +17,6 @@
     "react-app-polyfill": "^1.0.6",
     "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.4",
     "react-select": "^3.1.0",
     "react-slider": "^1.0.9",
     "react-spinners": "^0.9.0",
@@ -35,6 +34,7 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.2",
+    "react-scripts": "3.4.4",
     "react-test-renderer": "^16.13.1",
     "sass": "^1.49.8"
   },
@@ -81,6 +81,7 @@
     "nth-check": "^2.0.1",
     "object-path": "^0.11.6",
     "eslint-plugin-import": "2.22.1",
+    "selfsigned": "1.10.13",
     "**/glob-parent": "^5.1.2",
     "**/normalize-url": "^4.5.1"
   }
