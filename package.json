@@ -9,7 +9,7 @@
   "dependencies": {
     "blob-polyfill": "^4.0.20200601",
     "chart.js": "^2.9.4",
-    "csvtojson": "^2.0.10",
+    "csvtojson": "^2.0.13",
     "immer": "^9.0.6",
     "is-svg": "^4.2.2",
     "prop-types": "^15.7.2",
